@@ -10,8 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.planeando_suenos.ui.router.Router
 import com.example.planeando_suenos.ui.theme.PlaneandosuenosTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,5 +26,5 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainComponent() {
-
+    Router()
 }
