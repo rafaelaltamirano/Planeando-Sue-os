@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.framework.di
 
+import com.example.planeando_suenos.usescases.HomeCase
 import com.example.planeando_suenos.usescases.LoginCase
 import com.example.planeando_suenos.usescases.MainCase
 import dagger.Module
@@ -26,5 +27,12 @@ object UseCaseModule {
     ): LoginCase {
         return LoginCase(
         )
+    }
+
+    @Singleton
+    @Provides
+    fun providerHomeCase(
+    ): HomeCase {
+        return HomeCase()
     }
 }
