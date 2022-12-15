@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">planeando-suenos</string>
     <string name="password">Contraseña</string>
+    <string name="help_wishes">Te ayudamos a \ncumplir tus \nsueños.</string>
+    <string name="lading_instructions">Podemos darte la solución para que cumplas con esos deseos pendientes.
+    \n\n
+    Es simple y rápido pero antes necesitamos conocerte mejor.
+        \n\n
+    </string>
+    <string name="you_are_ready">¿Estás listo?</string>
+    <string name="crate_account">Crear una cuenta</string>
+    <string name="already_have_account">¿Ya tienes cuenta?</string>
+    <string name="sign_in">Iniciar Sesión</string>
 </resources>
