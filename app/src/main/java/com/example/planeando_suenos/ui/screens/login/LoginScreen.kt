@@ -18,18 +18,31 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.planeando_suenos.R
+import com.example.planeando_suenos.ui.Status.*
 import com.example.planeando_suenos.ui.components.SubmitButton
-import com.example.planeando_suenos.ui.main.MainModel
+import com.example.planeando_suenos.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    mainModel: MainModel,
-    model: LoginModel,
+    mainModel: MainViewModel,
+    model: LoginViewModel,
     navController: NavController
 ) {
     val configuration = LocalConfiguration.current
     val coroutineScope = rememberCoroutineScope()
+
+
+    model.status?.also {
+        val (status, _) = it
+        when (status) {
+            NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
+            ERROR -> mainModel.setErrorStatus(it)
+            INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
+            else -> {}
+        }
+        model.clearStatus()
+    }
 
     model.state.login?.let {
         mainModel.setLogin(it)
