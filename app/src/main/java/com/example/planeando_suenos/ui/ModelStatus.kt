@@ -4,7 +4,6 @@ enum class Status {
     NETWORK_ERROR,
     ERROR,
     SUCCESS,
-
     INTERNET_CONNECTION_ERROR,
 }
 
