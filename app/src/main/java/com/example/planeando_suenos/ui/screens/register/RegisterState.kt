@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.register
 
+
 enum class RegisterStep(val step: Int) {
 
     ACCOUNT(0),
@@ -11,7 +12,7 @@ enum class RegisterStep(val step: Int) {
     }
 
     fun next() = if (step==2) VERIFY else getByStep(step + 1)
-
+    fun prev() = if (step==0) ACCOUNT else getByStep(step - 1)
 }
 
 data class RegisterState (

@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.register
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,8 +19,12 @@ fun RegisterScreen(
     navController: NavHostController
 ) {
 
-
     val state = model.state
+
+    BackHandler(enabled = true) {
+        if (state.step == RegisterStep.ACCOUNT) navController.popBackStack()
+        else model.prevStep()
+    }
 
     when (state.step) {
 

@@ -24,4 +24,8 @@ class RegisterViewModel @Inject constructor(
         setStep(state.step.next())
     }
 
+    fun prevStep() {
+        setStep(state.step.prev())
+    }
+
 }
