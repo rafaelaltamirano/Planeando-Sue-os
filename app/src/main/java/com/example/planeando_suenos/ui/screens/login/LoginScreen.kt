@@ -18,16 +18,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.planeando_suenos.R
-import com.example.planeando_suenos.ui.Status
 import com.example.planeando_suenos.ui.Status.*
 import com.example.planeando_suenos.ui.components.SubmitButton
-import com.example.planeando_suenos.ui.main.MainModel
+import com.example.planeando_suenos.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    mainModel: MainModel,
-    model: LoginModel,
+    mainModel: MainViewModel,
+    model: LoginViewModel,
     navController: NavController
 ) {
     val configuration = LocalConfiguration.current

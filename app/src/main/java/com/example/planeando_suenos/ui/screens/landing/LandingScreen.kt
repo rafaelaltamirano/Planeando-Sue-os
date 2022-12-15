@@ -14,14 +14,14 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
-import com.example.planeando_suenos.ui.main.MainModel
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.PublicRouterDir
 
 
 @Composable
 fun LandingScreen(
-    mainModel: MainModel,
-    model: LandingModel,
+    mainModel: MainViewModel,
+    model: LandingViewModel,
     navController: NavController
 ) {
 

@@ -5,7 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.planeando_suenos.ui.main.MainModel
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.PublicRouterDir
 import com.example.planeando_suenos.ui.screens.register.account.AccountRegisterStep
 import com.example.planeando_suenos.ui.screens.register.data.DataRegisterStep
@@ -13,8 +13,8 @@ import com.example.planeando_suenos.ui.screens.register.verify.VerifyRegisterSte
 
 @Composable
 fun RegisterScreen(
-    model: RegisterModel,
-    mainModel: MainModel,
+    model: RegisterViewModel,
+    mainModel: MainViewModel,
     navController: NavHostController
 ) {
 

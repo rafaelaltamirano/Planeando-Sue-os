@@ -6,22 +6,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.planeando_suenos.ui.main.MainModel
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.PublicRouterDir.*
-import com.example.planeando_suenos.ui.screens.landing.LandingModel
+import com.example.planeando_suenos.ui.screens.landing.LandingViewModel
 import com.example.planeando_suenos.ui.screens.landing.LandingScreen
-import com.example.planeando_suenos.ui.screens.landing.LandingState
-import com.example.planeando_suenos.ui.screens.login.LoginModel
+import com.example.planeando_suenos.ui.screens.login.LoginViewModel
 import com.example.planeando_suenos.ui.screens.login.LoginScreen
-import com.example.planeando_suenos.ui.screens.register.RegisterModel
+import com.example.planeando_suenos.ui.screens.register.RegisterViewModel
 import com.example.planeando_suenos.ui.screens.register.RegisterScreen
 
 @Composable
-fun PublicRouter(navController: NavHostController, mainModel: MainModel = viewModel()) {
+fun PublicRouter(navController: NavHostController, mainModel: MainViewModel = viewModel()) {
 
-    val loginModel = hiltViewModel<LoginModel>()
-    val registerModel = hiltViewModel<RegisterModel>()
-    val landingModel = hiltViewModel<LandingModel>()
+    val loginViewModel = hiltViewModel<LoginViewModel>()
+    val registerViewModel = hiltViewModel<RegisterViewModel>()
+    val landingViewModel = hiltViewModel<LandingViewModel>()
 
     NavHost(
         navController = navController,
@@ -30,7 +29,7 @@ fun PublicRouter(navController: NavHostController, mainModel: MainModel = viewMo
 
         composable(LOGIN.route) {
             LoginScreen(
-                model = loginModel,
+                model = loginViewModel,
                 mainModel = mainModel,
                 navController = navController
             )
@@ -39,7 +38,7 @@ fun PublicRouter(navController: NavHostController, mainModel: MainModel = viewMo
         composable(REGISTER.route) {
 
             RegisterScreen(
-                model = registerModel,
+                model = registerViewModel,
                 mainModel = mainModel,
                 navController = navController
             )
@@ -48,7 +47,7 @@ fun PublicRouter(navController: NavHostController, mainModel: MainModel = viewMo
         composable(LANDING.route) {
 
             LandingScreen(
-                model = landingModel,
+                model = landingViewModel,
                 mainModel = mainModel,
                 navController = navController
             )

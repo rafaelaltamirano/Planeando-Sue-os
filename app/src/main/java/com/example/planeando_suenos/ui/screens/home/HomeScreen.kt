@@ -20,7 +20,7 @@ import androidx.navigation.compose.rememberNavController
 
 
 @Composable
-fun HomeScreen(model: HomeModel, navController: NavHostController) {
+fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
     val configuration = LocalConfiguration.current
     Column(
         modifier = Modifier

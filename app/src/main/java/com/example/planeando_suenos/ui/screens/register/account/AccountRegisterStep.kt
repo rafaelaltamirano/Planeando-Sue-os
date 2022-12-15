@@ -8,11 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.SubmitButton
-import com.example.planeando_suenos.ui.main.MainModel
-import com.example.planeando_suenos.ui.screens.register.RegisterModel
 
 @Composable
 fun AccountRegisterStep(

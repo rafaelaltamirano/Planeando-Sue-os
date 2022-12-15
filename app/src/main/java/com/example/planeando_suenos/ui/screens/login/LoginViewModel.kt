@@ -8,7 +8,7 @@ import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.domain.enums.Fields
 import com.example.planeando_suenos.domain.exceptions.FieldInvalidException
 import com.example.planeando_suenos.ui.ViewModelWithStatus
-import com.example.planeando_suenos.usescases.LoginCase
+import com.example.planeando_suenos.usescases.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -16,8 +16,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginModel @Inject constructor(
-    private val loginCase: LoginCase
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
 ) : ViewModelWithStatus() {
 
     var state by mutableStateOf(LoginState())
@@ -43,7 +43,7 @@ class LoginModel @Inject constructor(
     suspend fun submit() = viewModelScope.launch {
         setLoading(true)
         try {
-          withContext(IO){loginCase.login()}.also(::setLogin)
+          withContext(IO){loginUseCase.login()}.also(::setLogin)
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {
