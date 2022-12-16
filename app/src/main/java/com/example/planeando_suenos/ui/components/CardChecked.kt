@@ -19,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.ui.theme.BackgroundCard
+import com.example.planeando_suenos.ui.theme.CardUnchecked
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 @Composable
@@ -30,13 +32,13 @@ fun CardChecked(
 ) {
 
     val colorChecked = GreenBusiness
-    val colorUnchecked = Color(0xFFEAEAEA)
+    val colorUnchecked = CardUnchecked
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .background(Color(0xFFF5F5F5), RoundedCornerShape(6.dp))
+            .background(BackgroundCard, RoundedCornerShape(6.dp))
             .border(1.dp, if (checked) colorChecked else colorUnchecked, RoundedCornerShape(6.dp))
             .padding(horizontal = 24.dp)
             .clickable {
@@ -91,11 +93,11 @@ fun PrevCardChecked() {
             .fillMaxSize()
             .padding(32.dp)
     ) {
-        CardChecked(true,"Tus sueños y aspiraciones", "Datos completados con éxito") {}
+        CardChecked(true, "Tus sueños y aspiraciones", "Datos completados con éxito") {}
         Spacer(modifier = Modifier.size(16.dp))
-        CardChecked(false,"Tus ingresos aproximados", "$ 1.600.00 semanales") {}
+        CardChecked(false, "Tus ingresos aproximados", "$ 1.600.00 semanales") {}
         Spacer(modifier = Modifier.size(16.dp))
-        CardChecked(false,"Tus egresos, gastos o créditos", "$ 861.40 semanales") {}
+        CardChecked(false, "Tus egresos, gastos o créditos", "$ 861.40 semanales") {}
         Spacer(modifier = Modifier.size(16.dp))
     }
 }
