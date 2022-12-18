@@ -62,7 +62,7 @@ fun LandingScreen(
         ) {
             Text(
                 text = stringResource(R.string.you_are_ready),
-                style = MaterialTheme.typography.h4,
+                style = MaterialTheme.typography.caption,
                 fontWeight = FontWeight.Bold,
                 color = Black,
                 textAlign = TextAlign.Start,

@@ -24,17 +24,17 @@ val Typography = Typography(
     ),
     h2 = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W500,
+        fontWeight = FontWeight.W600,
         fontSize = 14.sp
     ),
     h3 = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W800,
+        fontWeight = FontWeight.W600,
         fontSize = 22.sp
     ),
     h4 = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W800,
+        fontWeight = FontWeight.W600,
         fontSize = 20.sp
     ),
     h5 = TextStyle(
@@ -49,22 +49,22 @@ val Typography = Typography(
     ),
     body2 = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W400,
+        fontWeight = FontWeight.W600,
         fontSize = 16.sp
     ),
     subtitle1 = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W500,
+        fontWeight = FontWeight.W600,
         fontSize = 14.sp
     ),
     subtitle2 = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W400,
+        fontWeight = FontWeight.W600,
         fontSize = 14.sp,
     ),
     caption = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W800,
+        fontWeight = FontWeight.W600,
         fontSize = 14.sp
     ),
 

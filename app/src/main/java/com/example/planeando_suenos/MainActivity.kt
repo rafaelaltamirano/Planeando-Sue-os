@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.Router
+import com.example.planeando_suenos.ui.theme.PlaneandosuenosTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +24,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainComponent(mainModel: MainViewModel = viewModel()) {
-    Surface(color = White) {
-        Router(mainModel)
+    PlaneandosuenosTheme {
+        Surface(color = White) {
+            Router(mainModel)
+        }
     }
 }
