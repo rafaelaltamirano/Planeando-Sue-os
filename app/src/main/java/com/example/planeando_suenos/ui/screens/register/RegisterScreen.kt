@@ -51,6 +51,7 @@ fun RegisterScreen(
 
             RegisterStep.ACCOUNT -> AccountRegisterStep(
                 onNext = model::nextStep,
+                model = model
             )
             RegisterStep.DATA -> DataRegisterStep(
                 onNext = model::nextStep,

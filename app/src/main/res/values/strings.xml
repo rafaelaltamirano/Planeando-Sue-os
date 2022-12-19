@@ -11,4 +11,6 @@
     <string name="crate_account">Crear una cuenta</string>
     <string name="already_have_account">¿Ya tienes cuenta?</string>
     <string name="sign_in">Iniciar Sesión</string>
+    <string name="email_example">email_user@gmail</string>
+    <string name="password_example">***********</string>
 </resources>
