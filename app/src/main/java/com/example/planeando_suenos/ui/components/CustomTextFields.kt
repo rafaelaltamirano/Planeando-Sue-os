@@ -53,7 +53,11 @@ fun CustomTextField(
         maxLines = 1,
         leadingIcon = {
             leadingIcon?.let {
-                Icon(painterResource(it), "leadingIcon")
+                Icon(
+                    painterResource(it),
+                    "leadingIcon",
+                    tint = GreenBusiness
+                )
             }
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
