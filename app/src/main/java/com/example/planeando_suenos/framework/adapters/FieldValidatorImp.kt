@@ -23,7 +23,6 @@ class FieldValidatorImp @Inject constructor(): FieldValidator {
         Validator().apply {
             required()
             minLength(8)
-            maxLength(15)
         }
     }
 

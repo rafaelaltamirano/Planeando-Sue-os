@@ -41,10 +41,12 @@ fun AccountRegisterStep(
             color = Color.Black,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.h3,
+            fontSize = 17.sp,
             text = "Correo electronico"
         )
         CustomTextField(
             value = model.state.email,
+            placeholder = R.string.email_example,
             leadingIcon = R.drawable.ic_arrouba,
             onValueChanged =  model::setEmail,
             modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.gap4) )
@@ -53,10 +55,12 @@ fun AccountRegisterStep(
             color = Color.Black,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.h3,
+            fontSize = 17.sp,
             text = "Contraseña"
         )
         CustomTextField(
             value = model.state.password,
+            placeholder = R.string.password,
             security = true,
             leadingIcon = R.drawable.ic_lock,
             onValueChanged = model::setPassword,
@@ -65,15 +69,17 @@ fun AccountRegisterStep(
         ValidatorMessage("Mínimo 8 caracteres",model.state.validCharacter)
         ValidatorMessage("Al menos un número (0-9) o símbolo",model.state.validMayus)
         ValidatorMessage("Minúscula (a-z) y mayúscula(A-Z)",model.state.validNumber)
-
+        Spacer(Modifier.height(10.dp))
         Text(
             color = Color.Black,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.h3,
+            fontSize = 17.sp,
             text = "Repetir contraseña"
         )
         CustomTextField(
             value = "***********",
+            placeholder = R.string.email_example,
             security = true,
             leadingIcon =R.drawable.ic_lock,
             onValueChanged = {},
@@ -81,7 +87,7 @@ fun AccountRegisterStep(
         )
 
         SubmitButton(
-            text = "next",
+            text = "Next",
             onClick = { onNext() }
         )
     }
