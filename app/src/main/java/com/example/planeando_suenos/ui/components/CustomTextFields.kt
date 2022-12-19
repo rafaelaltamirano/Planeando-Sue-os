@@ -1,11 +1,10 @@
 package com.example.planeando_suenos.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
@@ -14,12 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight.Companion.W200
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
@@ -28,59 +28,57 @@ import com.example.planeando_suenos.ui.theme.TextBusiness
 fun CustomTextField(
     value: String,
     onValueChanged: (String) -> Unit,
-    modifier: Modifier,
-    placeHolder: @Composable () -> Unit,
-    leadingIcon: @Composable () -> Unit,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    security: Boolean = false,
+    @StringRes placeholder: Int? = null,
+    @DrawableRes leadingIcon: Int? = null,
 ) {
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
     OutlinedTextField(
-        value = value, onValueChange = { onValueChanged(it) },
         modifier = modifier,
-        placeholder = placeHolder,
+        value = value,
+        textStyle = MaterialTheme.typography.caption,
+        onValueChange = onValueChanged,
+        placeholder = {
+            placeholder?.let {
+                Text(
+                    stringResource(it),
+                    style = MaterialTheme.typography.caption,
+                )
+            }
+        },
         singleLine = true,
         maxLines = 1,
-        leadingIcon = leadingIcon,
+        leadingIcon = {
+            leadingIcon?.let {
+                Icon(painterResource(it), "leadingIcon")
+            }
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = GreenBusiness,
             unfocusedBorderColor = GrayBusiness,
             textColor = TextBusiness,
             cursorColor = TextBusiness
         ),
-        keyboardOptions = keyboardOptions,
-        visualTransformation = visualTransformation,
-        trailingIcon = trailingIcon
-    )
-}
-
-@Composable
-fun PasswordTextField(
-    value: String,
-    onValueChanged: (String) -> Unit
-) {
-    var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
-    CustomTextField(
-        value = value,
-        onValueChanged = { onValueChanged(it) },
-        leadingIcon = { Icon(imageVector = Icons.Filled.Password, contentDescription = "") },
         keyboardOptions = KeyboardOptions(
-            autoCorrect = false,
-            keyboardType = KeyboardType.Password
+            keyboardType = if (security) KeyboardType.Password else keyboardType,
         ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        placeHolder = { Text(text = stringResource(id = R.string.password)) },
-        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (!security) {
+            VisualTransformation.None
+        } else {
+            if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
+        },
         trailingIcon = {
-            val imageIcon =
-                if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+            if (security) {
+                val imageIcon =
+                    if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
 
-            IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                Icon(imageVector = imageIcon, contentDescription = "")
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(imageVector = imageIcon, contentDescription = "")
+                }
             }
-        }
+        },
     )
 }

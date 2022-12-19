@@ -22,6 +22,8 @@ fun PublicRouter(navController: NavHostController, mainModel: MainViewModel = vi
     val registerViewModel = hiltViewModel<RegisterViewModel>()
     val landingViewModel = hiltViewModel<LandingViewModel>()
 
+
+
     NavHost(
         navController = navController,
         startDestination = LANDING.route

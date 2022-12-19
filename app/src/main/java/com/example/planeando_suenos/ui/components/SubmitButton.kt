@@ -25,7 +25,7 @@ fun SubmitButton(
     color: Color = GreenBusiness,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = dimensionResource(R.dimen.gap4), vertical = dimensionResource(R.dimen.gap4) )
+        .padding(vertical = dimensionResource(R.dimen.gap4) )
 ) {
     Button(
         modifier = modifier,
