@@ -17,4 +17,9 @@ enum class RegisterStep(val step: Int) {
 
 data class RegisterState (
     val step: RegisterStep = RegisterStep.ACCOUNT,
+    val email: String = "",
+    val password: String = "",
+    val validCharacter: Boolean? = null,
+    val validNumber: Boolean? = null,
+    val validMayus: Boolean? = null,
         )
