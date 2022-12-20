@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.unit.dp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.theme.GreenBusiness
@@ -40,9 +41,11 @@ fun SubmitButton(
         ),
     ) {
         Text(
-            text,
+            text.uppercase(),
             color = White,
-            style = MaterialTheme.typography.button
+            style = MaterialTheme.typography.button,
+            fontWeight = W900
+
         )
     }
 }

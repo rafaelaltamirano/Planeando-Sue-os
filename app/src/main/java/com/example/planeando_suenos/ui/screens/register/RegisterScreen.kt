@@ -16,12 +16,6 @@ import com.example.planeando_suenos.ui.screens.register.account.AccountRegisterS
 import com.example.planeando_suenos.ui.screens.register.data.DataRegisterStep
 import com.example.planeando_suenos.ui.screens.register.verify.VerifyRegisterStep
 
-//
-//data class HeaderData(
-//    val title: String = "",
-//    val subtitle: String? = null
-//)
-
 @Composable
 fun RegisterScreen(
     model: RegisterViewModel,

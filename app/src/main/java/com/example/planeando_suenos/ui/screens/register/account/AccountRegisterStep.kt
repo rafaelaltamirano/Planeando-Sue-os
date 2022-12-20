@@ -1,6 +1,8 @@
 package com.example.planeando_suenos.ui.screens.register.account
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +27,8 @@ fun AccountRegisterStep(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = dimensionResource(R.dimen.gap4)),
+            .padding(horizontal = dimensionResource(R.dimen.gap4))
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
@@ -87,7 +90,7 @@ fun AccountRegisterStep(
         )
 
         SubmitButton(
-            text = "Next",
+            text = "Crear nueva cuenta".uppercase(),
             onClick = { onNext() }
         )
     }
