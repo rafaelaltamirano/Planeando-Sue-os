@@ -2,7 +2,9 @@ package com.example.planeando_suenos.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -21,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W200
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import com.example.planeando_suenos.ui.theme.BackgroundCard
 import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
@@ -39,7 +43,7 @@ fun CustomTextField(
 
 
     OutlinedTextField(
-        modifier = modifier,
+        modifier = modifier.background(BackgroundCard, shape = RoundedCornerShape(8.dp)),
         leadingIcon = {
             leadingIcon?.let {
                 Icon(
