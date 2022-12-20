@@ -13,4 +13,26 @@
     <string name="sign_in">Iniciar Sesión</string>
     <string name="email_example">email_user@gmail</string>
     <string name="password_example">***********</string>
+    <string name="continue_">continuar</string>
+    <string name="address_example">ej: Pto. Tampico 57, Casas Alemán</string>
+    <string name="phone_example">ej: + 52 55 12345678</string>
+    <string name="phone">Teléfono</string>
+    <string name="date_example">DD / MM / AAAA</string>
+    <string name="born_day">Fecha de nacimiento</string>
+    <string name="optional">opcional</string>
+    <string name="mother_surname">Apellido materno</string>
+    <string name="surname_example">ej: González</string>
+    <string name="father_surname">Apellido paterno</string>
+    <string name="name_example">ej: Juan</string>
+    <string name="name">Name</string>
+    <string name="your_data">Tus datos</string>
+    <string name="pc_address">Dirección CP</string>
+
+    <string name="email">Correo electronico</string>
+    <string name="forgot_password">¿Olvidó su contraseña?</string>
+    <string name="log_in">Iniciar sesión</string>
+    <string name="do_not_have_account">¿Aún no tienes cuenta?</string>
+    <string name="register">Registrate > </string>
+
+
 </resources>

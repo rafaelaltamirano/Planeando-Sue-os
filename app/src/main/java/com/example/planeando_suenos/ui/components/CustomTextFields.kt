@@ -2,6 +2,7 @@ package com.example.planeando_suenos.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -36,21 +37,9 @@ fun CustomTextField(
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
+
     OutlinedTextField(
         modifier = modifier,
-        value = value,
-        textStyle = MaterialTheme.typography.caption,
-        onValueChange = onValueChanged,
-        placeholder = {
-            placeholder?.let {
-                Text(
-                    stringResource(it),
-                    style = MaterialTheme.typography.caption,
-                )
-            }
-        },
-        singleLine = true,
-        maxLines = 1,
         leadingIcon = {
             leadingIcon?.let {
                 Icon(
@@ -60,6 +49,19 @@ fun CustomTextField(
                 )
             }
         },
+        value = value,
+        textStyle = MaterialTheme.typography.caption,
+        onValueChange = onValueChanged,
+        placeholder = {
+            placeholder?.let {
+                Text(
+                    text = stringResource(it),
+                    style = MaterialTheme.typography.caption,
+                )
+            }
+        },
+        singleLine = true,
+        maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = GreenBusiness,
             unfocusedBorderColor = GrayBusiness,
