@@ -99,7 +99,7 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
 
 @Composable
 fun TopBarWithComponent() {
-    BoxWithConstraints() {
+    Box() {
 
         Box(
             modifier = Modifier
@@ -119,7 +119,6 @@ fun TopBarWithComponent() {
                     .height(70.dp)
                     .width(10.dp)
             )
-            Row() {
                 Card(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -135,7 +134,6 @@ fun TopBarWithComponent() {
                     )
                 }
             }
-        }
     }
 }
 
