@@ -22,54 +22,20 @@ import com.example.planeando_suenos.ui.theme.GreenBusiness
 @Composable
 fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
 
-    HomeContent()
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeContent()
-}
-
-
-@Composable
-fun HomeContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(GreenBusiness)
-        ) {
-            Text(
-                text = "Planeando sueños",
-                modifier = Modifier.padding(start = 24.dp, top = 16.dp),
-                color = Color.White
-            )
-        }
+        TopBarWithComponent()
+
         Column(
             modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(top = 70.dp, start = 24.dp, end = 24.dp, bottom = 8.dp)
-        ) {
-
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(), shape = RoundedCornerShape(6.dp)
-            ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "¡Hola Julian!",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    fontSize = 17.sp
+                .padding(
+                    vertical = 8.dp,
+                    horizontal = 16.dp
                 )
-            }
+        ) {
             Spacer(modifier = Modifier.size(24.dp))
             Text(
                 text = "Somos los aliados de tus sueños. Para ayudarte a planfificar tu compra debemos conocer un poco mas sobre:",
@@ -129,4 +95,53 @@ fun HomeContent() {
             )
         }
     }
+}
+
+@Composable
+fun TopBarWithComponent() {
+    BoxWithConstraints() {
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .background(GreenBusiness)
+        ) {
+            Text(
+                text = "Planeando sueños",
+                modifier = Modifier.padding(start = 24.dp, top = 16.dp),
+                color = Color.White
+            )
+        }
+        Column() {
+            Spacer(
+                modifier = Modifier
+                    .height(70.dp)
+                    .width(10.dp)
+            )
+            Row() {
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(), shape = RoundedCornerShape(6.dp),
+                    elevation = 4.dp
+                ) {
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        text = "¡Hola Julian!",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        fontSize = 17.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun HomeScreenPreview() {
+    TopBarWithComponent()
 }
