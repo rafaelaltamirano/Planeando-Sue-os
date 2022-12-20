@@ -3,7 +3,6 @@ package com.example.planeando_suenos.ui.components
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -16,10 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight.Companion.W200
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -40,19 +37,19 @@ fun CustomTextField(
     @DrawableRes leadingIcon: Int? = null,
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
+    val showLeadingIcon = leadingIcon != null
 
     OutlinedTextField(
         modifier = modifier.background(BackgroundCard, shape = RoundedCornerShape(8.dp)),
-        leadingIcon = {
-            leadingIcon?.let {
+        leadingIcon = if (showLeadingIcon) {
+            {
                 Icon(
-                    painterResource(it),
-                    "leadingIcon",
+                    painter = painterResource(id = leadingIcon!!),
+                    contentDescription = "",
                     tint = GreenBusiness
                 )
             }
-        },
+        } else null,
         value = value,
         textStyle = MaterialTheme.typography.caption,
         onValueChange = onValueChanged,
@@ -91,4 +88,5 @@ fun CustomTextField(
             }
         },
     )
+
 }
