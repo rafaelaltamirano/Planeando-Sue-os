@@ -20,18 +20,18 @@ import com.example.planeando_suenos.ui.theme.GreenBusiness
 @Composable
 fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
 
-    Screen()
+    HomeContent()
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    Screen()
+    HomeContent()
 }
 
 
 @Composable
-fun Screen() {
+fun HomeContent() {
     Box(modifier = Modifier.fillMaxSize()) {
         Box(
             modifier = Modifier
