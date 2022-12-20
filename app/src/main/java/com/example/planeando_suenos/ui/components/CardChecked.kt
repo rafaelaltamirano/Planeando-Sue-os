@@ -1,10 +1,9 @@
 package com.example.planeando_suenos.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -19,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.planeando_suenos.ui.theme.BackgroundCard
 import com.example.planeando_suenos.ui.theme.CardUnchecked
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
@@ -34,21 +32,20 @@ fun CardChecked(
     val colorChecked = GreenBusiness
     val colorUnchecked = CardUnchecked
 
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .background(BackgroundCard, RoundedCornerShape(6.dp))
-            .border(1.dp, if (checked) colorChecked else colorUnchecked, RoundedCornerShape(6.dp))
-            .padding(horizontal = 24.dp)
+            .border(1.dp, if (checked) colorChecked else colorUnchecked)
             .clickable {
                 onClick()
-            }, contentAlignment = Alignment.Center
+            }, elevation = 5.dp
     ) {
 
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
