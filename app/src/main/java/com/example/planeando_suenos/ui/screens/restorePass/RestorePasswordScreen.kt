@@ -5,12 +5,15 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
+import com.example.planeando_suenos.ui.screens.restorePass.RestorePasswordStep.*
 import com.example.planeando_suenos.ui.screens.restorePass.enterEmail.EnterEmailStep
 import com.example.planeando_suenos.ui.screens.restorePass.finish.FinishStep
-import com.example.planeando_suenos.ui.screens.restorePass.putPassword.PutPasswordStep
+import com.example.planeando_suenos.ui.screens.restorePass.enterPassword.EnterPasswordStep
 import kotlinx.coroutines.launch
 
 
@@ -25,7 +28,7 @@ fun RestorePasswordScreen(
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(enabled = true) {
-        if (state.step == RestorePasswordStep.ENTER_EMAIL) navController.popBackStack()
+        if (state.step == ENTER_EMAIL) navController.popBackStack()
         else model.prevStep()
     }
 
@@ -35,9 +38,9 @@ fun RestorePasswordScreen(
 
     Scaffold(
         topBar = {
-            if (state.step != RestorePasswordStep.FINISH) {
-                TopBar("¿Olvidaste tu contraseña?", onBackPress = {
-                    if (state.step == RestorePasswordStep.ENTER_EMAIL) navController.popBackStack()
+            if (state.step != FINISH) {
+                TopBar(stringResource(R.string.forgot_pass_heder), onBackPress = {
+                    if (state.step == ENTER_EMAIL) navController.popBackStack()
                     else model.prevStep()
                 })
             }
@@ -45,16 +48,17 @@ fun RestorePasswordScreen(
         backgroundColor = Color.White,
     ) {
         when (state.step) {
-            RestorePasswordStep.ENTER_EMAIL -> EnterEmailStep(
+            ENTER_EMAIL -> EnterEmailStep(
                 onNext = model::nextStep,
                 model = model
             )
-            RestorePasswordStep.PUT_PASSWORD -> FinishStep(
-                onNext = model::nextStep,
-                model = model
-            )
-            RestorePasswordStep.FINISH -> PutPasswordStep(
+            PUT_PASSWORD -> EnterPasswordStep(
                 onNext = { coroutineScope.launch { model.submit() } },
+                model = model
+            )
+
+            FINISH -> FinishStep(
+                onNext = model::nextStep,
                 model = model
             )
         }

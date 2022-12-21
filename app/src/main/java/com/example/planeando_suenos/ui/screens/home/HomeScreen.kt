@@ -20,7 +20,8 @@ import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 
 @Composable
-fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
+fun HomeScreen(model: HomeViewModel,
+               navController: NavHostController) {
 
     Column(
         modifier = Modifier

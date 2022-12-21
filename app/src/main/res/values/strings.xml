@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">planeando-suenos</string>
     <string name="password">Contraseña</string>
+    <string name="repeat_pass">Repetir contraseña</string>
     <string name="help_wishes">Te ayudamos a \ncumplir tus \nsueños.</string>
     <string name="lading_instructions">Podemos darte la solución para que cumplas con esos deseos pendientes.
     \n\n
@@ -27,12 +28,16 @@
     <string name="name">Name</string>
     <string name="your_data">Tus datos</string>
     <string name="pc_address">Dirección CP</string>
-
-    <string name="email">Correo electronico</string>
+    <string name="email">Correo electrónico</string>
+    <string name="send">Enviar</string>
+    <string name="reset">Reestablecer </string>
     <string name="forgot_password">¿Olvidó su contraseña?</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="do_not_have_account">¿Aún no tienes cuenta?</string>
     <string name="register">Registrate > </string>
-
+    <string name="not_worry">No te preocupes, te enviaremos instrucciones a tu correo para que la recuperes.</string>
+    <string name="forgot_pass_heder">¿Olvidaste tu \ncontraseña?</string>
+    <string name="pass_should_be_different"> Tu nueva contraseña debe ser diferente a las que usaste anteriormente.</string>
+    <string name="create_pass">Crear nueva contraseña</string>
 
 </resources>

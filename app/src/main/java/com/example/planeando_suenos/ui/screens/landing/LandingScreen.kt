@@ -71,7 +71,13 @@ fun LandingScreen(
         }
         SubmitButton(
             text = stringResource(R.string.crate_account),
-            onClick = { navController.navigate(PublicRouterDir.REGISTER.route) }
+            onClick = { navController.navigate(PublicRouterDir.REGISTER.route) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = dimensionResource(R.dimen.gap5),
+                    horizontal = dimensionResource(R.dimen.gap5)
+                )
         )
         Row(
             modifier = Modifier

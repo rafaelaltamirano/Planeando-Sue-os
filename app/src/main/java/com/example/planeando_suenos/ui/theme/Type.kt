@@ -67,13 +67,14 @@ val Typography = Typography(
         fontWeight = FontWeight.W600,
         fontSize = 14.sp
     ),
+    button = TextStyle(
+        fontFamily = AvenirNext,
+        fontWeight = FontWeight.W800,
+        fontSize = 15.sp
+    ),
 
     /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
+
     caption = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,

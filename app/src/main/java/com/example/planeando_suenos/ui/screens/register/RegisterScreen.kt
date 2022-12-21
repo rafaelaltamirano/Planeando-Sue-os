@@ -56,14 +56,3 @@ fun RegisterScreen(
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewRegisterScreen() {
-    RegisterScreen(
-        viewModel(),
-        viewModel(),
-        rememberNavController()
-    )
-}

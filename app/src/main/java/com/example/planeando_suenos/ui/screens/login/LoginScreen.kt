@@ -134,8 +134,7 @@ fun LoginScreen(
                     stringResource(R.string.do_not_have_account),
                     color = Color.Black,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier.clickable(onClick = { }),
+                    style = MaterialTheme.typography.caption
                 )
                 Text(
                     stringResource(R.string.register).uppercase(),
@@ -145,7 +144,7 @@ fun LoginScreen(
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
                         .clickable(onClick = { navController.navigate(PublicRouterDir.REGISTER.route) })
-                        .padding(vertical = dimensionResource(R.dimen.gap4)),
+                        .padding(vertical = dimensionResource(R.dimen.gap5)),
                 )
             }
         }
