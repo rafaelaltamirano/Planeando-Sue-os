@@ -98,7 +98,7 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
 
 @Composable
 fun TopBarWithComponent() {
-    Box() {
+    Box {
 
         Box(
             modifier = Modifier
@@ -112,7 +112,7 @@ fun TopBarWithComponent() {
                 color = Color.White
             )
         }
-        Column() {
+        Column {
             Spacer(
                 modifier = Modifier
                     .height(70.dp)
