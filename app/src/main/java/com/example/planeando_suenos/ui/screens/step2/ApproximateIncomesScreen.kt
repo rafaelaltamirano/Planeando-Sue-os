@@ -9,7 +9,6 @@ import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.step2.confirmation.ConfirmationStep
 import com.example.planeando_suenos.ui.screens.step2.extraIncomes.ExtraIncomesStep
-import com.example.planeando_suenos.ui.screens.step2.incomeFrequency.IncomeFrequencyStep
 import com.example.planeando_suenos.ui.screens.step2.incomesData.IncomeDataStep
 
 
@@ -37,9 +36,6 @@ fun ApproximateIncomesScreen (
                 onNext = model::nextStep,
             )
             Step2Step.EXTRA_INCOMES -> ExtraIncomesStep(
-                onNext = model::nextStep,
-            )
-            Step2Step.INCOME_FREQUENCY -> IncomeFrequencyStep(
                 onNext = model::nextStep,
             )
             Step2Step.CONFIRMATION -> ConfirmationStep(

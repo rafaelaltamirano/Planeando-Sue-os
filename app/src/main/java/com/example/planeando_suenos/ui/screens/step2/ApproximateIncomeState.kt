@@ -5,8 +5,7 @@ enum class Step2Step(val step: Int) {
 
     INCOME_DATA(0),
     EXTRA_INCOMES(1),
-    INCOME_FREQUENCY(2),
-    CONFIRMATION(3);
+    CONFIRMATION(2);
 
     companion object {
         fun getByStep(step: Int) = values().first { it.step == step }
