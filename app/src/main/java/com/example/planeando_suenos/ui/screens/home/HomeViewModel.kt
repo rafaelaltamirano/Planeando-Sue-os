@@ -16,8 +16,15 @@ class HomeViewModel @Inject constructor(
     var state by mutableStateOf(HomeState())
         private set
 
-    init {
+    fun setCheckedStep1(check: Boolean) {
+        state = state.copy(checkedStep1 = check)
     }
 
+    fun setCheckedStep2(check: Boolean) {
+        state = state.copy(checkedStep2 = check)
+    }
 
+    fun setCheckedStep3(check: Boolean) {
+        state = state.copy(checkedStep3 = check)
+    }
 }

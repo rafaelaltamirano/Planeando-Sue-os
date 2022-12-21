@@ -22,7 +22,7 @@ import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 
 @Composable
-fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
+fun HomeScreen(homeViewModel: HomeViewModel, navController: NavHostController) {
 
     Column(
         modifier = Modifier
@@ -52,10 +52,14 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
-                checked = true,
+                checked = homeViewModel.state.checkedStep1,
                 title = "Tus sueños y aspiraciones",
                 subTitle = "Datos completados con éxito",
-                onClick = { navController.navigate(UserRouterDir.STEP_1.route) }
+                onClick = {
+                    if (homeViewModel.state.checkedStep1) {
+                        navController.navigate(UserRouterDir.STEP_1.route)
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -66,10 +70,14 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
-                checked = true,
+                checked = homeViewModel.state.checkedStep2,
                 title = "Tus ingresos aproximados",
                 subTitle = "$ 1.600.00 semanales",
-                onClick = { navController.navigate(UserRouterDir.STEP_3.route) }
+                onClick = {
+                    if (homeViewModel.state.checkedStep2) {
+                        navController.navigate(UserRouterDir.STEP_2.route)
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -80,10 +88,14 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
-                checked = false,
+                checked = homeViewModel.state.checkedStep3,
                 title = "Tus egresos o gastos",
                 subTitle = "$ 861.40 semanales",
-                onClick = {navController.navigate(UserRouterDir.STEP_3.route)}
+                onClick = {
+                    if (homeViewModel.state.checkedStep3) {
+                        navController.navigate(UserRouterDir.STEP_3.route)
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(24.dp))
             Text(

@@ -45,6 +45,7 @@
     <string name="create_pass">Crear nueva contraseña</string>
     <string name="enter">Ingresar</string>
     <string name="create_new_pass">Crear nueva contraseña</string>
+    <string name="put_amount">Ingresa un monto</string>
 
 
 </resources>

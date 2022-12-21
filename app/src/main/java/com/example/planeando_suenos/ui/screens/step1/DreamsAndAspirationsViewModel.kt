@@ -26,4 +26,8 @@ class DreamsAndAspirationsViewModel @Inject constructor(
     fun prevStep() {
         setStep(state.step.prev())
     }
+
+    fun setChecked(check: Boolean) {
+        state = state.copy(checked = check)
+    }
 }

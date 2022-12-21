@@ -7,9 +7,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
-import com.example.planeando_suenos.ui.screens.step1.DreamsAndAspirationsViewModel
-import com.example.planeando_suenos.ui.screens.step1.dreamsData.DreamsDataStep
-import com.example.planeando_suenos.ui.screens.step1.dreamsType.DreamsTypeStep
 import com.example.planeando_suenos.ui.screens.step2.confirmation.ConfirmationStep
 import com.example.planeando_suenos.ui.screens.step2.extraIncomes.ExtraIncomesStep
 import com.example.planeando_suenos.ui.screens.step2.incomeFrequency.IncomeFrequencyStep

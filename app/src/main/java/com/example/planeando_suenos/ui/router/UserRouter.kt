@@ -30,7 +30,7 @@ fun UserRouter(navController: NavHostController, mainModel: MainViewModel = view
             HomeScreen(homeViewModel, navController)
         }
         composable(STEP_1.route) {
-            DreamsAndAspirationsScreen(dreamsAndAspirationsViewModel, mainModel, navController)
+            DreamsAndAspirationsScreen(dreamsAndAspirationsViewModel, mainModel, homeViewModel, navController)
         }
         composable(STEP_2.route) {
             ApproximateIncomesScreen(approximateIncomesViewModel, mainModel, navController)
