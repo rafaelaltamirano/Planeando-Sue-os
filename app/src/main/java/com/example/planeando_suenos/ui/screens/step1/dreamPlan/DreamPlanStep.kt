@@ -32,7 +32,7 @@ import java.util.*
 
 @Composable
 fun DreamPlanStep(
-    onNext: () -> Unit
+    onFinish: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -71,7 +71,7 @@ fun DreamPlanStep(
         TextDate()
         SubmitButton(
             text = "next",
-            onClick = { onNext() }
+            onClick = { onFinish() }
         )
     }
 

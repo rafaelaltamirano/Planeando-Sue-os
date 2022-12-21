@@ -16,5 +16,6 @@ enum class Step1Step(val step: Int) {
 
 data class DreamsAndAspirationsState(
     val loading: Boolean = false,
-    val step: Step1Step = Step1Step.DREAMS_GRID
+    val step: Step1Step = Step1Step.DREAMS_GRID,
+    val checked: Boolean = false
 )
