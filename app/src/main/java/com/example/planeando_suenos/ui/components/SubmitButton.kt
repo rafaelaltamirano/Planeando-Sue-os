@@ -3,6 +3,7 @@ package com.example.planeando_suenos.ui.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -26,14 +27,15 @@ fun SubmitButton(
     color: Color = GreenBusiness,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(vertical = dimensionResource(R.dimen.gap4) )
+        .padding(vertical = dimensionResource(R.dimen.gap4),
+            horizontal = dimensionResource(R.dimen.gap5))
 ) {
     Button(
         modifier = modifier,
         onClick = { onClick() },
-        shape = RoundedCornerShape(6),
+        shape = RoundedCornerShape(50),
         contentPadding = PaddingValues(
-            vertical = 22.dp
+            vertical = 13.dp
         ),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = color,
@@ -45,7 +47,6 @@ fun SubmitButton(
             color = White,
             style = MaterialTheme.typography.button,
             fontWeight = W900
-
         )
     }
 }

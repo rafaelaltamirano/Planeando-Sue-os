@@ -45,7 +45,6 @@ fun LoginScreen(
     val configuration = LocalConfiguration.current
     val coroutineScope = rememberCoroutineScope()
 
-
     model.status?.also {
         val (status, _) = it
         when (status) {
@@ -61,7 +60,6 @@ fun LoginScreen(
         mainModel.setLogin(it)
     }
 
-
     Scaffold(
         topBar = {
             TopBar(
@@ -72,85 +70,84 @@ fun LoginScreen(
         backgroundColor = Color.White,
     ) {
 
-            Column(
+        Column(
+            modifier = Modifier
+                .width((configuration.screenWidthDp).dp)
+                .height(configuration.screenHeightDp.dp)
+                .padding(dimensionResource(R.dimen.gap5)),
+            verticalArrangement = Arrangement.Center,
+        ) {
+
+            Text(
+                color = Color.Black,
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.h3,
+                fontSize = 17.sp,
+                text = stringResource(R.string.email)
+            )
+            CustomTextField(
+                value = model.state.email,
+                placeholder = R.string.email_example,
+                leadingIcon = R.drawable.ic_arrouba,
+                onValueChanged = { },
                 modifier = Modifier
-                    .width((configuration.screenWidthDp).dp)
-                    .height(configuration.screenHeightDp.dp)
-                    .padding(dimensionResource(R.dimen.gap5)),
-                verticalArrangement = Arrangement.Center,
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.gap4))
+            )
+
+            Text(
+                color = Color.Black,
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.h3,
+                fontSize = 17.sp,
+                text = stringResource(R.string.password)
+            )
+            CustomTextField(
+                value = model.state.password,
+                placeholder = R.string.password,
+                security = true,
+                leadingIcon = R.drawable.ic_lock,
+                onValueChanged = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.gap4))
+            )
+            Text(
+                stringResource(R.string.forgot_password),
+                color = GreenBusiness,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.clickable(onClick = { navController.navigate(PublicRouterDir.RESTORE_PASS.route) }),
+                textDecoration = TextDecoration.Underline
+            )
+
+            SubmitButton(
+                stringResource(R.string.log_in),
+                onClick = { coroutineScope.launch { model.submit() } })
+
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 Text(
+                    stringResource(R.string.do_not_have_account),
                     color = Color.Black,
-                    textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.h3,
-                    fontSize = 17.sp,
-                    text = stringResource(R.string.email)
-                )
-                CustomTextField(
-                    value = model.state.email,
-                    placeholder = R.string.email_example,
-                    leadingIcon = R.drawable.ic_arrouba,
-                    onValueChanged = { },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.gap4))
-                )
-
-                Text(
-                    color = Color.Black,
-                    textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.h3,
-                    fontSize = 17.sp,
-                    text = stringResource(R.string.password)
-                )
-                CustomTextField(
-                    value = model.state.password,
-                    placeholder = R.string.password,
-                    security = true,
-                    leadingIcon = R.drawable.ic_lock,
-                    onValueChanged = {},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.gap4))
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.caption
                 )
                 Text(
-                    stringResource(R.string.forgot_password),
+                    stringResource(R.string.register_it).uppercase(),
                     color = GreenBusiness,
                     textAlign = TextAlign.Center,
+                    fontWeight = W700,
                     style = MaterialTheme.typography.caption,
-                    modifier = Modifier.clickable(onClick = { }),
-                    textDecoration = TextDecoration.Underline
+                    modifier = Modifier
+                        .clickable(onClick = { navController.navigate(PublicRouterDir.REGISTER.route) })
+                        .padding(vertical = dimensionResource(R.dimen.gap5)),
                 )
-
-                SubmitButton(
-                    stringResource(R.string.log_in),
-                    onClick = { coroutineScope.launch { model.submit() } })
-
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        stringResource(R.string.do_not_have_account),
-                        color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier.clickable(onClick = { }),
-                    )
-                    Text(
-                        stringResource(R.string.register).uppercase(),
-                        color = GreenBusiness,
-                        textAlign = TextAlign.Center,
-                        fontWeight = W700,
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .clickable(onClick = { navController.navigate(PublicRouterDir.REGISTER.route) })
-                            .padding(vertical = dimensionResource(R.dimen.gap4)),
-                    )
-                }
             }
+        }
     }
 }
 

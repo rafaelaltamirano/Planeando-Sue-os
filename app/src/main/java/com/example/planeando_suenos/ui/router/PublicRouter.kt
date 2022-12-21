@@ -14,6 +14,8 @@ import com.example.planeando_suenos.ui.screens.login.LoginViewModel
 import com.example.planeando_suenos.ui.screens.login.LoginScreen
 import com.example.planeando_suenos.ui.screens.register.RegisterViewModel
 import com.example.planeando_suenos.ui.screens.register.RegisterScreen
+import com.example.planeando_suenos.ui.screens.restorePass.RestorePasswordScreen
+import com.example.planeando_suenos.ui.screens.restorePass.RestorePasswordViewModel
 
 @Composable
 fun PublicRouter(navController: NavHostController, mainModel: MainViewModel = viewModel()) {
@@ -21,7 +23,7 @@ fun PublicRouter(navController: NavHostController, mainModel: MainViewModel = vi
     val loginViewModel = hiltViewModel<LoginViewModel>()
     val registerViewModel = hiltViewModel<RegisterViewModel>()
     val landingViewModel = hiltViewModel<LandingViewModel>()
-
+    val restorePasswordViewModel = hiltViewModel<RestorePasswordViewModel>()
 
 
     NavHost(
@@ -47,9 +49,16 @@ fun PublicRouter(navController: NavHostController, mainModel: MainViewModel = vi
         }
 
         composable(LANDING.route) {
-
             LandingScreen(
                 model = landingViewModel,
+                mainModel = mainModel,
+                navController = navController
+            )
+        }
+
+        composable(RESTORE_PASS.route) {
+            RestorePasswordScreen(
+                model = restorePasswordViewModel,
                 mainModel = mainModel,
                 navController = navController
             )
