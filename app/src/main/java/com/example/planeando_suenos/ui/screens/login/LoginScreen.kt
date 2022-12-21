@@ -137,7 +137,7 @@ fun LoginScreen(
                     style = MaterialTheme.typography.caption
                 )
                 Text(
-                    stringResource(R.string.register).uppercase(),
+                    stringResource(R.string.register_it).uppercase(),
                     color = GreenBusiness,
                     textAlign = TextAlign.Center,
                     fontWeight = W700,

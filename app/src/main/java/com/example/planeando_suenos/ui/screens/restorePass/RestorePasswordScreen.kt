@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
+import com.example.planeando_suenos.ui.screens.register.RegisterStep
 import com.example.planeando_suenos.ui.screens.restorePass.RestorePasswordStep.*
 import com.example.planeando_suenos.ui.screens.restorePass.enterEmail.EnterEmailStep
 import com.example.planeando_suenos.ui.screens.restorePass.finish.FinishStep
@@ -36,10 +37,13 @@ fun RestorePasswordScreen(
         mainModel.setLogin(it)
     }
 
+    val headerTitle = if (state.step == ENTER_EMAIL) stringResource(R.string.forgot_pass_heder)
+    else stringResource(R.string.create_new_pass)
+
     Scaffold(
         topBar = {
             if (state.step != FINISH) {
-                TopBar(stringResource(R.string.forgot_pass_heder), onBackPress = {
+                TopBar(headerTitle, onBackPress = {
                     if (state.step == ENTER_EMAIL) navController.popBackStack()
                     else model.prevStep()
                 })
@@ -53,12 +57,12 @@ fun RestorePasswordScreen(
                 model = model
             )
             PUT_PASSWORD -> EnterPasswordStep(
-                onNext = { coroutineScope.launch { model.submit() } },
+                onNext = model::nextStep,
                 model = model
             )
 
             FINISH -> FinishStep(
-                onNext = model::nextStep,
+                onNext = { coroutineScope.launch { model.submit() } },
                 model = model
             )
         }

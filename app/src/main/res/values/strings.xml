@@ -34,10 +34,17 @@
     <string name="forgot_password">¿Olvidó su contraseña?</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="do_not_have_account">¿Aún no tienes cuenta?</string>
-    <string name="register">Registrate > </string>
+    <string name="register_it">Registrate > </string>
+    <string name="register">Registrar </string>
+    <string name="click_button">Haz click en el botón de a continuación para logearte automáticamente.</string>
+    <string name="your_pass_has_been_restore">Tu contraseña ha sido restablecida de forma exitosa</string>
+    <string name="password_restored">Contraseña \nRestablecida</string>
     <string name="not_worry">No te preocupes, te enviaremos instrucciones a tu correo para que la recuperes.</string>
     <string name="forgot_pass_heder">¿Olvidaste tu \ncontraseña?</string>
     <string name="pass_should_be_different"> Tu nueva contraseña debe ser diferente a las que usaste anteriormente.</string>
     <string name="create_pass">Crear nueva contraseña</string>
+    <string name="enter">Ingresar</string>
+    <string name="create_new_pass">Crear nueva contraseña</string>
+
 
 </resources>

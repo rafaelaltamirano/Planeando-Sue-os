@@ -20,8 +20,7 @@ import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 
 @Composable
-fun HomeScreen(model: HomeViewModel,
-               navController: NavHostController) {
+fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
 
     Column(
         modifier = Modifier
@@ -100,7 +99,7 @@ fun HomeScreen(model: HomeViewModel,
 
 @Composable
 fun TopBarWithComponent() {
-    Box {
+    Box() {
 
         Box(
             modifier = Modifier
@@ -114,27 +113,27 @@ fun TopBarWithComponent() {
                 color = Color.White
             )
         }
-        Column {
+        Column() {
             Spacer(
                 modifier = Modifier
                     .height(70.dp)
                     .width(10.dp)
             )
-            Card(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth(), shape = RoundedCornerShape(6.dp),
-                elevation = 4.dp
-            ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "¡Hola Julian!",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    fontSize = 17.sp
-                )
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(), shape = RoundedCornerShape(6.dp),
+                    elevation = 4.dp
+                ) {
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        text = "¡Hola Julian!",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        fontSize = 17.sp
+                    )
+                }
             }
-        }
     }
 }
 
