@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.CardChecked
+import com.example.planeando_suenos.ui.router.PublicRouterDir
+import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 
@@ -52,10 +54,9 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
             CardChecked(
                 checked = true,
                 title = "Tus sueños y aspiraciones",
-                subTitle = "Datos completados con éxito"
-            ) {
-
-            }
+                subTitle = "Datos completados con éxito",
+                onClick = { navController.navigate(UserRouterDir.STEP_1.route) }
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Paso 2",
@@ -67,10 +68,9 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
             CardChecked(
                 checked = true,
                 title = "Tus ingresos aproximados",
-                subTitle = "$ 1.600.00 semanales"
-            ) {
-
-            }
+                subTitle = "$ 1.600.00 semanales",
+                onClick = { navController.navigate(UserRouterDir.STEP_3.route) }
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Paso 3",
@@ -82,10 +82,9 @@ fun HomeScreen(model: HomeViewModel, navController: NavHostController) {
             CardChecked(
                 checked = false,
                 title = "Tus egresos o gastos",
-                subTitle = "$ 861.40 semanales"
-            ) {
-
-            }
+                subTitle = "$ 861.40 semanales",
+                onClick = {navController.navigate(UserRouterDir.STEP_3.route)}
+            )
             Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = "Es fácil y rápido. ¿Estás listo?",
@@ -119,21 +118,21 @@ fun TopBarWithComponent() {
                     .height(70.dp)
                     .width(10.dp)
             )
-                Card(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(), shape = RoundedCornerShape(6.dp),
-                    elevation = 4.dp
-                ) {
-                    Text(
-                        modifier = Modifier.padding(16.dp),
-                        text = "¡Hola Julian!",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                        fontSize = 17.sp
-                    )
-                }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(), shape = RoundedCornerShape(6.dp),
+                elevation = 4.dp
+            ) {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = "¡Hola Julian!",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    fontSize = 17.sp
+                )
             }
+        }
     }
 }
 
