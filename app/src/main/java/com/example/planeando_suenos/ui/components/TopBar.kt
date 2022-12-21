@@ -1,10 +1,7 @@
 package com.example.planeando_suenos.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 
@@ -34,7 +31,12 @@ fun TopBar(
     onBackPress: () -> Unit
 ) {
 
-    Column(Modifier.background(GreenBusiness)) {
+    Column(
+        Modifier
+            .background(GreenBusiness)
+            .height(96.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
 
         CenterAlignedTopAppBar(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(GreenBusiness),
@@ -69,6 +71,7 @@ fun TopBar(
             )
             Spacer(Modifier.height(10.dp))
         }
+
     }
 }
 
