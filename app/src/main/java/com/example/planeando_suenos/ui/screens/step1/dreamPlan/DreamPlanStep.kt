@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.dream
+package com.example.planeando_suenos.ui.screens.step1.dreamPlan
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
@@ -6,6 +6,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarToday
@@ -21,28 +22,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
+import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun PlanDreamScreen() {
-    PlanDreamContent()
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun PrevPlanDreamScreen() {
-    PlanDreamContent()
-}
-
-@Composable
-fun PlanDreamContent() {
+fun DreamPlanStep(
+    onNext: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -78,11 +69,15 @@ fun PlanDreamContent() {
             )
         )
         TextDate()
-
+        SubmitButton(
+            text = "next",
+            onClick = { onNext() }
+        )
     }
+
 }
 
-val itemDreams = listOf(
+private val itemDreams = listOf(
     "Eventos Viajes",
     "Salud, operarme los ojos, mejorarme los dientes",
     "Equipar hogar con pequeños electrodomésticos",
@@ -147,7 +142,7 @@ fun AmountDream(dream: String) {
         CustomTextField(
             value = value,
             onValueChanged = { value = it },
-            placeholder = R.string.put_amount,
+            placeholder = com.example.planeando_suenos.R.string.put_amount,
             keyboardType = KeyboardType.Number,
             modifier = Modifier.fillMaxWidth()
         )
@@ -158,7 +153,7 @@ private val mCalendar: Calendar = Calendar.getInstance()
 
 @Composable
 fun TextDate() {
-    val hint: String = stringResource(id = R.string.date_example)
+    val hint: String = stringResource(id = com.example.planeando_suenos.R.string.date_example)
 
     var date by rememberSaveable {
         mutableStateOf(hint)
@@ -197,7 +192,7 @@ fun TextDate() {
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = date)
+        Text(text = date, style = MaterialTheme.typography.caption)
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             imageVector = Icons.Outlined.CalendarToday,
@@ -206,4 +201,3 @@ fun TextDate() {
         )
     }
 }
-

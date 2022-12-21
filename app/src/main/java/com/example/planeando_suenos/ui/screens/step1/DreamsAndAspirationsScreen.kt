@@ -7,8 +7,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
-import com.example.planeando_suenos.ui.screens.step1.dreamsData.DreamsDataStep
-import com.example.planeando_suenos.ui.screens.step1.dreamsType.DreamsTypeStep
+import com.example.planeando_suenos.ui.screens.step1.dreamsGrid.DreamsGridStep
+import com.example.planeando_suenos.ui.screens.step1.dreamPlan.DreamPlanStep
 
 @Composable
 fun DreamsAndAspirationsScreen(
@@ -20,7 +20,7 @@ fun DreamsAndAspirationsScreen(
     val state = model.state
 
     BackHandler(enabled = true) {
-        if (state.step == Step1Step.DREAM_DATA) navController.popBackStack()
+        if (state.step == Step1Step.DREAM_PLAN) navController.popBackStack()
         else model.prevStep()
     }
 
@@ -30,12 +30,12 @@ fun DreamsAndAspirationsScreen(
     ) {
         when (state.step) {
 
-            Step1Step.DREAM_TYPE -> DreamsTypeStep(
-                onNext = model::nextStep
-            )
-            Step1Step.DREAM_DATA -> DreamsDataStep(
+            Step1Step.DREAMS_GRID -> DreamsGridStep(
 
                 onNext = { navController.navigate(UserRouterDir.HOME.route) },
+            )
+            Step1Step.DREAM_PLAN -> DreamPlanStep(
+                onNext = model::nextStep
             )
 
         }
