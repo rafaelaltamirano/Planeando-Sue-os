@@ -1,10 +1,9 @@
-package com.example.planeando_suenos.ui.screens.step2
+package com.example.planeando_suenos.ui.screens.home.step2
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.example.planeando_suenos.ui.ViewModelWithStatus
-import com.example.planeando_suenos.ui.screens.step1.DreamsAndAspirationsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -28,4 +27,11 @@ class ApproximateIncomesViewModel @Inject constructor(
     fun prevStep() {
         setStep(state.step.prev())
     }
+    fun setFrequency(frequency: String) {
+        state = state.copy(frequency = frequency)
+    }
+    fun setChecked(check: Boolean) {
+        state = state.copy(checked = check)
+    }
+
 }

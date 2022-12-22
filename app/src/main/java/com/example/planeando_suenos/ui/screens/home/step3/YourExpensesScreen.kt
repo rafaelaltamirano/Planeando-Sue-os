@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.step3
+package com.example.planeando_suenos.ui.screens.home.step3
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
@@ -7,9 +7,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
-import com.example.planeando_suenos.ui.screens.step3.expensesConfirmation.ExpensesConfirmationStep
-import com.example.planeando_suenos.ui.screens.step3.expensesData.ExpensesDataStep
-import com.example.planeando_suenos.ui.screens.step3.expensesResume.ExpensesResumeStep
+import com.example.planeando_suenos.ui.screens.home.step3.expensesConfirmation.ExpensesConfirmationStep
+import com.example.planeando_suenos.ui.screens.home.step3.expensesData.ExpensesDataStep
+import com.example.planeando_suenos.ui.screens.home.step3.expensesResume.ExpensesResumeStep
 
 @Composable
 fun YourExpensesScreen (

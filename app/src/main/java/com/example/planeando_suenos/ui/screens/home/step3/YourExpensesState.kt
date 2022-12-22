@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.step3
+package com.example.planeando_suenos.ui.screens.home.step3
 
 
 enum class Step3Step(val step: Int) {

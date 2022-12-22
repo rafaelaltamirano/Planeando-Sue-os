@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.step1
+package com.example.planeando_suenos.ui.screens.home.step1
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
-import com.example.planeando_suenos.ui.screens.step1.dreamsGrid.DreamsGridStep
-import com.example.planeando_suenos.ui.screens.step1.dreamPlan.DreamPlanStep
+import com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid.DreamsGridStep
+import com.example.planeando_suenos.ui.screens.home.step1.dreamPlan.DreamPlanStep
 
 @Composable
 fun DreamsAndAspirationsScreen(

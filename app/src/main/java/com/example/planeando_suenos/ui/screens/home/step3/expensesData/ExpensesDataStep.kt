@@ -1,11 +1,10 @@
-package com.example.planeando_suenos.ui.screens.step3.expensesConfirmation
+package com.example.planeando_suenos.ui.screens.home.step3.expensesData
 
 import androidx.compose.runtime.Composable
 import com.example.planeando_suenos.ui.components.SubmitButton
 
-
 @Composable
-fun ExpensesConfirmationStep(
+fun ExpensesDataStep(
     onNext: () -> Unit
 ) {
     SubmitButton(

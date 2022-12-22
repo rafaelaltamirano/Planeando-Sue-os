@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.step1
+package com.example.planeando_suenos.ui.screens.home.step1
 
 enum class Step1Step(val step: Int) {
 
@@ -9,8 +9,8 @@ enum class Step1Step(val step: Int) {
         fun getByStep(step: Int) = values().first { it.step == step }
     }
 
-    fun next() = if (step==1) DREAMS_GRID else getByStep(step + 1)
-    fun prev() = if (step==0) DREAM_PLAN else getByStep(step - 1)
+    fun next() = if (step==1) DREAM_PLAN else getByStep(step + 1)
+    fun prev() = if (step==0) DREAMS_GRID else getByStep(step - 1)
 }
 
 

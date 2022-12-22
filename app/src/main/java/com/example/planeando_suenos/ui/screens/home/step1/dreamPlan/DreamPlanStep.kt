@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.step1.dreamPlan
+package com.example.planeando_suenos.ui.screens.home.step1.dreamPlan
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker

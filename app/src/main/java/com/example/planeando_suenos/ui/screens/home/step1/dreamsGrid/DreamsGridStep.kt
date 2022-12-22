@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.step1.dreamsGrid
+package com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
