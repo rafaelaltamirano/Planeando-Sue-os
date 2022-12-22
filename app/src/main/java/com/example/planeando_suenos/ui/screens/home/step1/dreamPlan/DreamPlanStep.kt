@@ -70,7 +70,7 @@ fun DreamPlanStep(
         )
         TextDate()
         SubmitButton(
-            text = "next",
+            text = "continuar",
             onClick = { onFinish() }
         )
     }

@@ -67,10 +67,12 @@ fun ConfirmationStep(
                 lineHeight = 24.sp
             )
             Spacer(Modifier.height(32.dp))
-            SubmitButton(
-                "finalizar",
-                onClick = onNext
-            )
+            Row(verticalAlignment = Alignment.Bottom) {
+                SubmitButton(
+                    "finalizar",
+                    onClick = onNext
+                )
+            }
         }
     }
 }

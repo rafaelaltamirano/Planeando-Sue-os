@@ -62,7 +62,7 @@ fun DreamsGridStep(
         }
 
         SubmitButton(
-            text = "next",
+            text = "continuar",
             onClick = { onNext() }
         )
     }

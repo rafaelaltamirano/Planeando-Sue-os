@@ -34,4 +34,8 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(checked = check)
     }
 
+    fun setSalaryAmount(salaryAmount: String) {
+        state = state.copy(salaryAmount = salaryAmount)
+    }
+
 }
