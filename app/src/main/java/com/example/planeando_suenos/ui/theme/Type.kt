@@ -24,8 +24,8 @@ val Typography = Typography(
     ),
     h2 = TextStyle(
         fontFamily = AvenirNext,
-        fontWeight = FontWeight.W600,
-        fontSize = 14.sp
+        fontWeight = FontWeight.W700,
+        fontSize = 24.sp
     ),
     h3 = TextStyle(
         fontFamily = AvenirNext,

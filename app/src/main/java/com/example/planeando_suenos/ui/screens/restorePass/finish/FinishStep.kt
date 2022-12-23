@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.components.TopBarWithCheck
 import com.example.planeando_suenos.ui.screens.restorePass.RestorePasswordViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
@@ -33,7 +34,7 @@ fun FinishStep(
     model: RestorePasswordViewModel
 ) {
     Column {
-        TopBarWithComponentPassRestore()
+        TopBarWithCheck()
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -72,44 +73,3 @@ fun FinishStep(
     }
 }
 
-@Composable
-fun TopBarWithComponentPassRestore() {
-    Box {
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(GreenBusiness)
-        )
-
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .height(70.dp)
-                    .width(10.dp)
-            )
-            Card(
-                shape = RoundedCornerShape(100),
-                modifier = Modifier
-                    .size(62.dp)
-                    .clip(CircleShape),
-                border = BorderStroke(5.dp, Color.White),
-                backgroundColor = GreenBusiness
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .width(23.dp)
-                        .height(16.dp)
-                        .padding(16.dp),
-                    painter = painterResource(R.drawable.ic_check),
-                    contentDescription = "",
-                    tint = Color.White
-                )
-            }
-        }
-    }
-}

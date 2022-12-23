@@ -89,7 +89,7 @@ fun LoginScreen(
                 value = model.state.email,
                 placeholder = R.string.email_example,
                 leadingIcon = R.drawable.ic_arrouba,
-                onValueChanged = { },
+                onValueChanged = model::setEmail,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -107,7 +107,7 @@ fun LoginScreen(
                 placeholder = R.string.password,
                 security = true,
                 leadingIcon = R.drawable.ic_lock,
-                onValueChanged = {},
+                onValueChanged = model::setPassword,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.gap4))

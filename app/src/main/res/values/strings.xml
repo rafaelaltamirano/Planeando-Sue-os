@@ -14,6 +14,7 @@
     <string name="sign_in">Iniciar Sesión</string>
     <string name="email_example">email_user@gmail</string>
     <string name="password_example">***********</string>
+    <string name="enter_amount">Ingresa un monto</string>
     <string name="continue_">continuar</string>
     <string name="address_example">ej: Pto. Tampico 57, Casas Alemán</string>
     <string name="phone_example">ej: + 52 55 12345678</string>
@@ -46,6 +47,7 @@
     <string name="enter">Ingresar</string>
     <string name="create_new_pass">Crear nueva contraseña</string>
     <string name="put_amount">Ingresa un monto</string>
-
-
+    <string name="fixed_salary">Sueldo Fijo</string>
+    <string name="variable_salary">Sueldo variable</string>
+    <string name="approximately_income">Ingresa un monto aproximado</string>
 </resources>

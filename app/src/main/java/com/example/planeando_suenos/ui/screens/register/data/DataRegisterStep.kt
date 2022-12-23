@@ -18,11 +18,13 @@ import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.screens.register.RegisterViewModel
 
 
 @Composable
 fun DataRegisterStep(
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    model: RegisterViewModel
 ) {
     Column(
         modifier = Modifier
@@ -49,9 +51,9 @@ fun DataRegisterStep(
             text = stringResource(R.string.name)
         )
         CustomTextField(
-            value = stringResource(R.string.name_example),
-            placeholder = R.string.email_example,
-            onValueChanged = {},
+            value = model.state.name,
+            placeholder = R.string.name_example,
+            onValueChanged = model::setName,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,10 +67,10 @@ fun DataRegisterStep(
             text = stringResource(R.string.father_surname)
         )
         CustomTextField(
-            value = stringResource(R.string.surname_example),
+            value = model.state.surname,
             placeholder = R.string.surname_example,
             leadingIcon = null,
-            onValueChanged = {},
+            onValueChanged = model::setSurname,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -81,9 +83,9 @@ fun DataRegisterStep(
             text = stringResource(R.string.mother_surname)
         )
         CustomTextField(
-            value = stringResource(R.string.optional),
+            value = model.state.motherSurname,
             placeholder = R.string.optional,
-            onValueChanged = {},
+            onValueChanged = model::setMotherName,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -97,9 +99,9 @@ fun DataRegisterStep(
             text = stringResource(R.string.born_day)
         )
         CustomTextField(
-            value = stringResource(R.string.date_example),
+            value = model.state.bornDay,
             placeholder = R.string.date_example,
-            onValueChanged = {},
+            onValueChanged = model::setBornDay,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,9 +115,9 @@ fun DataRegisterStep(
             text = stringResource(R.string.phone)
         )
         CustomTextField(
-            value = stringResource(R.string.phone_example),
-            placeholder = R.string.email_example,
-            onValueChanged = {},
+            value = model.state.phone,
+            placeholder = R.string.phone_example,
+            onValueChanged = model::setPhone,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,9 +131,9 @@ fun DataRegisterStep(
             text = stringResource(R.string.pc_address)
         )
         CustomTextField(
-            value = stringResource(R.string.address_example),
-            placeholder = R.string.email_example,
-            onValueChanged = {},
+            value = model.state.cp,
+            placeholder = R.string.address_example,
+            onValueChanged = model::setCp,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()

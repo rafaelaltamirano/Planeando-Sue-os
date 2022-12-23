@@ -39,6 +39,14 @@ class LoginViewModel @Inject constructor(
         state = state.copy(login = login)
     }
 
+    fun setEmail(email: String) {
+        state = state.copy(email = email)
+    }
+
+    fun setPassword(password: String) {
+        state = state.copy(password = password)
+    }
+
 
     suspend fun submit() = viewModelScope.launch {
         setLoading(true)

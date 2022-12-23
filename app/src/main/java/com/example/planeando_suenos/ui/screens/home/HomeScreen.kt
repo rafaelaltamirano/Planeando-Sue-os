@@ -56,7 +56,7 @@ fun HomeScreen(homeViewModel: HomeViewModel, navController: NavHostController) {
                 title = "Tus sueños y aspiraciones",
                 subTitle = "Datos completados con éxito",
                 onClick = {
-                    if (homeViewModel.state.checkedStep1) {
+                    if (!homeViewModel.state.checkedStep1) {
                         navController.navigate(UserRouterDir.STEP_1.route)
                     }
                 }
@@ -74,7 +74,7 @@ fun HomeScreen(homeViewModel: HomeViewModel, navController: NavHostController) {
                 title = "Tus ingresos aproximados",
                 subTitle = "$ 1.600.00 semanales",
                 onClick = {
-                    if (homeViewModel.state.checkedStep2) {
+                    if (!homeViewModel.state.checkedStep2) {
                         navController.navigate(UserRouterDir.STEP_2.route)
                     }
                 }
@@ -92,7 +92,7 @@ fun HomeScreen(homeViewModel: HomeViewModel, navController: NavHostController) {
                 title = "Tus egresos o gastos",
                 subTitle = "$ 861.40 semanales",
                 onClick = {
-                    if (homeViewModel.state.checkedStep3) {
+                    if (!homeViewModel.state.checkedStep3) {
                         navController.navigate(UserRouterDir.STEP_3.route)
                     }
                 }

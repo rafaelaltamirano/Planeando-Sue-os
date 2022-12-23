@@ -3,18 +3,15 @@ package com.example.planeando_suenos.ui.screens.register
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
-import com.example.planeando_suenos.ui.router.PublicRouterDir
-import com.example.planeando_suenos.ui.router.Root
 import com.example.planeando_suenos.ui.screens.register.account.AccountRegisterStep
 import com.example.planeando_suenos.ui.screens.register.data.DataRegisterStep
 import com.example.planeando_suenos.ui.screens.register.verify.VerifyRegisterStep
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(
@@ -24,10 +21,15 @@ fun RegisterScreen(
 ) {
 
     val state = model.state
+    val coroutineScope = rememberCoroutineScope()
 
     BackHandler(enabled = true) {
         if (state.step == RegisterStep.ACCOUNT) navController.popBackStack()
         else model.prevStep()
+    }
+
+    model.state.login?.let {
+        mainModel.setLogin(it)
     }
 
     Scaffold(
@@ -49,9 +51,10 @@ fun RegisterScreen(
             )
             RegisterStep.DATA -> DataRegisterStep(
                 onNext = model::nextStep,
+                model = model
             )
             RegisterStep.VERIFY -> VerifyRegisterStep(
-                onNext = { navController.navigate(PublicRouterDir.LOGIN.route) },
+                onNext = { coroutineScope.launch { model.submit() } },
             )
         }
     }

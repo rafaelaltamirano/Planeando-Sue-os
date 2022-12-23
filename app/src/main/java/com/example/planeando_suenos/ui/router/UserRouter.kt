@@ -10,12 +10,12 @@ import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir.*
 import com.example.planeando_suenos.ui.screens.home.HomeScreen
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
-import com.example.planeando_suenos.ui.screens.step1.DreamsAndAspirationsScreen
-import com.example.planeando_suenos.ui.screens.step1.DreamsAndAspirationsViewModel
-import com.example.planeando_suenos.ui.screens.step2.ApproximateIncomesScreen
-import com.example.planeando_suenos.ui.screens.step2.ApproximateIncomesViewModel
-import com.example.planeando_suenos.ui.screens.step3.YourExpensesIncomeViewModel
-import com.example.planeando_suenos.ui.screens.step3.YourExpensesScreen
+import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsScreen
+import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
+import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesScreen
+import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
+import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
+import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesScreen
 
 
 @Composable
@@ -33,7 +33,7 @@ fun UserRouter(navController: NavHostController, mainModel: MainViewModel = view
             DreamsAndAspirationsScreen(dreamsAndAspirationsViewModel, mainModel, homeViewModel, navController)
         }
         composable(STEP_2.route) {
-            ApproximateIncomesScreen(approximateIncomesViewModel, mainModel, navController)
+            ApproximateIncomesScreen(approximateIncomesViewModel, mainModel, homeViewModel,navController)
         }
         composable(STEP_3.route) {
             YourExpensesScreen(yourExpensesIncomeViewModel, mainModel, navController)
