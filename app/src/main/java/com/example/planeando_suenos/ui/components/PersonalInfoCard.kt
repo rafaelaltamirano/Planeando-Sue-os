@@ -1,10 +1,7 @@
 package com.example.planeando_suenos.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -14,17 +11,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 
 @Composable
 fun PersonalInfoCard(
     title: String,
     subtitle: String,
-    amount: String? = null
+    amount: String? = null,
+    subtitle2: String? = null,
+    amount2: String? = null,
+    subtitle3: String? = null,
+    amount3: String? = null,
+    subtitle4: String? = null,
+    amount4: String? = null,
 ) {
     Card(
         shape = RoundedCornerShape(10),
@@ -36,7 +41,7 @@ fun PersonalInfoCard(
     ) {
         Column() {
             Text(
-                modifier = Modifier.padding(start = 14.dp, top = 14.dp),
+                modifier = Modifier.padding(start = 14.dp, top = 14.dp,bottom = 6.dp),
                 style = MaterialTheme.typography.caption,
                 text = title,
                 fontSize = 14.sp,
@@ -45,7 +50,7 @@ fun PersonalInfoCard(
            Row(verticalAlignment = Alignment.CenterVertically) {
                Text(
                    color = TextColorUncheckedItemDreamGrid,
-                   modifier = Modifier.padding(14.dp),
+                   modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp),
                    style = MaterialTheme.typography.caption,
                    text = subtitle,
                    fontSize = 14.sp,
@@ -61,6 +66,70 @@ fun PersonalInfoCard(
                    )
                }
            }
+            subtitle2?.let {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        color = TextColorUncheckedItemDreamGrid,
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.caption,
+                        text = subtitle2,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W400,
+                    )
+                    amount2?.let {
+                        Text(
+                            color = TextColorUncheckedItemDreamGrid,
+                            style = MaterialTheme.typography.caption,
+                            text = "\$ $amount2",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W700,
+                        )
+                    }
+                }
+            }
+            subtitle3?.let {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        color = TextColorUncheckedItemDreamGrid,
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.caption,
+                        text = subtitle3,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W400,
+                    )
+                    amount3?.let {
+                        Text(
+                            color = TextColorUncheckedItemDreamGrid,
+                            style = MaterialTheme.typography.caption,
+                            text = "\$ $amount3",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W700,
+                        )
+                    }
+                }
+            }
+            subtitle4?.let {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        color = TextColorUncheckedItemDreamGrid,
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.caption,
+                        text = subtitle4,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W400,
+                    )
+                    amount4?.let {
+                        Text(
+                            color = TextColorUncheckedItemDreamGrid,
+                            style = MaterialTheme.typography.caption,
+                            text = "\$ $amount4",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W700,
+                        )
+                    }
+                }
+                Spacer(Modifier.height(dimensionResource(R.dimen.gap1)))
+            }
         }
     }
 }

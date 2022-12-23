@@ -32,18 +32,19 @@ fun StepsProgressBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(White),
         title = {
 
-                Row(
-                    modifier = modifier.fillMaxWidth().padding(40.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    for (step in 0..numberOfSteps) {
-                        Step(
-                            isComplete = step < currentStep,
-                            isCurrent = step == currentStep,
-                        )
-                    }
+            Row(
+                modifier = modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally)
+            ) {
+                for (step in 0..numberOfSteps) {
+                    Step(
+                        isComplete = step < currentStep,
+                        isCurrent = step == currentStep,
+                    )
                 }
+            }
         },
         navigationIcon = {
             IconButton(onClick = onBackPress) {
@@ -64,19 +65,19 @@ fun Step(
     isComplete: Boolean,
 ) {
 
-        if (isComplete || isCurrent) {
-            Divider(
-                modifier = Modifier.width(40.dp),
-                color = completeColor,
-                thickness = 3.dp
-            )
-        } else {
-            Divider(
-                modifier = Modifier.width(40.dp),
-                color = defaultColor,
-                thickness = 3.dp
-            )
-        }
+    if (isComplete || isCurrent) {
+        Divider(
+            modifier = Modifier.width(40.dp),
+            color = completeColor,
+            thickness = 3.dp
+        )
+    } else {
+        Divider(
+            modifier = Modifier.width(40.dp),
+            color = defaultColor,
+            thickness = 3.dp
+        )
+    }
 
 }
 

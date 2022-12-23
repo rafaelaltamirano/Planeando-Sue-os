@@ -12,7 +12,7 @@ enum class Step2Step(val step: Int) {
         fun getByStep(step: Int) = values().first { it.step == step }
     }
 
-    fun next() = if (step == 2) CONFIRMATION else getByStep(step + 1)
+    fun next() = if (step == 3) CONFIRMATION else getByStep(step + 1)
     fun prev() = if (step == 0) INCOME_DATA else getByStep(step - 1)
 }
 

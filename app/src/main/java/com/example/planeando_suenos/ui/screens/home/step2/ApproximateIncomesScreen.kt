@@ -40,7 +40,6 @@ fun ApproximateIncomesScreen(
     Scaffold(
         topBar = {
             if (state.step != Step2Step.CONFIRMATION) StepsProgressBar(
-                modifier = Modifier.padding(horizontal = 42.dp, vertical = 16.dp),
                 numberOfSteps = Step2Step.values().size - 2,
                 currentStep = state.step.step,
                 onBackPress = {

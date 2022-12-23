@@ -1,10 +1,10 @@
-package com.example.planeando_suenos.ui.screens.home.step3.expensesResume
+package com.example.planeando_suenos.ui.screens.home.step3.creditAmount
 
 import androidx.compose.runtime.Composable
 import com.example.planeando_suenos.ui.components.SubmitButton
 
 @Composable
-fun ExpensesResumeStep(
+fun CreditAmountStep(
     onNext: () -> Unit
 ) {
     SubmitButton(

@@ -39,7 +39,6 @@ fun DreamsAndAspirationsScreen(
     Scaffold(
         topBar = {
            StepsProgressBar(
-            modifier = Modifier.padding(horizontal = 82.dp, vertical = 16.dp),
             numberOfSteps = Step1Step.values().size - 1,
             currentStep = state.step.step,
             onBackPress = {
