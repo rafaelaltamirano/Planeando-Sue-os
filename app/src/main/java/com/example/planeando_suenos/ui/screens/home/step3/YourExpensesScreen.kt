@@ -52,12 +52,14 @@ fun YourExpensesScreen(
     ) {
         when (state.step) {
             Step3Step.FREQUENCY_EXPENSES -> FrequencyExpensesStep(
+                model = model,
                 onNext = model::nextStep,
             )
             Step3Step.CREDIT_QUESTION -> CreditQuestionStep(
                 onNext = model::nextStep,
             )
             Step3Step.CREDIT_AMOUNT -> CreditAmountStep(
+                model = model,
                 onNext = model::nextStep,
             )
             Step3Step.CONFIRMATION -> ExpensesConfirmationStep(

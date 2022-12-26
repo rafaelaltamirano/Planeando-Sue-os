@@ -18,11 +18,14 @@ import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.PersonalInfoCard
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step1.dreamPlan.TextDate
+import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
 
 @Composable
 fun CreditAmountStep(
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    model: YourExpensesIncomeViewModel,
 ) {
+    val state = model.state
     Column(
         Modifier
             .padding(horizontal = dimensionResource(R.dimen.gap4))
@@ -69,9 +72,9 @@ fun CreditAmountStep(
             text = "¿Cuánto es el valor del crédito?"
         )
         CustomTextField(
-            value = "Ingresa un monto aproximado",
+            value = state.creditAmount,
             placeholder = R.string.enter_amount,
-            onValueChanged = {},
+            onValueChanged = model::setCreditAmount,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
