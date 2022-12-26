@@ -36,7 +36,7 @@ fun UserRouter(navController: NavHostController, mainModel: MainViewModel = view
             ApproximateIncomesScreen(approximateIncomesViewModel, mainModel, homeViewModel,navController)
         }
         composable(STEP_3.route) {
-            YourExpensesScreen(yourExpensesIncomeViewModel, mainModel, navController)
+            YourExpensesScreen(yourExpensesIncomeViewModel, mainModel, homeViewModel,navController)
         }
     }
 }

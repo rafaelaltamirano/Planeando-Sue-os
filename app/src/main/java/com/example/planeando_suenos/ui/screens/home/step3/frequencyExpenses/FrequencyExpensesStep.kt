@@ -26,7 +26,7 @@ fun FrequencyExpensesStep(
 ) {
     Column(
         Modifier
-            .padding(dimensionResource(R.dimen.gap4))
+            .padding(horizontal = dimensionResource(R.dimen.gap4),)
             .fillMaxHeight()
             .verticalScroll(rememberScrollState()),
     ) {

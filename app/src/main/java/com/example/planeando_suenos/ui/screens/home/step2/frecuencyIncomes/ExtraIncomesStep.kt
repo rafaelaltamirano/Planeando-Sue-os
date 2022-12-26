@@ -1,6 +1,8 @@
 package com.example.planeando_suenos.ui.screens.home.step2.frecuencyIncomes
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,9 +28,12 @@ fun ExtraIncomesStep(
 
     val state = model.state
 
-
-    Column(Modifier.padding(dimensionResource(R.dimen.gap4)).fillMaxHeight()) {
-
+    Column(
+        Modifier
+            .padding(dimensionResource(R.dimen.gap4))
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState()),
+    ) {
         Text(
             modifier = Modifier.padding(vertical = 14.dp),
             text = "Tus ingresos aproximados",

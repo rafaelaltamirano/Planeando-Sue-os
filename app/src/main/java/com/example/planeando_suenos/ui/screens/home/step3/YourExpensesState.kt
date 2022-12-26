@@ -19,5 +19,6 @@ enum class Step3Step(val step: Int) {
 
 data class YourExpensesState(
     val loading: Boolean = false,
+    val checked: Boolean = false,
     val step: Step3Step = Step3Step.FREQUENCY_EXPENSES
 )

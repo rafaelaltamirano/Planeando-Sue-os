@@ -18,12 +18,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.theme.*
@@ -192,7 +194,8 @@ fun TextDate() {
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = date, style = MaterialTheme.typography.caption)
+        Text(text = date, style = MaterialTheme.typography.caption, modifier = Modifier.padding(vertical = dimensionResource(
+            R.dimen.gap4)))
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             imageVector = Icons.Outlined.CalendarToday,
