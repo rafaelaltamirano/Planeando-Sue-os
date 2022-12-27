@@ -27,7 +27,7 @@ fun UserRouter(navController: NavHostController, mainModel: MainViewModel = view
 
     NavHost(navController = navController, startDestination = HOME.route) {
         composable(HOME.route) {
-            HomeScreen(homeViewModel, navController)
+            HomeScreen(homeViewModel, navController,mainModel)
         }
         composable(STEP_1.route) {
             DreamsAndAspirationsScreen(dreamsAndAspirationsViewModel, mainModel, homeViewModel, navController)

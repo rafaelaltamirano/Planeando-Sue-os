@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,6 +61,7 @@ fun FrequencyExpensesStep(
         CustomTextField(
             value = state.homeExpense,
             placeholder = R.string.enter_amount,
+            keyboardType = KeyboardType.Number,
             onValueChanged = model::setHomeExpense,
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,6 +77,7 @@ fun FrequencyExpensesStep(
         CustomTextField(
             value = state.transportExpense,
             placeholder = R.string.enter_amount,
+            keyboardType = KeyboardType.Number,
             onValueChanged =  model::setTransportExpense,
             modifier = Modifier
                 .fillMaxWidth()
@@ -91,6 +94,7 @@ fun FrequencyExpensesStep(
             value = state.educationInversion,
             placeholder = R.string.enter_amount,
             onValueChanged = model::setEducationInversion,
+            keyboardType = KeyboardType.Number,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -105,6 +109,7 @@ fun FrequencyExpensesStep(
         CustomTextField(
             value = state.entertainmentExpense,
             placeholder = R.string.enter_amount,
+            keyboardType = KeyboardType.Number,
             onValueChanged = model::setEntertainmentExpense,
             modifier = Modifier
                 .fillMaxWidth()

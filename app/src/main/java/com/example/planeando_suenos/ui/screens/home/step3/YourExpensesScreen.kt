@@ -1,12 +1,10 @@
 package com.example.planeando_suenos.ui.screens.home.step3
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -14,9 +12,8 @@ import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
 import com.example.planeando_suenos.ui.screens.home.step2.Step2Step
 import com.example.planeando_suenos.ui.screens.home.step3.creditAmount.CreditAmountStep
-import com.example.planeando_suenos.ui.screens.home.step3.expensesConfirmation.ExpensesConfirmationStep
-import com.example.planeando_suenos.ui.screens.home.step3.frequencyExpenses.FrequencyExpensesStep
 import com.example.planeando_suenos.ui.screens.home.step3.creditQuestion.CreditQuestionStep
+import com.example.planeando_suenos.ui.screens.home.step3.frequencyExpenses.FrequencyExpensesStep
 
 @Composable
 fun YourExpensesScreen(
@@ -39,7 +36,7 @@ fun YourExpensesScreen(
 
     Scaffold(
         topBar = {
-            if (state.step != Step3Step.CONFIRMATION) StepsProgressBar(
+            if (state.step != Step3Step.CREDIT_AMOUNT) StepsProgressBar(
                 numberOfSteps = Step2Step.values().size - 2,
                 currentStep = state.step.step,
                 onBackPress = {
@@ -60,12 +57,12 @@ fun YourExpensesScreen(
             )
             Step3Step.CREDIT_AMOUNT -> CreditAmountStep(
                 model = model,
-                onNext = model::nextStep,
-            )
-            Step3Step.CONFIRMATION -> ExpensesConfirmationStep(
                 onNext = {
                     model.setChecked(true)
-                    navController.navigate(UserRouterDir.HOME.route) },
+                    navController.navigate(UserRouterDir.HOME.route){
+                        popUpTo(navController.graph.findStartDestination().id){
+                            inclusive = true  }}
+                },
             )
         }
     }

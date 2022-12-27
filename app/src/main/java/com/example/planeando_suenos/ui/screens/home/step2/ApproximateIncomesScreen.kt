@@ -1,18 +1,15 @@
 package com.example.planeando_suenos.ui.screens.home.step2
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
-import com.example.planeando_suenos.ui.screens.home.step2.confirmation.ConfirmationStep
 import com.example.planeando_suenos.ui.screens.home.step2.extraIncomes.FrequencyIncomesStep
 import com.example.planeando_suenos.ui.screens.home.step2.frecuencyIncomes.ExtraIncomesStep
 import com.example.planeando_suenos.ui.screens.home.step2.incomesData.IncomeDataStep
@@ -39,7 +36,7 @@ fun ApproximateIncomesScreen(
 
     Scaffold(
         topBar = {
-            if (state.step != Step2Step.CONFIRMATION) StepsProgressBar(
+            if (state.step != Step2Step.EXTRA_INCOMES) StepsProgressBar(
                 numberOfSteps = Step2Step.values().size - 2,
                 currentStep = state.step.step,
                 onBackPress = {
@@ -61,14 +58,14 @@ fun ApproximateIncomesScreen(
                 model = model
             )
             Step2Step.EXTRA_INCOMES -> ExtraIncomesStep(
-                onNext = model::nextStep,
-                model = model
-            )
-            Step2Step.CONFIRMATION -> ConfirmationStep(
                 onNext = {
                     model.setChecked(true)
-                    navController.navigate(UserRouterDir.HOME.route)
+                    navController.navigate(UserRouterDir.HOME.route){
+                        popUpTo(navController.graph.findStartDestination().id){
+                            inclusive = true  }}
                 },
+
+                model = model
             )
         }
     }

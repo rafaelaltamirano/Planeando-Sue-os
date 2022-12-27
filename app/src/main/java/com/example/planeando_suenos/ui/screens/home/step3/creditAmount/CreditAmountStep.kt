@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,7 +18,7 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.PersonalInfoCard
 import com.example.planeando_suenos.ui.components.SubmitButton
-import com.example.planeando_suenos.ui.screens.home.step1.dreamPlan.TextDate
+import com.example.planeando_suenos.ui.components.TextDate
 import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
 
 @Composable
@@ -73,6 +74,7 @@ fun CreditAmountStep(
         )
         CustomTextField(
             value = state.creditAmount,
+            keyboardType = KeyboardType.Number,
             placeholder = R.string.enter_amount,
             onValueChanged = model::setCreditAmount,
             modifier = Modifier

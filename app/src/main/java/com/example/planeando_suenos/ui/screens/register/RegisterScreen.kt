@@ -32,6 +32,10 @@ fun RegisterScreen(
         mainModel.setLogin(it)
     }
 
+    if(model.state.name.isNotEmpty()){
+        mainModel.setName(model.state.name)
+    }
+
     Scaffold(
         topBar = {
             if (state.step != RegisterStep.VERIFY) {

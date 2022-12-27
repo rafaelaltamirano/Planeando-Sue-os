@@ -13,6 +13,7 @@ val Blue = Color(0xFF0071BC)
 
 val GrayBusiness = Color(0xFFCECFE1)
 val GreenBusiness = Color(0xFF17A54D)
+val Accent = Color(0xFF8710EC)
 val TextBusiness = Color(0xFF292A35)
 val CardUnchecked = Color(0xFFEAEAEA)
 val BackgroundCard = Color(0xFFEAEAEA)

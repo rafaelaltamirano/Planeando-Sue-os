@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,6 +73,7 @@ fun ExtraIncomesStep(
             value = "Ingresa un monto aproximado",
             placeholder = R.string.enter_amount,
             onValueChanged = {},
+            keyboardType = KeyboardType.Number,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))

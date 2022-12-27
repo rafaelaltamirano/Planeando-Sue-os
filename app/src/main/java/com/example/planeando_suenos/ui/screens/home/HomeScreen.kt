@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,21 +16,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.planeando_suenos.ui.components.AmountCard
 import com.example.planeando_suenos.ui.components.CardChecked
+import com.example.planeando_suenos.ui.components.CardType
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.PublicRouterDir
 import com.example.planeando_suenos.ui.router.UserRouterDir
+import com.example.planeando_suenos.ui.screens.home.step2.Step2Step
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel, navController: NavHostController) {
+fun HomeScreen(
+    homeViewModel: HomeViewModel,
+    navController: NavHostController,
+    mainModel: MainViewModel
+) {
+
+   val state = mainModel.state
+
+
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        TopBarWithComponent()
+        TopBarWithComponent(state.name)
 
         Column(
             modifier = Modifier
@@ -105,11 +118,12 @@ fun HomeScreen(homeViewModel: HomeViewModel, navController: NavHostController) {
                 color = Color.Black
             )
         }
+
     }
 }
 
 @Composable
-fun TopBarWithComponent() {
+fun TopBarWithComponent(name: String) {
     Box {
 
         Box(
@@ -136,9 +150,10 @@ fun TopBarWithComponent() {
                     .fillMaxWidth(), shape = RoundedCornerShape(6.dp),
                 elevation = 4.dp
             ) {
+
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = "¡Hola Julian!",
+                    text = "¡Hola $name!",
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     fontSize = 17.sp
@@ -152,5 +167,5 @@ fun TopBarWithComponent() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    TopBarWithComponent()
+    TopBarWithComponent("name")
 }

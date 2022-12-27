@@ -5,15 +5,14 @@ enum class Step3Step(val step: Int) {
 
     FREQUENCY_EXPENSES(0),
     CREDIT_QUESTION(1),
-    CREDIT_AMOUNT(2),
-    CONFIRMATION(3);
+    CREDIT_AMOUNT(2);
 
 
     companion object {
         fun getByStep(step: Int) = values().first { it.step == step }
     }
 
-    fun next() = if (step==3) CONFIRMATION else getByStep(step + 1)
+    fun next() = if (step==2) CREDIT_AMOUNT else getByStep(step + 1)
     fun prev() = if (step==0) FREQUENCY_EXPENSES else getByStep(step - 1)
 }
 
