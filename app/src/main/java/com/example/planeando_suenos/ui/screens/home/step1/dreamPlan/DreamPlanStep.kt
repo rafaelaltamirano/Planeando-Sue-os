@@ -44,8 +44,10 @@ fun DreamPlanStep(
                 lineHeight = 38.sp
             )
         )
-        itemDreams.forEach {
-            AmountDream(it)
+        itemDreams.forEachIndexed { index, string ->
+            if (index == itemDreams.lastIndex) {
+                AmountDream(string){}
+            } else AmountDream(string)
         }
         Spacer(modifier = Modifier.height(32.dp))
         Text(
@@ -121,7 +123,7 @@ fun DreamItem(dream: String) {
 }
 
 @Composable
-fun AmountDream(dream: String) {
+fun AmountDream(dream: String, onDone: (() -> Unit)? = null) {
     var value by rememberSaveable {
         mutableStateOf("")
     }
@@ -139,7 +141,8 @@ fun AmountDream(dream: String) {
             onValueChanged = { value = it },
             placeholder = com.example.planeando_suenos.R.string.put_amount,
             keyboardType = KeyboardType.Number,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            onDone = onDone
         )
     }
 }
