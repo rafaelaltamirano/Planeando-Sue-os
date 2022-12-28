@@ -1,6 +1,8 @@
 package com.example.planeando_suenos.ui.screens.register.verify
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +25,11 @@ import com.example.planeando_suenos.ui.theme.TextBusiness
 fun VerifyRegisterStep(
     onNext: () -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+    ) {
         TopBarWithCheck()
         Column(
             modifier = Modifier

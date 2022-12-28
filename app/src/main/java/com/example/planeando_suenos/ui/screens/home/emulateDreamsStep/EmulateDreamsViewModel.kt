@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.ui.screens.home.step2
+package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,16 +7,15 @@ import com.example.planeando_suenos.ui.ViewModelWithStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-
 @HiltViewModel
-class ApproximateIncomesViewModel @Inject constructor(
+class EmulateDreamsViewModel @Inject constructor(
 
 ) : ViewModelWithStatus() {
 
-    var state by mutableStateOf(ApproximateIncomeState())
+    var state by mutableStateOf(EmulateDreamsState())
         private set
 
-    fun setStep(step: Step2Step) {
+    fun setStep(step: EmulateDreamsStep) {
         state = state.copy(step = step)
     }
 
@@ -27,19 +26,8 @@ class ApproximateIncomesViewModel @Inject constructor(
     fun prevStep() {
         setStep(state.step.prev())
     }
-    fun setFrequency(frequency: String) {
-        state = state.copy(frequency = frequency)
-    }
+
     fun setChecked(check: Boolean) {
         state = state.copy(checked = check)
     }
-
-    fun setSalaryAmount(salaryAmount: String) {
-        state = state.copy(salaryAmount = salaryAmount)
-    }
-
-    fun setAdditionalIncomes(additionalIncomes: String) {
-        state = state.copy(additionalIncomes = additionalIncomes)
-    }
-
 }

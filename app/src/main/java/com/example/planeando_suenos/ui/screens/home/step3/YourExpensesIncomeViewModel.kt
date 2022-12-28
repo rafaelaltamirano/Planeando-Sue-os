@@ -27,4 +27,33 @@ class YourExpensesIncomeViewModel @Inject constructor(
     fun prevStep() {
         setStep(state.step.prev())
     }
+
+    fun setChecked(checked: Boolean) {
+        state = state.copy(checked = checked)
+    }
+
+    fun setCreditAmount(creditAmount: String) {
+        state = state.copy(creditAmount = creditAmount)
+    }
+
+    fun setCreditEndDate(creditEndDate: String) {
+        state = state.copy(creditEndDate = creditEndDate)
+    }
+
+
+    fun setHomeExpense(homeExpense: String) {
+        state = state.copy(homeExpense = homeExpense)
+    }
+
+    fun setTransportExpense(transportExpense: String) {
+        state = state.copy(transportExpense = transportExpense)
+    }
+
+    fun setEducationInversion(educationInversion: String) {
+        state = state.copy(educationInversion = educationInversion)
+    }
+
+    fun setEntertainmentExpense(entertainmentExpense: String) {
+        state = state.copy(entertainmentExpense = entertainmentExpense)
+    }
 }

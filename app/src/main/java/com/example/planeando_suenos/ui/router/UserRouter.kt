@@ -10,6 +10,8 @@ import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir.*
 import com.example.planeando_suenos.ui.screens.home.HomeScreen
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsScreen
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsScreen
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesScreen
@@ -24,10 +26,12 @@ fun UserRouter(navController: NavHostController, mainModel: MainViewModel = view
     val dreamsAndAspirationsViewModel = hiltViewModel<DreamsAndAspirationsViewModel>()
     val approximateIncomesViewModel = hiltViewModel<ApproximateIncomesViewModel>()
     val yourExpensesIncomeViewModel = hiltViewModel<YourExpensesIncomeViewModel>()
+    val emulateDreamsViewModel = hiltViewModel<EmulateDreamsViewModel>()
+
 
     NavHost(navController = navController, startDestination = HOME.route) {
         composable(HOME.route) {
-            HomeScreen(homeViewModel, navController)
+            HomeScreen(homeViewModel, navController,mainModel)
         }
         composable(STEP_1.route) {
             DreamsAndAspirationsScreen(dreamsAndAspirationsViewModel, mainModel, homeViewModel, navController)
@@ -36,7 +40,10 @@ fun UserRouter(navController: NavHostController, mainModel: MainViewModel = view
             ApproximateIncomesScreen(approximateIncomesViewModel, mainModel, homeViewModel,navController)
         }
         composable(STEP_3.route) {
-            YourExpensesScreen(yourExpensesIncomeViewModel, mainModel, navController)
+            YourExpensesScreen(yourExpensesIncomeViewModel, mainModel, homeViewModel,navController)
+        }
+        composable(EMULATE_DREAM.route) {
+            EmulateDreamsScreen(emulateDreamsViewModel, mainModel, homeViewModel,navController)
         }
     }
 }

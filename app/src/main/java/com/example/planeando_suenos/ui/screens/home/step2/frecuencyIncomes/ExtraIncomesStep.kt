@@ -1,6 +1,8 @@
 package com.example.planeando_suenos.ui.screens.home.step2.frecuencyIncomes
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -9,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,15 +23,18 @@ import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesView
 
 @Composable
 fun ExtraIncomesStep(
-    onNext: () -> Unit,
+    onSubmit: () -> Unit,
     model: ApproximateIncomesViewModel
 ) {
 
     val state = model.state
 
-
-    Column(Modifier.padding(dimensionResource(R.dimen.gap4)).fillMaxHeight()) {
-
+    Column(
+        Modifier
+            .padding(dimensionResource(R.dimen.gap4))
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState()),
+    ) {
         Text(
             modifier = Modifier.padding(vertical = 14.dp),
             text = "Tus ingresos aproximados",
@@ -64,9 +70,11 @@ fun ExtraIncomesStep(
             text = "Ingresos adicionales"
         )
         CustomTextField(
-            value = "Ingresa un monto aproximado",
-            placeholder = R.string.enter_amount,
-            onValueChanged = {},
+            value = state.additionalIncomes,
+            placeholder = R.string.enter_approximate_amount,
+            onValueChanged = model::setAdditionalIncomes,
+            onDone = true,
+            keyboardType = KeyboardType.Number,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -75,7 +83,7 @@ fun ExtraIncomesStep(
         Row(verticalAlignment = Alignment.Bottom) {
             SubmitButton(
                 text = "calcular ingresos",
-                onClick = { onNext() }
+                onClick = onSubmit
             )
         }
     }
