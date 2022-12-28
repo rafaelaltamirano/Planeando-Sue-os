@@ -65,7 +65,6 @@ fun DreamsAndAspirationsScreen(
                             inclusive = true  }}
                 }
             )
-
         }
     }
 }

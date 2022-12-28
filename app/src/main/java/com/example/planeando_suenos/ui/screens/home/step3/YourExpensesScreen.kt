@@ -36,8 +36,8 @@ fun YourExpensesScreen(
 
     Scaffold(
         topBar = {
-            if (state.step != Step3Step.CREDIT_AMOUNT) StepsProgressBar(
-                numberOfSteps = Step2Step.values().size - 2,
+          StepsProgressBar(
+                numberOfSteps = Step3Step.values().size - 1,
                 currentStep = state.step.step,
                 onBackPress = {
                     if (state.step == Step3Step.FREQUENCY_EXPENSES) navController.popBackStack()

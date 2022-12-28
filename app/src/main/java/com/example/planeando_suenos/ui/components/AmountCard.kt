@@ -37,7 +37,7 @@ fun AmountCard(
     val backgroundColor = if (onSelect) Accent else Color.Transparent
     val simbol = when (type) {
         CardType.INCOMES -> ""
-        CardType.EXPENSES -> "-"
+        CardType.EXPENSES -> "_"
         CardType.CAPACITY_DREAM -> "="
     }
 
@@ -56,7 +56,7 @@ fun AmountCard(
 
         ) {
         Row(
-            modifier = Modifier.padding(horizontal = 22.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 22.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -71,7 +71,7 @@ fun AmountCard(
                     text = type.value,
                     color = if (onSelect) BackgroundCard else TextColorUncheckedItemDreamGrid,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.W700,
+                    fontWeight = FontWeight.W400,
                 )
                 Text(
                     modifier = Modifier.padding(top = 2.dp),

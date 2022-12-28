@@ -110,6 +110,7 @@ fun FrequencyExpensesStep(
             value = state.entertainmentExpense,
             placeholder = R.string.enter_amount,
             keyboardType = KeyboardType.Number,
+            onDone = onNext,
             onValueChanged = model::setEntertainmentExpense,
             modifier = Modifier
                 .fillMaxWidth()

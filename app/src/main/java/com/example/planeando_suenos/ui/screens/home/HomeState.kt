@@ -6,4 +6,5 @@ data class HomeState(
     val checkedStep1: Boolean = false,
     val checkedStep2: Boolean = false,
     val checkedStep3: Boolean = false,
+    val emulateDreamStep: Boolean = false,
 )

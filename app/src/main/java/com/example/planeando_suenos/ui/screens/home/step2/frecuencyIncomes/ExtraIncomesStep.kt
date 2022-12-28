@@ -23,7 +23,7 @@ import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesView
 
 @Composable
 fun ExtraIncomesStep(
-    onNext: () -> Unit,
+    onSubmit: () -> Unit,
     model: ApproximateIncomesViewModel
 ) {
 
@@ -70,9 +70,10 @@ fun ExtraIncomesStep(
             text = "Ingresos adicionales"
         )
         CustomTextField(
-            value = "Ingresa un monto aproximado",
-            placeholder = R.string.enter_amount,
-            onValueChanged = {},
+            value = state.additionalIncomes,
+            placeholder = R.string.enter_approximate_amount,
+            onValueChanged = model::setAdditionalIncomes,
+            onDone = onSubmit,
             keyboardType = KeyboardType.Number,
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,7 +83,7 @@ fun ExtraIncomesStep(
         Row(verticalAlignment = Alignment.Bottom) {
             SubmitButton(
                 text = "calcular ingresos",
-                onClick = { onNext() }
+                onClick = onSubmit
             )
         }
     }

@@ -36,7 +36,7 @@ fun ApproximateIncomesScreen(
 
     Scaffold(
         topBar = {
-            if (state.step != Step2Step.EXTRA_INCOMES) StepsProgressBar(
+           StepsProgressBar(
                 numberOfSteps = Step2Step.values().size - 2,
                 currentStep = state.step.step,
                 onBackPress = {
@@ -58,13 +58,12 @@ fun ApproximateIncomesScreen(
                 model = model
             )
             Step2Step.EXTRA_INCOMES -> ExtraIncomesStep(
-                onNext = {
+                onSubmit = {
                     model.setChecked(true)
                     navController.navigate(UserRouterDir.HOME.route){
                         popUpTo(navController.graph.findStartDestination().id){
                             inclusive = true  }}
                 },
-
                 model = model
             )
         }

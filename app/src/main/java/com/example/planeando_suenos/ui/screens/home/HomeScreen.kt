@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -19,6 +20,7 @@ import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.AmountCard
 import com.example.planeando_suenos.ui.components.CardChecked
 import com.example.planeando_suenos.ui.components.CardType
+import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.PublicRouterDir
 import com.example.planeando_suenos.ui.router.UserRouterDir
@@ -118,8 +120,16 @@ fun HomeScreen(
                 color = Color.Black
             )
         }
+        Row(verticalAlignment = Alignment.Bottom) {
+            SubmitButton(
+                text = "emular sueños",
+                onClick = {   navController.navigate(UserRouterDir.EMULATE_DREAM.route) }
+            )
+        }
 
     }
+
+
 }
 
 @Composable
