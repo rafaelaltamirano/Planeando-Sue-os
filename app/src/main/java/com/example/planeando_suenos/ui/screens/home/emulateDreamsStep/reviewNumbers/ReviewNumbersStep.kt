@@ -91,6 +91,7 @@ fun ReviewNumbersStep(
                         .clickable(onClick = { }),
                 )
             }
+            Spacer(Modifier.height(12.dp))
         }
 
     }

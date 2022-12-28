@@ -31,8 +31,7 @@ fun AmountCard(
     amount: String? = null,
     onClick: () -> Unit,
 ) {
-    var onSelect by remember { mutableStateOf(false) }
-    val backgroundColor = if (onSelect) Accent else Color.Transparent
+    val backgroundColor = if ( type == CardType.CAPACITY_DREAM ) Accent else Color.Transparent
     val simbol = when (type) {
         CardType.INCOMES -> ""
         CardType.EXPENSES -> "_"
@@ -44,9 +43,7 @@ fun AmountCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .clip(RoundedCornerShape(10))
             .clickable {
-                onSelect = true
                 onClick
             },
         elevation = 2.dp,
@@ -66,7 +63,7 @@ fun AmountCard(
             ) {
                 ResizeText(
                     text = type.value,
-                    color = if (onSelect) BackgroundCard else TextColorUncheckedItemDreamGrid,
+                    color = if ( type == CardType.CAPACITY_DREAM ) BackgroundCard else TextColorUncheckedItemDreamGrid,
                     style =  TextStyle(
                         fontFamily = AvenirNext ,
                         fontWeight = FontWeight.W400,
@@ -77,7 +74,7 @@ fun AmountCard(
                 Text(
                     modifier = Modifier.padding(top = 2.dp),
                     style = MaterialTheme.typography.caption,
-                    text = if (!onSelect) "Editar" else "",
+                    text = if ( type != CardType.CAPACITY_DREAM )  "Editar" else "",
                     color = Accent,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W700,
@@ -91,7 +88,7 @@ fun AmountCard(
                 Text(
                     modifier = Modifier
                         .padding(end = 8.dp),
-                    color = if (onSelect) BackgroundCard else GreenBusiness,
+                    color = if ( type == CardType.CAPACITY_DREAM )  BackgroundCard else GreenBusiness,
                     style = MaterialTheme.typography.caption,
                     text = simbol,
                     fontSize = 18.sp,
@@ -103,7 +100,7 @@ fun AmountCard(
                         verticalAlignment = Alignment.Bottom
                     ) {
                         Text(
-                            color = if (onSelect) BackgroundCard else GreenBusiness,
+                            color = if ( type == CardType.CAPACITY_DREAM )  BackgroundCard else GreenBusiness,
                             style = MaterialTheme.typography.caption,
                             text = "$",
                             fontSize = 18.sp,
@@ -115,7 +112,7 @@ fun AmountCard(
                 amount?.let {
                     ResizeText(
                         text = "$amount",
-                        color = if (onSelect) BackgroundCard else GreenBusiness,
+                        color = if ( type == CardType.CAPACITY_DREAM )  BackgroundCard else GreenBusiness,
                         style =  TextStyle(
                             fontFamily = AvenirNext ,
                             fontWeight = FontWeight.W700,
