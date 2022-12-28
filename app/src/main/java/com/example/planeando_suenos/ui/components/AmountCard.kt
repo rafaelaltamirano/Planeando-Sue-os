@@ -11,15 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.planeando_suenos.ui.theme.Accent
-import com.example.planeando_suenos.ui.theme.BackgroundCard
-import com.example.planeando_suenos.ui.theme.GreenBusiness
-import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
+import com.example.planeando_suenos.ui.theme.*
 
 enum class CardType(val value: String) {
     INCOMES("Tus ingresos"),
@@ -62,7 +60,7 @@ fun AmountCard(
         ) {
             Column(
                 Modifier
-                    .weight(0.8f)
+                    .weight(0.7f)
                     .padding(start = 14.dp, top = 14.dp, bottom = 6.dp),
                 verticalArrangement = Arrangement.Center
             ) {
@@ -83,7 +81,7 @@ fun AmountCard(
                 )
             }
             Row(
-                modifier = Modifier.weight(1.2f),
+                modifier = Modifier.weight(1.3f),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -112,13 +110,23 @@ fun AmountCard(
                     Spacer(modifier = Modifier.weight(0.9f))
                 }
                 amount?.let {
-                    Text(
-                        color = if (onSelect) BackgroundCard else GreenBusiness,
-                        style = MaterialTheme.typography.caption,
+                    ResizeText(
                         text = "$amount",
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.W700,
-                    )
+                        color = if (onSelect) BackgroundCard else GreenBusiness,
+                        style =  TextStyle(
+                            fontFamily = AvenirNext ,
+                            fontWeight = FontWeight.W700,
+                            fontSize = 24.sp,
+                        ),
+                        modifier = Modifier)
+
+//                    Text(
+//                        color = if (onSelect) BackgroundCard else GreenBusiness,
+//                        style = MaterialTheme.typography.caption,
+//                        text = "$amount",
+//                        fontSize = 24.sp,
+//                        fontWeight = FontWeight.W700,
+//                    )
                 }
             }
         }

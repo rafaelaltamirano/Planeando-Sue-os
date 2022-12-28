@@ -4,7 +4,9 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -54,7 +56,7 @@ fun RegisterScreen(
                 model = model
             )
             RegisterStep.DATA -> DataRegisterStep(
-                onNext = model::nextStep,
+                onSubmit = model::nextStep,
                 model = model
             )
             RegisterStep.VERIFY -> VerifyRegisterStep(

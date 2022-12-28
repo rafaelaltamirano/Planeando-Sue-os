@@ -31,7 +31,9 @@ class RegisterViewModel @Inject constructor(
         state = state.copy(password = password)
         validatePassword(password)
     }
-
+    fun setRepeatPassword(repeatPassword: String) {
+        state = state.copy(repeatPassword = repeatPassword)
+    }
     fun setName(name: String) {
         state = state.copy(name = name)
     }

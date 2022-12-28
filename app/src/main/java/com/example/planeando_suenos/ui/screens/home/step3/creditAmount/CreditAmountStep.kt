@@ -74,6 +74,7 @@ fun CreditAmountStep(
         )
         CustomTextField(
             value = state.creditAmount,
+            onDone = onNext,
             keyboardType = KeyboardType.Number,
             placeholder = R.string.enter_amount,
             onValueChanged = model::setCreditAmount,
