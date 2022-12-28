@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -36,6 +38,7 @@ fun PrevBottomSheetDreamOptions() {
 @Composable
 fun BottomSheetContent() {
     val state = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded)
+    val coroutine = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
         sheetContent = {
@@ -50,7 +53,7 @@ fun BottomSheetContent() {
                     text = "¿Cómo quieres cumplir tus sueños?",
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 )
-                IconButton(onClick = { }) {
+                IconButton(onClick = { coroutine.launch { state.hide() } }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "Close",
