@@ -105,7 +105,7 @@ fun LoginScreen(
             CustomTextField(
                 value = model.state.password,
                 placeholder = R.string.password,
-                onDone = {},
+                onDone = true,
                 security = true,
                 leadingIcon = R.drawable.ic_lock,
                 onValueChanged = model::setPassword,

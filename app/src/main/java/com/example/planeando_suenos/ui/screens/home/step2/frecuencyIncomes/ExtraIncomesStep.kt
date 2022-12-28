@@ -73,7 +73,7 @@ fun ExtraIncomesStep(
             value = state.additionalIncomes,
             placeholder = R.string.enter_approximate_amount,
             onValueChanged = model::setAdditionalIncomes,
-            onDone = onSubmit,
+            onDone = true,
             keyboardType = KeyboardType.Number,
             modifier = Modifier
                 .fillMaxWidth()

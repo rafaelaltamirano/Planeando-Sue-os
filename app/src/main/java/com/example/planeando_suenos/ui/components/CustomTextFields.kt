@@ -39,7 +39,7 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     security: Boolean = false,
-    onDone: (() -> Unit)? = null,
+    onDone: Boolean = false,
     @StringRes placeholder: Int? = null,
     @DrawableRes leadingIcon: Int? = null,
 ) {
@@ -80,7 +80,7 @@ fun CustomTextField(
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = if (security) KeyboardType.Password else keyboardType,
-            imeAction = if (onDone == null) ImeAction.Next else ImeAction.Done
+            imeAction = if (!onDone) ImeAction.Next else ImeAction.Done
         ),
         keyboardActions = KeyboardActions(onDone = {
             keyboardController?.hide()

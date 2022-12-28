@@ -46,7 +46,7 @@ fun DreamPlanStep(
         )
         itemDreams.forEachIndexed { index, string ->
             if (index == itemDreams.lastIndex) {
-                AmountDream(string){}
+                AmountDream(string, true)
             } else AmountDream(string)
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -123,7 +123,7 @@ fun DreamItem(dream: String) {
 }
 
 @Composable
-fun AmountDream(dream: String, onDone: (() -> Unit)? = null) {
+fun AmountDream(dream: String, onDone: Boolean = false) {
     var value by rememberSaveable {
         mutableStateOf("")
     }

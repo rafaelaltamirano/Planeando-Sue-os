@@ -134,7 +134,7 @@ fun DataRegisterStep(
             value = model.state.cp,
             placeholder = R.string.address_example,
             onValueChanged = model::setCp,
-            onDone = onSubmit,
+            onDone = true,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()

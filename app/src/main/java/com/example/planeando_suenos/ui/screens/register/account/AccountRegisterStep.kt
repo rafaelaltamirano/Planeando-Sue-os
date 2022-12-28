@@ -82,7 +82,7 @@ fun AccountRegisterStep(
         )
         CustomTextField(
             value = model.state.repeatPassword,
-            onDone = onNext,
+            onDone = true,
             placeholder = R.string.password,
             security = true,
             leadingIcon =R.drawable.ic_lock,

@@ -115,9 +115,7 @@ fun IncomeDataStep(
             CustomTextField(
                 value = state.salaryAmount,
                 placeholder = placeholder,
-                onDone = {
-                    onNext()
-                },
+                onDone = true,
                 onValueChanged = model::setSalaryAmount,
                 keyboardType = KeyboardType.Number,
                 modifier = Modifier
