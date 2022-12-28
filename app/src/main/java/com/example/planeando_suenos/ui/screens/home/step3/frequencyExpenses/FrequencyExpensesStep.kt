@@ -13,20 +13,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
+import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
 
 @Composable
 fun FrequencyExpensesStep(
+    model: YourExpensesIncomeViewModel,
     onNext: () -> Unit
 ) {
+
+    val state = model.state
     Column(
         Modifier
-            .padding(dimensionResource(R.dimen.gap4))
+            .padding(horizontal = dimensionResource(R.dimen.gap4),)
             .fillMaxHeight()
             .verticalScroll(rememberScrollState()),
     ) {
@@ -53,9 +59,10 @@ fun FrequencyExpensesStep(
             text = "Gastos del hogar"
         )
         CustomTextField(
-            value = "Ingresa un monto",
+            value = state.homeExpense,
             placeholder = R.string.enter_amount,
-            onValueChanged = {},
+            keyboardType = KeyboardType.Number,
+            onValueChanged = model::setHomeExpense,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -65,12 +72,13 @@ fun FrequencyExpensesStep(
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.h3,
             fontSize = 17.sp,
-            text = "Gastos del hogar"
+            text = "Gastos en el transporte"
         )
         CustomTextField(
-            value = "Gastos en el transporte",
+            value = state.transportExpense,
             placeholder = R.string.enter_amount,
-            onValueChanged = {},
+            keyboardType = KeyboardType.Number,
+            onValueChanged =  model::setTransportExpense,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -80,12 +88,13 @@ fun FrequencyExpensesStep(
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.h3,
             fontSize = 17.sp,
-            text = "Gastos del hogar"
+            text = "Inversión en educación"
         )
         CustomTextField(
-            value = "Inversión en educación",
+            value = state.educationInversion,
             placeholder = R.string.enter_amount,
-            onValueChanged = {},
+            onValueChanged = model::setEducationInversion,
+            keyboardType = KeyboardType.Number,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -98,9 +107,11 @@ fun FrequencyExpensesStep(
             text = "Gastos en entretenimiento"
         )
         CustomTextField(
-            value = "Gastos en entretenimiento",
+            value = state.entertainmentExpense,
             placeholder = R.string.enter_amount,
-            onValueChanged = {},
+            keyboardType = KeyboardType.Number,
+            onDone = true,
+            onValueChanged = model::setEntertainmentExpense,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))

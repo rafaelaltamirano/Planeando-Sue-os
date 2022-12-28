@@ -23,7 +23,7 @@ import com.example.planeando_suenos.ui.screens.register.RegisterViewModel
 
 @Composable
 fun DataRegisterStep(
-    onNext: () -> Unit,
+    onSubmit: () -> Unit,
     model: RegisterViewModel
 ) {
     Column(
@@ -134,6 +134,7 @@ fun DataRegisterStep(
             value = model.state.cp,
             placeholder = R.string.address_example,
             onValueChanged = model::setCp,
+            onDone = true,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -141,7 +142,7 @@ fun DataRegisterStep(
         )
         SubmitButton(
             text = stringResource(R.string.continue_),
-            onClick = { onNext() }
+            onClick = { onSubmit() }
         )
     }
 }

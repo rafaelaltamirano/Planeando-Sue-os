@@ -35,4 +35,8 @@ class MainViewModel @Inject constructor(
         state = state.copy(login = login)
     }
 
+    fun setName(name: String) {
+        state = state.copy(name = name)
+    }
+
 }

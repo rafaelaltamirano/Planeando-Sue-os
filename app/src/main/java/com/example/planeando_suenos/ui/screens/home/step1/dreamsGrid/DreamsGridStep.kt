@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
@@ -76,7 +77,7 @@ fun DreamItemGrid(title: String, modifier: Modifier) {
 
     val radius = RoundedCornerShape(6.dp)
 
-    val backgroundColor = if (checked) GreenBusiness else BackgroundUncheckedItemDreamGrid
+    val backgroundColor = if (checked) Accent else BackgroundUncheckedItemDreamGrid
     val textColor = if (checked) Color.White else TextColorUncheckedItemDreamGrid
 
     Box(
