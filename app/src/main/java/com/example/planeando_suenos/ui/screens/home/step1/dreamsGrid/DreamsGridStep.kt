@@ -58,12 +58,12 @@ fun DreamsGridStep(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 DreamItemGrid(title = "Video juegos", Modifier.weight(1f))
                 DreamItemGrid(title = "Cambiar mi celular", Modifier.weight(1f))
-                DreamItemGrid(title = "Otro", Modifier.weight(1f))
+                DreamItemGrid(title = "Comprar lavadora", Modifier.weight(1f))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = "Comprar lavadora", Modifier.weight(1f))
                 DreamItemGrid(title = "Comprar refrigerador", Modifier.weight(1f))
                 DreamItemGrid(title = "Comprar televisor", Modifier.weight(1f))
+                DreamItemGrid(title = "Otro", Modifier.weight(1f))
             }
         }
 

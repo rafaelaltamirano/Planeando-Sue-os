@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.planeando_suenos.R
+import com.example.planeando_suenos.ui.components.OutlineSubmitButton
 import com.example.planeando_suenos.ui.components.PresentationCard
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -83,7 +84,7 @@ fun LandingScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        vertical = dimensionResource(R.dimen.gap5),
+                        vertical = dimensionResource(R.dimen.gap2),
                         horizontal = dimensionResource(R.dimen.gap5)
                     )
             )
@@ -94,23 +95,22 @@ fun LandingScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    stringResource(R.string.already_have_account),
+                    "o",
                     color = Black,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(end = 4.dp),
                     style = MaterialTheme.typography.caption,
-                )
-
-                Text(
-                    stringResource(R.string.sign_in),
-                    color = GreenBusiness,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier.clickable(onClick = { navController.navigate(PublicRouterDir.LOGIN.route) }),
-                    textDecoration = TextDecoration.Underline
                 )
             }
-
+            OutlineSubmitButton(
+                text = stringResource(R.string.sign_in),
+                onClick = { navController.navigate(PublicRouterDir.LOGIN.route) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        vertical = dimensionResource(R.dimen.gap2),
+                        horizontal = dimensionResource(R.dimen.gap5)
+                    )
+            )
         }
     }
 }

@@ -25,6 +25,7 @@ import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.PublicRouterDir
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.step2.Step2Step
+import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 
@@ -158,14 +159,15 @@ fun TopBarWithComponent(name: String) {
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(), shape = RoundedCornerShape(6.dp),
-                elevation = 4.dp
+                elevation = 4.dp,
+                backgroundColor = Accent
             ) {
 
                 Text(
                     modifier = Modifier.padding(16.dp),
                     text = "¡Hola $name!",
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    color = Color.White,
                     fontSize = 17.sp
                 )
             }

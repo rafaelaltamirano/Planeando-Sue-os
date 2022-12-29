@@ -21,5 +21,6 @@ data class ApproximateIncomeState(
     val frequency: String = "",
     val checked: Boolean = false,
     val salaryAmount: String = "",
-    val additionalIncomes: String = ""
+    val additionalIncomes: String = "",
+    val variableSalary: Boolean = false,
 )
