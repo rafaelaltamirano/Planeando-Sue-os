@@ -1,7 +1,5 @@
 package com.example.planeando_suenos.ui.screens.register
 
-import com.example.planeando_suenos.domain.entities.Login
-
 
 enum class RegisterStep(val step: Int) {
 
@@ -30,7 +28,6 @@ data class RegisterState(
     val phone: String = "",
     val cp: String = "",
     val validCharacter: Boolean? = null,
-    val login: Login? = null,
     val validNumber: Boolean? = null,
     val validMayus: Boolean? = null,
     val id: String? = null,

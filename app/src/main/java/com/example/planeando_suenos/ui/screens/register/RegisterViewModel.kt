@@ -6,14 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.body.users.User
-import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
 import com.example.planeando_suenos.usescases.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -86,10 +83,6 @@ class RegisterViewModel @Inject constructor(
         state = state.copy(validNumber = condition)
     }
 
-    fun setLogin(login: Login) {
-        state = state.copy(login = login)
-    }
-
     fun validatePassword(password: String) {
         passOne(registerCase.validatePassOne(password))
         passTwo(registerCase.validatePassTwo(password))
@@ -138,7 +131,6 @@ class RegisterViewModel @Inject constructor(
             if (response.success == true) {
                 val token = response.data!!.token
                 setToken(token)
-                setLogin(Login(1, state.email, state.name))
             }
         }
     }

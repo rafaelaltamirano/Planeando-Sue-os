@@ -12,7 +12,7 @@ fun Router(mainModel: MainViewModel) {
 
     val state = mainModel.state
 
-    val login = state.login
+    val login = state.token
 
     if (login == null) {
         PublicRouter(navController,mainModel)

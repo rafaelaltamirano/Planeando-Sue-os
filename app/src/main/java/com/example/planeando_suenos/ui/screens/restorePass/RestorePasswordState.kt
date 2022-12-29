@@ -1,7 +1,5 @@
 package com.example.planeando_suenos.ui.screens.restorePass
 
-import com.example.planeando_suenos.domain.entities.Login
-
 enum class RestorePasswordStep(val step: Int) {
 
     ENTER_EMAIL(0),
@@ -18,6 +16,10 @@ enum class RestorePasswordStep(val step: Int) {
 
 data class RestorePasswordState (
     val step: RestorePasswordStep = RestorePasswordStep.ENTER_EMAIL,
+    val email: String = "",
+    val otpCode: String? = null,
+    val newPassword: String = "",
+    val repeatNewPassword: String = "",
     val loading: Boolean = false,
-    val login: Login? = null,
+    val token: String? = null,
 )

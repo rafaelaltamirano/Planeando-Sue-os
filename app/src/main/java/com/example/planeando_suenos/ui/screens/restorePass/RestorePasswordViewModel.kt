@@ -38,12 +38,34 @@ class RestorePasswordViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
-    fun setLogin(login: Login) {
-        state = state.copy(login = login)
+    fun setEmail(email: String) {
+        state = state.copy(email = email)
     }
 
-    fun submit() = viewModelScope.launch {
-        setLogin(Login(1, "email", "nombre"))
+    fun setNewPassword(newPassword: String) {
+        state = state.copy(newPassword = newPassword)
+    }
+
+    fun setRepeatNewPassword(repeatNewPassword: String) {
+        state = state.copy(repeatNewPassword = repeatNewPassword)
+    }
+
+    private fun setToken(token: String) {
+        state = state.copy(token = token)
+    }
+
+    fun login() {
+        viewModelScope.launch {
+            val loginBody = LoginBody(
+                email = state.email,
+                password = state.newPassword
+            )
+            val response = loginUseCase.login(loginBody)
+            if (response.success == true) {
+                val token = response.data!!.token
+                setToken(token)
+            }
+        }
     }
 
 }

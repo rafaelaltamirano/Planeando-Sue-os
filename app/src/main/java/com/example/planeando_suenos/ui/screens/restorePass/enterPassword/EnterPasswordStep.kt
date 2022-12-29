@@ -46,11 +46,11 @@ fun EnterPasswordStep(
             text = stringResource(R.string.password)
         )
         CustomTextField(
-            value = "123abcd..",
+            value = model.state.newPassword,
             placeholder = R.string.password_example,
             security = true,
             leadingIcon = R.drawable.ic_lock,
-            onValueChanged = {},
+            onValueChanged = model::setNewPassword,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -69,11 +69,11 @@ fun EnterPasswordStep(
         Spacer(Modifier.height(dimensionResource(R.dimen.gap2)))
 
         CustomTextField(
-            value = "123abcd..",
+            value = model.state.repeatNewPassword,
             placeholder = R.string.password_example,
             security = true,
             leadingIcon = R.drawable.ic_lock,
-            onValueChanged = {},
+            onValueChanged = model::setRepeatNewPassword,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))

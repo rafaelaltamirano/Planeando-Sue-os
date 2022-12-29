@@ -4,9 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -30,8 +28,8 @@ fun RegisterScreen(
         else model.prevStep()
     }
 
-    model.state.login?.let {
-        mainModel.setLogin(it)
+    model.state.token?.let {
+        mainModel.setToken(it)
     }
 
     if(model.state.name.isNotEmpty()){

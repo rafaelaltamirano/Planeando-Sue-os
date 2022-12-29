@@ -47,10 +47,10 @@ fun EnterEmailStep(
         )
 
         CustomTextField(
-            value = stringResource(R.string.email_example),
+            value = model.state.email,
             placeholder = R.string.email_example,
             leadingIcon = R.drawable.ic_arrouba,
-            onValueChanged = { },
+            onValueChanged = model::setEmail,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))

@@ -36,10 +36,6 @@ class LoginViewModel @Inject constructor(
         state = state.copy(passwordError = passwordError)
     }
 
-    fun setLogin(login: Login) {
-        state = state.copy(login = login)
-    }
-
     fun setEmail(email: String) {
         state = state.copy(email = email)
     }
@@ -62,7 +58,6 @@ class LoginViewModel @Inject constructor(
             if (response.success == true) {
                 val token = response.data!!.token
                 setToken(token)
-                setLogin(Login(1,state.email, "nombre"))
             }
         }
     }
