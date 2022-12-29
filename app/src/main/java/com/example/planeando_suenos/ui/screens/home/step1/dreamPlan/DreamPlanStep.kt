@@ -76,8 +76,8 @@ fun DreamPlanStep(
 
 private val itemDreams = listOf(
     "Eventos Viajes",
-    "Salud, operarme los ojos, mejorarme los dientes",
-    "Equipar hogar con pequeños electrodomésticos",
+    "Salud",
+    "Linea blanca",
     "Nueva ropa"
 )
 
@@ -92,7 +92,7 @@ fun BoxDream() {
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            text = "¿De qué tipo es tu sueño?",
+            text = "¿Qué cosas ayudarían a cumplir tu sueño?",
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold
         )
