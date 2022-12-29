@@ -41,5 +41,7 @@ class ApproximateIncomesViewModel @Inject constructor(
     fun setAdditionalIncomes(additionalIncomes: String) {
         state = state.copy(additionalIncomes = additionalIncomes)
     }
-
+    fun setVariableSalary(variableSalary: Boolean) {
+        state = state.copy(variableSalary = variableSalary)
+    }
 }

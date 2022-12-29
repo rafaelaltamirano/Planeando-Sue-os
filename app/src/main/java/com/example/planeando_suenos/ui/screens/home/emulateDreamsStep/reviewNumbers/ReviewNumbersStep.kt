@@ -1,20 +1,15 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,8 +17,8 @@ import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.AmountCard
 import com.example.planeando_suenos.ui.components.CardType
+import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
-import com.example.planeando_suenos.ui.router.PublicRouterDir
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import java.util.*
@@ -39,7 +34,7 @@ fun ReviewNumbersStep(
     val name = mainModel.state.name
     Column(Modifier.fillMaxHeight().verticalScroll(rememberScrollState()))
     {
-        TopBarWithText()
+        TopBarWithText("Planeando sueños")
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
@@ -98,26 +93,3 @@ fun ReviewNumbersStep(
     }
 }
 
-@Composable
-fun TopBarWithText() {
-    Box {
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(GreenBusiness)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxHeight(),
-                verticalAlignment = Alignment.Bottom
-            ) {
-                Text(
-                    text = "Planeando sueños",
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
-                    color = Color.White
-                )
-            }
-        }
-    }
-}
