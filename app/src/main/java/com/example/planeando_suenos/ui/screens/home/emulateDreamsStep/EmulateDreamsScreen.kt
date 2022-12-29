@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.example.planeando_suenos.ui.components.BottomSheetDreamOptions
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
@@ -41,30 +42,14 @@ fun EmulateDreamsScreen(
         //Topbar is here
         when (state.step) {
 
-            EmulateDreamsStep.REVIEW_NUMBERS -> ReviewNumbersStep(
+            EmulateDreamsStep.REVIEW_NUMBERS -> BottomSheetDreamOptions(
                 onNext = model::nextStep,
                 model = model,
                 mainModel = mainModel
             )
 
-            EmulateDreamsStep.CALENDAR -> ReviewNumbersStep(
-                onNext = model::nextStep,
-                model = model,
-                mainModel = mainModel
-            )
-            EmulateDreamsStep.CONFIRMATION -> ReviewNumbersStep(
-                onNext = {
-                    model.setChecked(true)
-
-                    navController.navigate(UserRouterDir.HOME.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            inclusive = true
-                        }
-                    }
-                },
-                model = model,
-                mainModel = mainModel
-            )
+            EmulateDreamsStep.CALENDAR -> {}
+            EmulateDreamsStep.CONFIRMATION -> {}
         }
     }
 }

@@ -33,7 +33,8 @@ import java.util.*
 fun ReviewNumbersStep(
     onNext: () -> Unit,
     model: EmulateDreamsViewModel,
-    mainModel: MainViewModel
+    mainModel: MainViewModel,
+    onShowBottomSheet : () -> Unit
 ) {
     val name = mainModel.state.name
     Column(Modifier.fillMaxHeight().verticalScroll(rememberScrollState()))
@@ -88,7 +89,7 @@ fun ReviewNumbersStep(
                     fontWeight = FontWeight.W700,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
-                        .clickable(onClick = { }),
+                        .clickable(onClick = { onShowBottomSheet() }),
                 )
             }
             Spacer(Modifier.height(12.dp))
