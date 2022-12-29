@@ -10,6 +10,7 @@ import com.example.planeando_suenos.ui.components.BottomSheetDreamOptions
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.calendar.CalendarStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
 
 
@@ -48,7 +49,10 @@ fun EmulateDreamsScreen(
                 mainModel = mainModel
             )
 
-            EmulateDreamsStep.CALENDAR -> {}
+            EmulateDreamsStep.CALENDAR -> CalendarStep(
+                onSavePlan = model::nextStep,
+                onBack = model::prevStep
+            )
             EmulateDreamsStep.CONFIRMATION -> {}
         }
     }
