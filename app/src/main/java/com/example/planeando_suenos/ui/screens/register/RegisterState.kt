@@ -25,6 +25,7 @@ data class RegisterState (
     val surname: String = "",
     val motherSurname: String = "",
     val password: String = "",
+    val repeatPassword: String = "",
     val bornDay: String = "",
     val phone: String = "",
     val cp: String = "",

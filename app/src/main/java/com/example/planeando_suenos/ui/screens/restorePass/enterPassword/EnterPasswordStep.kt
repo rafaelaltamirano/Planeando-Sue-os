@@ -1,6 +1,8 @@
 package com.example.planeando_suenos.ui.screens.restorePass.enterPassword
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +29,7 @@ fun EnterPasswordStep(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
+            .verticalScroll(rememberScrollState())
             .padding(dimensionResource(R.dimen.gap5)),
     ) {
 

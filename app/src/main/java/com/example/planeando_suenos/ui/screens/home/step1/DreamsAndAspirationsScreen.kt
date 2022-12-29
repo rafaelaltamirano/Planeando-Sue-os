@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -58,10 +59,12 @@ fun DreamsAndAspirationsScreen(
             Step1Step.DREAM_PLAN -> DreamPlanStep(
                 onFinish = {
                     model.setChecked(true)
-                    navController.navigate(UserRouterDir.HOME.route)
+
+                    navController.navigate(UserRouterDir.HOME.route){
+                        popUpTo(navController.graph.findStartDestination().id){
+                            inclusive = true  }}
                 }
             )
-
         }
     }
 }

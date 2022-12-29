@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
@@ -30,7 +31,7 @@ fun DreamsGridStep(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "¿De qué tipo es tu sueño?",
+            text = "¿Qué cosas ayudarían a cumplir tu sueño?",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -46,18 +47,23 @@ fun DreamsGridStep(
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 DreamItemGrid(title = "Nueva ropa", Modifier.weight(1f))
-                DreamItemGrid(title = "Salud, operarme los ojos, mejorarme los dientes ", Modifier.weight(1f))
+                DreamItemGrid(title = "Salud", Modifier.weight(1f))
                 DreamItemGrid(title = "Tener mi moto", Modifier.weight(1f))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 DreamItemGrid(title = "Hacer un regalo a un familiar", Modifier.weight(1f))
-                DreamItemGrid(title = "Equipar hogar con electrodo-mésticos", Modifier.weight(1f))
+                DreamItemGrid(title = "Línea blanca", Modifier.weight(1f))
                 DreamItemGrid(title = "Comprar mi computadora", Modifier.weight(1f))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 DreamItemGrid(title = "Video juegos", Modifier.weight(1f))
                 DreamItemGrid(title = "Cambiar mi celular", Modifier.weight(1f))
                 DreamItemGrid(title = "Otro", Modifier.weight(1f))
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                DreamItemGrid(title = "Comprar lavadora", Modifier.weight(1f))
+                DreamItemGrid(title = "Comprar refrigerador", Modifier.weight(1f))
+                DreamItemGrid(title = "Comprar televisor", Modifier.weight(1f))
             }
         }
 
@@ -76,7 +82,7 @@ fun DreamItemGrid(title: String, modifier: Modifier) {
 
     val radius = RoundedCornerShape(6.dp)
 
-    val backgroundColor = if (checked) GreenBusiness else BackgroundUncheckedItemDreamGrid
+    val backgroundColor = if (checked) Accent else BackgroundUncheckedItemDreamGrid
     val textColor = if (checked) Color.White else TextColorUncheckedItemDreamGrid
 
     Box(

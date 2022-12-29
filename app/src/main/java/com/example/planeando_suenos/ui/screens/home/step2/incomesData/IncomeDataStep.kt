@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +17,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +27,7 @@ import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
+import kotlinx.coroutines.launch
 
 
 enum class IncomeItems(val value: String) {
@@ -42,6 +45,7 @@ fun IncomeDataStep(
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
     val state = model.state
+    val coroutineScope = rememberCoroutineScope()
 
     Column(Modifier.padding(dimensionResource(R.dimen.gap4)).fillMaxHeight()) {
         Text(
@@ -71,7 +75,6 @@ fun IncomeDataStep(
                     )
                     .padding(14.dp)
             ) {
-
                 RadioButton(
                     colors = RadioButtonDefaults.colors(
                         selectedColor = GreenBusiness,
@@ -112,7 +115,9 @@ fun IncomeDataStep(
             CustomTextField(
                 value = state.salaryAmount,
                 placeholder = placeholder,
+                onDone = true,
                 onValueChanged = model::setSalaryAmount,
+                keyboardType = KeyboardType.Number,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.gap4))

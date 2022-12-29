@@ -81,11 +81,12 @@ fun AccountRegisterStep(
             text = "Repetir contraseña"
         )
         CustomTextField(
-            value = "***********",
-            placeholder = R.string.email_example,
+            value = model.state.repeatPassword,
+            onDone = true,
+            placeholder = R.string.password,
             security = true,
             leadingIcon =R.drawable.ic_lock,
-            onValueChanged = {},
+            onValueChanged = model::setRepeatPassword,
             modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.gap4) )
         )
 

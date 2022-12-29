@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
@@ -34,14 +35,17 @@ fun CreditQuestionStep(
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
 
-
     Column(
         Modifier
-            .padding(dimensionResource(R.dimen.gap4))
+            .padding(horizontal = dimensionResource(R.dimen.gap4))
             .fillMaxHeight()
             .verticalScroll(rememberScrollState()),
     ) {
-
+        Text(
+            modifier = Modifier.padding(vertical = 14.dp),
+            text = "Tus ingresos aproximados",
+            fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
+        )
         PersonalInfoCard(
             "¿Cómo son tus egresos semanales?",
             "Hogar: ",
