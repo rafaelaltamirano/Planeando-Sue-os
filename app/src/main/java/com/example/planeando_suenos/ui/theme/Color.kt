@@ -22,3 +22,7 @@ val TextColorUncheckedItemDreamGrid = Color(0xFF6C7385)
 val BackgroundItemDream = Color(0xFFCCF4DC)
 val TextColorItemDream = Color(0xFF278252)
 
+
+val TextCardGreen = Color(0xFF278252)
+val TextCardBlue= Color(0xFF0071BC)
+val TextCardYellow = Color(0xFFD79C0A)

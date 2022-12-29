@@ -29,13 +29,19 @@ import kotlinx.coroutines.launch
 fun BottomSheetDreamOptions(
     onNext: () -> Unit,
     model: EmulateDreamsViewModel,
-    mainModel: MainViewModel
+    mainModel: MainViewModel,
+    child: @Composable (() -> Unit) -> Unit,
 ) {
-    val state = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val state  =
+        rememberModalBottomSheetState(ModalBottomSheetValue.Hidden,
+            confirmStateChange = {
+            it != ModalBottomSheetValue.HalfExpanded
+        })
     val coroutine = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
         sheetContent = {
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -60,6 +66,7 @@ fun BottomSheetDreamOptions(
                 "Podrás cumplir tus sueños en orden, partiendo desde el más pequeño."
             ) {
                 onNext()
+                coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
             ItemTextBottomSheetDream(
@@ -67,6 +74,7 @@ fun BottomSheetDreamOptions(
                 "Todos tus sueños al mismo tiempo. Tus cuotas siempre tendran el mismo valor."
             ) {
                 onNext()
+                coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
             ItemTextBottomSheetDream(
@@ -74,6 +82,7 @@ fun BottomSheetDreamOptions(
                 "Pagarás mas al principio pero tendrás tu mayor recompensa."
             ) {
                 onNext()
+                coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -82,13 +91,14 @@ fun BottomSheetDreamOptions(
         sheetBackgroundColor = Color.White,
         sheetState = state
     ) {
-        ReviewNumbersStep(onNext = { }, model = model, mainModel = mainModel, onShowBottomSheet = {
+
+        child()
+        {
             coroutine.launch {
                 state.animateTo(ModalBottomSheetValue.Expanded)
             }
-        })
+        }
     }
-
 }
 
 @Composable
