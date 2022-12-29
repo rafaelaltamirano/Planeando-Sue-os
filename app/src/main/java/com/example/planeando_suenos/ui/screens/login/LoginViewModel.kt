@@ -48,6 +48,10 @@ class LoginViewModel @Inject constructor(
         state = state.copy(token = token)
     }
 
+    private fun setId(id: String) {
+        state = state.copy(id = id)
+    }
+
     suspend fun login() {
         viewModelScope.launch {
             val loginBody = LoginBody(
@@ -58,6 +62,8 @@ class LoginViewModel @Inject constructor(
             if (response.success == true) {
                 val token = response.data!!.token
                 setToken(token)
+                val id = response.data.id
+                setId(id)
             }
         }
     }
