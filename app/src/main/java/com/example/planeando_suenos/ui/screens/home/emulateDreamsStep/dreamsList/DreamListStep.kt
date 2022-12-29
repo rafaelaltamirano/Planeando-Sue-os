@@ -34,6 +34,7 @@ import com.example.planeando_suenos.ui.theme.*
 @Composable
 fun DreamListStep(
     onNext: () -> Unit,
+    onSubmit: () -> Unit,
     model: EmulateDreamsViewModel,
     mainModel: MainViewModel,
 ) {
@@ -121,7 +122,7 @@ fun DreamListStep(
             Spacer(Modifier.height(16.dp))
             SubmitButton(
                 text = "guardar plan",
-                onClick = onNext
+                onClick = onSubmit
             )
             Spacer(Modifier.height(16.dp))
             Row(
@@ -135,7 +136,7 @@ fun DreamListStep(
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
-                        .clickable(onClick = { })
+                        .clickable(onClick =  onNext)
                 )
             }
         }

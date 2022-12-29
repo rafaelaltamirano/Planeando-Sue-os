@@ -10,6 +10,7 @@ import com.example.planeando_suenos.ui.components.BottomSheetDreamOptions
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.calendar.CalendarStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.dreamsList.DreamListStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
 
@@ -50,26 +51,34 @@ fun EmulateDreamsScreen(
             when (state.step) {
 
                 EmulateDreamsStep.REVIEW_NUMBERS -> ReviewNumbersStep(
-                        onNext = model::nextStep,
-                        model = model,
-                        mainModel = mainModel,
-                        onShowBottomSheet = it
+                    onNext = model::nextStep,
+                    model = model,
+                    mainModel = mainModel,
+                    onShowBottomSheet = it
                 )
 
-                EmulateDreamsStep . LIST -> DreamListStep(
+                EmulateDreamsStep.LIST -> DreamListStep(
                     onNext = model::nextStep,
+                    onSubmit = {
+                        navController.navigate(UserRouterDir.HOME.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                inclusive = true
+                            }
+                        }
+                    },
                     model = model,
                     mainModel = mainModel
 
                 )
-                EmulateDreamsStep.CALENDAR -> {}
-                EmulateDreamsStep.CONFIRMATION -> {}
+                EmulateDreamsStep.CALENDAR -> CalendarStep(
+                    onSubmit = {
+                        navController.navigate(UserRouterDir.HOME.route){
+                            popUpTo(navController.graph.findStartDestination().id){
+                                inclusive = true  }}
+                    },
+                    onBack = model::prevStep
+                )
             }
-            EmulateDreamsStep.CALENDAR -> CalendarStep(
-                onSavePlan = model::nextStep,
-                onBack = model::prevStep
-            )
-            EmulateDreamsStep.CONFIRMATION -> {}
         }
     }
 }
