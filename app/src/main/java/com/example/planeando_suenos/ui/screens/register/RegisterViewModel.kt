@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.example.planeando_suenos.domain.body.authentication.LoginBody
+import com.example.planeando_suenos.domain.body.users.User
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
@@ -16,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerCase : RegisterUseCase,
+    private val registerCase: RegisterUseCase,
     private val loginUseCase: LoginUseCase
 ) : ViewModelWithStatus() {
 
@@ -31,9 +33,11 @@ class RegisterViewModel @Inject constructor(
         state = state.copy(password = password)
         validatePassword(password)
     }
+
     fun setRepeatPassword(repeatPassword: String) {
         state = state.copy(repeatPassword = repeatPassword)
     }
+
     fun setName(name: String) {
         state = state.copy(name = name)
     }
@@ -96,16 +100,47 @@ class RegisterViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
-    suspend fun submit() = viewModelScope.launch {
-        setLoading(true)
-        try {
-            withContext(Dispatchers.IO) { loginUseCase.login() }.also(::setLogin)
-        } catch (e: Exception) {
-            handleNetworkError(e)
-        } finally {
-            setLoading(false)
-        }
+    private fun setId(id: String) {
+        state = state.copy(id = id)
+    }
 
+    suspend fun registerUser() {
+        viewModelScope.launch {
+            val user = User(
+                email = state.email,
+                password = state.password,
+                phoneNumber = state.phone,
+                firstName = state.name,
+                middleName = state.surname,
+                lastName = state.motherSurname,
+                birthday = state.bornDay,
+                address = state.cp
+            )
+            val response = registerCase.registerUser(user)
+            if (response.success == true) {
+                val id = response.data!!
+                setId(id)
+            }
+        }
+    }
+
+    private fun setToken(token: String) {
+        state = state.copy(token = token)
+    }
+
+    suspend fun loginUser() {
+        viewModelScope.launch {
+            val loginBody = LoginBody(
+                email = state.email,
+                password = state.password
+            )
+            val response = loginUseCase.login(loginBody)
+            if (response.success == true) {
+                val token = response.data!!.token
+                setToken(token)
+                setLogin(Login(1, state.email, state.name))
+            }
+        }
     }
 
 

@@ -13,11 +13,11 @@ enum class RegisterStep(val step: Int) {
         fun getByStep(step: Int) = values().first { it.step == step }
     }
 
-    fun next() = if (step==2) VERIFY else getByStep(step + 1)
-    fun prev() = if (step==0) ACCOUNT else getByStep(step - 1)
+    fun next() = if (step == 2) VERIFY else getByStep(step + 1)
+    fun prev() = if (step == 0) ACCOUNT else getByStep(step - 1)
 }
 
-data class RegisterState (
+data class RegisterState(
     val step: RegisterStep = RegisterStep.ACCOUNT,
     val loading: Boolean = false,
     val email: String = "",
@@ -33,4 +33,6 @@ data class RegisterState (
     val login: Login? = null,
     val validNumber: Boolean? = null,
     val validMayus: Boolean? = null,
-        )
+    val id: String? = null,
+    val token: String? = null
+)

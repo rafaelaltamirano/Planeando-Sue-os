@@ -47,9 +47,9 @@ class UsersService @Inject constructor(private val usersApi: UsersApi) {
         }
     }
 
-    suspend fun getUserById(id: String): GetUserByIdResponse {
+    suspend fun getUserById(id: String, token: String): GetUserByIdResponse {
         return withContext(Dispatchers.IO) {
-            val response = usersApi.getUserById(id)
+            val response = usersApi.getUserById(id, token)
             response.body() ?: run {
                 val errorResponse = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                 GetUserByIdResponse(

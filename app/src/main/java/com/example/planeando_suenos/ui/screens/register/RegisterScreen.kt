@@ -38,6 +38,10 @@ fun RegisterScreen(
         mainModel.setName(model.state.name)
     }
 
+    if (!model.state.id.isNullOrBlank()) {
+        model.nextStep()
+    }
+
     Scaffold(
         topBar = {
             if (state.step != RegisterStep.VERIFY) {
@@ -56,11 +60,11 @@ fun RegisterScreen(
                 model = model
             )
             RegisterStep.DATA -> DataRegisterStep(
-                onSubmit = model::nextStep,
+                onSubmit = { coroutineScope.launch { model.registerUser() }},
                 model = model
             )
             RegisterStep.VERIFY -> VerifyRegisterStep(
-                onNext = { coroutineScope.launch { model.submit() } },
+                onNext = { coroutineScope.launch { model.loginUser() } },
             )
         }
     }
