@@ -47,8 +47,6 @@ fun EmulateDreamsScreen(
             mainModel = mainModel
         ) {
 
-
-            //Topbar is here
             when (state.step) {
 
                 EmulateDreamsStep.REVIEW_NUMBERS -> ReviewNumbersStep(
@@ -67,6 +65,11 @@ fun EmulateDreamsScreen(
                 EmulateDreamsStep.CALENDAR -> {}
                 EmulateDreamsStep.CONFIRMATION -> {}
             }
+            EmulateDreamsStep.CALENDAR -> CalendarStep(
+                onSavePlan = model::nextStep,
+                onBack = model::prevStep
+            )
+            EmulateDreamsStep.CONFIRMATION -> {}
         }
     }
 }
