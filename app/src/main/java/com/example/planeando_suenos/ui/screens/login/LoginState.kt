@@ -9,4 +9,5 @@ data class LoginState(
     val passwordError: String = "",
     val loading: Boolean = false,
     val login: Login? = null,
+    val token: String? = null,
 )

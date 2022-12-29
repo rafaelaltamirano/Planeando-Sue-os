@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.domain.enums.Fields
 import com.example.planeando_suenos.domain.exceptions.FieldInvalidException
@@ -47,17 +48,23 @@ class LoginViewModel @Inject constructor(
         state = state.copy(password = password)
     }
 
+    private fun setToken(token: String) {
+        state = state.copy(token = token)
+    }
 
-    suspend fun submit() = viewModelScope.launch {
-        setLoading(true)
-        try {
-          withContext(IO){loginUseCase.login()}.also(::setLogin)
-        } catch (e: Exception) {
-            handleNetworkError(e)
-        } finally {
-            setLoading(false)
+    suspend fun login() {
+        viewModelScope.launch {
+            val loginBody = LoginBody(
+                email = state.email,
+                password = state.password
+            )
+            val response = loginUseCase.login(loginBody)
+            if (response.success == true) {
+                val token = response.data!!.token
+                setToken(token)
+                setLogin(Login(1,state.email, "nombre"))
+            }
         }
-
     }
 
     override fun onFieldInvalid(e: FieldInvalidException) {

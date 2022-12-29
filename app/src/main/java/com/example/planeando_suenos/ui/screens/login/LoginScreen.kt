@@ -2,8 +2,6 @@ package com.example.planeando_suenos.ui.screens.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -15,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -32,7 +29,6 @@ import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.PublicRouterDir
-import com.example.planeando_suenos.ui.screens.register.RegisterStep
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import kotlinx.coroutines.launch
 
@@ -124,7 +120,7 @@ fun LoginScreen(
 
             SubmitButton(
                 stringResource(R.string.log_in),
-                onClick = { coroutineScope.launch { model.submit() } })
+                onClick = { coroutineScope.launch { model.login() } })
 
 
             Column(

@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
@@ -41,16 +42,8 @@ class RestorePasswordViewModel @Inject constructor(
         state = state.copy(login = login)
     }
 
-    suspend fun submit() = viewModelScope.launch {
-        setLoading(true)
-        try {
-            withContext(Dispatchers.IO) { loginUseCase.login() }.also(::setLogin)
-        } catch (e: Exception) {
-            handleNetworkError(e)
-        } finally {
-            setLoading(false)
-        }
-
+    fun submit() = viewModelScope.launch {
+        setLogin(Login(1, "email", "nombre"))
     }
 
 }
