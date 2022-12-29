@@ -17,27 +17,21 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.ui.main.MainViewModel
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 import kotlinx.coroutines.launch
 
-
-@Composable
-fun BottomSheetDreamOptions() {
-
-    BottomSheetContent()
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun PrevBottomSheetDreamOptions() {
-    BottomSheetContent()
-}
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BottomSheetContent() {
-    val state = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded)
+fun BottomSheetDreamOptions(
+    onNext: () -> Unit,
+    model: EmulateDreamsViewModel,
+    mainModel: MainViewModel
+) {
+    val state = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val coroutine = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
@@ -64,24 +58,37 @@ fun BottomSheetContent() {
             ItemTextBottomSheetDream(
                 "Tu sueño más pequeño primero",
                 "Podrás cumplir tus sueños en orden, partiendo desde el más pequeño."
-            ) {}
+            ) {
+                onNext()
+            }
             Spacer(modifier = Modifier.height(16.dp))
             ItemTextBottomSheetDream(
                 "Todos tus sueños al mismo tiempo",
                 "Todos tus sueños al mismo tiempo. Tus cuotas siempre tendran el mismo valor."
-            ) {}
+            ) {
+                onNext()
+            }
             Spacer(modifier = Modifier.height(16.dp))
             ItemTextBottomSheetDream(
                 "Tu sueño más grande primero",
                 "Pagarás mas al principio pero tendrás tu mayor recompensa."
-            ) {}
+            ) {
+                onNext()
+            }
             Spacer(modifier = Modifier.height(16.dp))
 
         },
         sheetShape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         sheetBackgroundColor = Color.White,
         sheetState = state
-    ) {}
+    ) {
+        ReviewNumbersStep(onNext = { }, model = model, mainModel = mainModel, onShowBottomSheet = {
+            coroutine.launch {
+                state.animateTo(ModalBottomSheetValue.Expanded)
+            }
+        })
+    }
+
 }
 
 @Composable
