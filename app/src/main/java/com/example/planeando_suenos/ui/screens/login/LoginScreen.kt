@@ -57,10 +57,6 @@ fun LoginScreen(
         mainModel.setLogin(it)
     }
 
-    model.state.id?.let {
-        mainModel.setId(it)
-    }
-
     Scaffold(
         topBar = {
             TopBar(

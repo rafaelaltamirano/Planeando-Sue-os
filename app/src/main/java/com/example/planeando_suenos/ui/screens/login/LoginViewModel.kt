@@ -44,10 +44,6 @@ class LoginViewModel @Inject constructor(
         state = state.copy(password = password)
     }
 
-    private fun setToken(token: String) {
-        state = state.copy(token = token)
-    }
-
     private fun setLogin(login: Login) {
         state = state.copy(login = login)
     }

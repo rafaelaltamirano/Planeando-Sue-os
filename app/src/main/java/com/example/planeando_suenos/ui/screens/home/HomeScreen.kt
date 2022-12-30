@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.planeando_suenos.ui.Status
 import com.example.planeando_suenos.ui.components.CardChecked
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -34,8 +35,19 @@ fun HomeScreen(
 
     val state = mainModel.state
 
+    homeViewModel.status?.also {
+        val (status, _) = it
+        when (status) {
+            Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
+            Status.ERROR -> mainModel.setErrorStatus(it)
+            Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
+            else -> {}
+        }
+        homeViewModel.clearStatus()
+    }
+
     LaunchedEffect(Unit) {
-        homeViewModel.getUserById(state.id ?: "", state.token ?: "")
+        homeViewModel.getUserById(state.login?.id ?: "", state.login?.token ?: "")
     }
 
     if (homeViewModel.state.user != null) {
