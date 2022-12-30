@@ -15,39 +15,39 @@ import javax.inject.Inject
 
 class AuthenticationService @Inject constructor(private val authenticationApi: AuthenticationApi) {
 
-    suspend fun login(loginBody: LoginBody): LoginResponse {
-        return withContext(Dispatchers.IO) {
-            val response = authenticationApi.login(loginBody)
-            response.body() ?: run {
-                val errorResponse = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
-                LoginResponse(
-                    uuid = errorResponse.uuid,
-                    success = false,
-                    data = null,
-                    code = errorResponse.code,
-                    message = errorResponse.message,
-                    details = errorResponse.details
-                )
-            }
-        }
-    }
+//    suspend fun login(loginBody: LoginBody): LoginResponse {
+//        return withContext(Dispatchers.IO) {
+//            val response = authenticationApi.login(loginBody)
+//            response.body() ?: run {
+//                val errorResponse = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+//                LoginResponse(
+//                    uuid = errorResponse.uuid,
+//                    success = false,
+//                    data = null,
+//                    code = errorResponse.code,
+//                    message = errorResponse.message,
+//                    details = errorResponse.details
+//                )
+//            }
+//        }
+//    }
 
-    suspend fun refreshToken(tokenBody: TokenBody): LoginResponse {
-        return withContext(Dispatchers.IO) {
-            val response = authenticationApi.refreshToken(tokenBody)
-            response.body() ?: run {
-                val errorResponse = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
-                LoginResponse(
-                    uuid = errorResponse.uuid,
-                    success = false,
-                    data = null,
-                    code = errorResponse.code,
-                    message = errorResponse.message,
-                    details = errorResponse.details
-                )
-            }
-        }
-    }
+//    suspend fun refreshToken(tokenBody: TokenBody): LoginResponse {
+//        return withContext(Dispatchers.IO) {
+//            val response = authenticationApi.refreshToken(tokenBody)
+//            response.body() ?: run {
+//                val errorResponse = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+//                LoginResponse(
+//                    uuid = errorResponse.uuid,
+//                    success = false,
+//                    data = null,
+//                    code = errorResponse.code,
+//                    message = errorResponse.message,
+//                    details = errorResponse.details
+//                )
+//            }
+//        }
+//    }
 
     suspend fun verifyEmail(token: String): SuccessResponse {
         return withContext(Dispatchers.IO) {

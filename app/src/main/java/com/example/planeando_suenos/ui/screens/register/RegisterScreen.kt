@@ -28,8 +28,8 @@ fun RegisterScreen(
         else model.prevStep()
     }
 
-    model.state.token?.let {
-        mainModel.setToken(it)
+    model.state.login?.let {
+        mainModel.setLogin(it)
     }
 
     if(model.state.name.isNotEmpty()){

@@ -48,17 +48,25 @@ class LoginViewModel @Inject constructor(
         state = state.copy(token = token)
     }
 
-    suspend fun login() {
-        viewModelScope.launch {
+    private fun setLogin(login: Login) {
+        state = state.copy(login = login)
+    }
+
+    suspend fun login() = viewModelScope.launch {
+        setLoading(true)
+        try {
+
             val loginBody = LoginBody(
                 email = state.email,
                 password = state.password
             )
-            val response = loginUseCase.login(loginBody)
-            if (response.success == true) {
-                val token = response.data!!.token
-                setToken(token)
-            }
+
+            withContext(IO) { loginUseCase.login(loginBody) }.also { setLogin(it) }
+
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
         }
     }
 

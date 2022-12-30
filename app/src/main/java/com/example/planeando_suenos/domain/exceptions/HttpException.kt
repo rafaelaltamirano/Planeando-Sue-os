@@ -1,4 +1,4 @@
-package com.example.domain.exceptions
+package com.example.planeando_suenos.domain.exceptions
 
 data class HttpException(
     val code: Int,

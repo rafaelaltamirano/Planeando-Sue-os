@@ -4,6 +4,7 @@ import com.example.planeando_suenos.domain.body.authentication.EmailBody
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.body.authentication.ResetPasswordBody
 import com.example.planeando_suenos.domain.body.authentication.TokenBody
+import com.example.planeando_suenos.domain.response.ResponseWrapper
 import com.example.planeando_suenos.domain.response.authentication.LoginResponse
 import com.example.planeando_suenos.domain.response.authentication.SuccessResponse
 import retrofit2.Response
@@ -14,8 +15,10 @@ import retrofit2.http.Query
 interface AuthenticationApi {
 
     // Authentication User --------------------------
+//    @POST("v1.0/auth/login")
+//    suspend fun login(@Body loginBody: LoginBody): Response<LoginResponse>
     @POST("v1.0/auth/login")
-    suspend fun login(@Body loginBody: LoginBody): Response<LoginResponse>
+    suspend fun login(@Body loginBody: LoginBody): Response<ResponseWrapper<LoginResponse>>
 
     @POST("v1.0/auth/refresh-token")
     suspend fun refreshToken(@Body tokenBody: TokenBody): Response<LoginResponse>

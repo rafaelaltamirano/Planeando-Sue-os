@@ -31,8 +31,9 @@ class MainViewModel @Inject constructor(
         state = state.copy(internetConnectionError = internetConnectionError)
     }
 
-    fun setToken(token: String) {
-        state = state.copy(token = token)
+
+    fun setLogin(login: Login) {
+        state = state.copy(login = login)
     }
 
     fun setName(name: String) {

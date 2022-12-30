@@ -6,11 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.body.users.User
+import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
 import com.example.planeando_suenos.usescases.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -121,17 +124,28 @@ class RegisterViewModel @Inject constructor(
         state = state.copy(token = token)
     }
 
+    private fun setLogin(login: Login) {
+        state = state.copy(login = login)
+    }
+
+
     suspend fun loginUser() {
-        viewModelScope.launch {
-            val loginBody = LoginBody(
-                email = state.email,
-                password = state.password
-            )
-            val response = loginUseCase.login(loginBody)
-            if (response.success == true) {
-                val token = response.data!!.token
-                setToken(token)
+        if (state.loading) return
+        setLoading(true)
+        try {
+            viewModelScope.launch {
+                val loginBody = LoginBody(
+                    email = state.email,
+                    password = state.password
+                )
+
+                withContext(Dispatchers.IO) { loginUseCase.login(loginBody) }.also { setLogin(it) }
+
             }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.planeando_suenos.domain.exceptions.FieldInvalidException
+import com.example.planeando_suenos.domain.exceptions.UnauthorizedException
 import retrofit2.HttpException
 import java.net.UnknownHostException
 
@@ -40,8 +41,9 @@ open class ViewModelWithStatus : ViewModel() {
     fun handleNetworkError(e: Exception) {
         println(">>: handleNetworkError: $e")
         status = when (e) {
-            is HttpException -> ModelStatus(Status.NETWORK_ERROR, e.message?.replace("Bad Request backend:", ""))
+            is HttpException ->  ModelStatus(Status.NETWORK_ERROR, e.message?.replace("Bad Request backend:", ""))
             is UnknownHostException -> ModelStatus(Status.INTERNET_CONNECTION_ERROR, e.message)
+            is UnauthorizedException -> ModelStatus(Status.NETWORK_ERROR, e.message)
             else -> ModelStatus(Status.ERROR)
 
         }
