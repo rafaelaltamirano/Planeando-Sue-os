@@ -30,8 +30,7 @@ import com.example.planeando_suenos.ui.theme.TextBusiness
 
 @Composable
 fun FinishStep(
-    onNext: () -> Unit,
-    model: RestorePasswordViewModel
+    onNext: () -> Unit
 ) {
     Column {
         TopBarWithCheck()

@@ -10,11 +10,10 @@ import androidx.navigation.NavHostController
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
-import com.example.planeando_suenos.ui.screens.register.RegisterStep
 import com.example.planeando_suenos.ui.screens.restorePass.RestorePasswordStep.*
 import com.example.planeando_suenos.ui.screens.restorePass.enterEmail.EnterEmailStep
-import com.example.planeando_suenos.ui.screens.restorePass.finish.FinishStep
 import com.example.planeando_suenos.ui.screens.restorePass.enterPassword.EnterPasswordStep
+import com.example.planeando_suenos.ui.screens.restorePass.finish.FinishStep
 import kotlinx.coroutines.launch
 
 
@@ -33,8 +32,8 @@ fun RestorePasswordScreen(
         else model.prevStep()
     }
 
-    model.state.login?.let {
-        mainModel.setLogin(it)
+    model.state.token?.let {
+        mainModel.setToken(it)
     }
 
     val headerTitle = if (state.step == ENTER_EMAIL) stringResource(R.string.forgot_pass_heder)
@@ -62,8 +61,7 @@ fun RestorePasswordScreen(
             )
 
             FINISH -> FinishStep(
-                onNext = { coroutineScope.launch { model.submit() } },
-                model = model
+                onNext = { coroutineScope.launch { model.login() } }
             )
         }
     }

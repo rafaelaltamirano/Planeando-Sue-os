@@ -4,9 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.components.TopBar
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -30,12 +28,16 @@ fun RegisterScreen(
         else model.prevStep()
     }
 
-    model.state.login?.let {
-        mainModel.setLogin(it)
+    model.state.token?.let {
+        mainModel.setToken(it)
     }
 
     if(model.state.name.isNotEmpty()){
         mainModel.setName(model.state.name)
+    }
+
+    if (!model.state.id.isNullOrBlank()) {
+        model.nextStep()
     }
 
     Scaffold(
@@ -56,11 +58,11 @@ fun RegisterScreen(
                 model = model
             )
             RegisterStep.DATA -> DataRegisterStep(
-                onSubmit = model::nextStep,
+                onSubmit = { coroutineScope.launch { model.registerUser() }},
                 model = model
             )
             RegisterStep.VERIFY -> VerifyRegisterStep(
-                onNext = { coroutineScope.launch { model.submit() } },
+                onNext = { coroutineScope.launch { model.loginUser() } },
             )
         }
     }
