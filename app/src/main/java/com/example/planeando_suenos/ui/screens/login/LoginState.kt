@@ -10,4 +10,5 @@ data class LoginState(
     val loading: Boolean = false,
     val token: String? = null,
     val login: Login? = null,
+    val id: String? = null
 )

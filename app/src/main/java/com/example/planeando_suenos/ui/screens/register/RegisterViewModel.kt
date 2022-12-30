@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
-import com.example.planeando_suenos.domain.body.users.User
+import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
@@ -100,8 +100,18 @@ class RegisterViewModel @Inject constructor(
         state = state.copy(id = id)
     }
 
-    suspend fun registerUser() {
-        viewModelScope.launch {
+
+    private fun setToken(token: String) {
+        state = state.copy(token = token)
+    }
+
+    private fun setLogin(login: Login) {
+        state = state.copy(login = login)
+    }
+
+    suspend fun registerUser() = viewModelScope.launch {
+        setLoading(true)
+        try {
             val user = User(
                 email = state.email,
                 password = state.password,
@@ -112,22 +122,13 @@ class RegisterViewModel @Inject constructor(
                 birthday = state.bornDay,
                 address = state.cp
             )
-            val response = registerCase.registerUser(user)
-            if (response.success == true) {
-                val id = response.data!!
-                setId(id)
-            }
+            withContext(Dispatchers.IO) { registerCase.registerUser(user) }.also { setId(it) }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
         }
     }
-
-    private fun setToken(token: String) {
-        state = state.copy(token = token)
-    }
-
-    private fun setLogin(login: Login) {
-        state = state.copy(login = login)
-    }
-
 
     suspend fun loginUser() {
         if (state.loading) return
@@ -138,9 +139,7 @@ class RegisterViewModel @Inject constructor(
                     email = state.email,
                     password = state.password
                 )
-
                 withContext(Dispatchers.IO) { loginUseCase.login(loginBody) }.also { setLogin(it) }
-
             }
         } catch (e: Exception) {
             handleNetworkError(e)
@@ -148,6 +147,4 @@ class RegisterViewModel @Inject constructor(
             setLoading(false)
         }
     }
-
-
 }

@@ -32,8 +32,8 @@ fun RegisterScreen(
         mainModel.setLogin(it)
     }
 
-    if(model.state.name.isNotEmpty()){
-        mainModel.setName(model.state.name)
+    if(!model.state.id.isNullOrBlank()){
+        mainModel.setId(model.state.id!!)
     }
 
     if (!model.state.id.isNullOrBlank()) {

@@ -55,14 +55,11 @@ class LoginViewModel @Inject constructor(
     suspend fun login() = viewModelScope.launch {
         setLoading(true)
         try {
-
             val loginBody = LoginBody(
                 email = state.email,
                 password = state.password
             )
-
             withContext(IO) { loginUseCase.login(loginBody) }.also { setLogin(it) }
-
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {
@@ -74,7 +71,6 @@ class LoginViewModel @Inject constructor(
         when (e.field) {
             Fields.EMAIL -> setEmailError(e.message)
             Fields.PASSWORD -> setPasswordError(e.message)
-            else -> {}
         }
         when (e.fieldSecond) {
             Fields.EMAIL -> setEmailError(e.message)
