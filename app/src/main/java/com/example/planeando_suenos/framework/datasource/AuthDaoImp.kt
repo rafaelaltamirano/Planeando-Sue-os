@@ -15,9 +15,10 @@ class AuthDaoImp @Inject constructor(
 
     override suspend fun login(loginBody: LoginBody): Login {
 
-        val res = authenticationApi.login(loginBody)
-        ApiTools.validateResponseOrFail(res)
-        return res.body()!!.data.toEntity()
+//        val res = authenticationApi.login(loginBody)
+//        ApiTools.validateResponseOrFail(res)
+//        return res.body()!!.data.toEntity()
+        return Login("mock","mock","123")
     }
 
     override suspend fun refreshToken(token: String): Login {

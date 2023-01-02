@@ -3,6 +3,8 @@ package com.example.planeando_suenos.ui.screens.home.step1
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.planeando_suenos.domain.body.smartShopping.DreamBody
+import com.example.planeando_suenos.domain.entities.Dream
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -30,4 +32,9 @@ class DreamsAndAspirationsViewModel @Inject constructor(
     fun setChecked(check: Boolean) {
         state = state.copy(checked = check)
     }
+
+    fun setDreamData(dreamData: DreamBody) {
+        state = state.copy(dreamData = dreamData)
+    }
+
 }

@@ -14,16 +14,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.domain.body.smartShopping.DreamBody
+import com.example.planeando_suenos.domain.body.smartShopping.DreamDataBody
+import com.example.planeando_suenos.domain.entities.Dream
+import com.example.planeando_suenos.domain.entities.DreamPlan
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
 import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 
+enum class DreamType(val description:String){
+    UNDERTAKE("Emprender o crecer mi negocio"),
+    WHITE_LINE("Línea Blanca"),
+    GADGET_AND_TECH("Gadget y electrónica"),
+    NEW_TEAM_WORK("Nuevo equipo de trabajo"),
+    BUILD_FUTURE_EDUCATION("Construir un futuro / educación"),
+    NEW_SCREEN("Nueva Pantalla"),
+    REMODEL_CONSTRUCTION("Remodelar y/o construcción"),
+    FURNISH("Amueblar"),
+    CHANGE_MOBILE("Cambiar de celular"),
+    FAMILIAR_GIF("Regalo a un familiar"),
+    VACATION("Ir de vacaciones"),
+    VIDEO_GAMES_CONSOLE("Consola y Videojuegos"),
+    EVENT_EXPERIENCE("Un Evento o Una nueva Experiencia"),
+    APPLIANCE("Electrodomésticos"),
+    CAR_MOTORCYCLE("Auto / Moto"),
+    OTHER("Otros");
+}
+
+
 @Composable
 fun DreamsGridStep(
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    model: DreamsAndAspirationsViewModel
 ) {
+    lateinit var dreamBody: DreamBody
+    val dreamListData = mutableListOf<DreamDataBody>()
+
+
     Column(
         Modifier
             .fillMaxSize()
@@ -41,35 +71,128 @@ fun DreamsGridStep(
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = "Eventos Viajes", Modifier.weight(1f))
-                DreamItemGrid(title = "Remodelar mi casa", Modifier.weight(1f))
-                DreamItemGrid(title = "Comprar muebles nuevos", Modifier.weight(1f))
+                DreamItemGrid(
+                    title = DreamType.UNDERTAKE.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.UNDERTAKE.description))
+
+                    }
+                )
+                DreamItemGrid(title = DreamType.WHITE_LINE.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.WHITE_LINE.description))
+
+                    })
+                DreamItemGrid(title = DreamType.GADGET_AND_TECH.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.GADGET_AND_TECH.description))
+
+                    })
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = "Nueva ropa", Modifier.weight(1f))
-                DreamItemGrid(title = "Salud", Modifier.weight(1f))
-                DreamItemGrid(title = "Tener mi moto", Modifier.weight(1f))
+                DreamItemGrid(
+                    title = DreamType.NEW_TEAM_WORK.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.NEW_TEAM_WORK.description))
+
+                    })
+                DreamItemGrid(title = DreamType.BUILD_FUTURE_EDUCATION.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.BUILD_FUTURE_EDUCATION.description))
+
+                })
+                DreamItemGrid(title = DreamType.NEW_SCREEN.description,
+                    modifier = Modifier.weight(1f)
+                    ,onClick = {
+                    dreamListData.add(DreamDataBody(description = DreamType.NEW_SCREEN.description))
+
+                })
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = "Hacer un regalo a un familiar", Modifier.weight(1f))
-                DreamItemGrid(title = "Línea blanca", Modifier.weight(1f))
-                DreamItemGrid(title = "Comprar mi computadora", Modifier.weight(1f))
+                DreamItemGrid(title = DreamType.REMODEL_CONSTRUCTION.description,
+                    Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.REMODEL_CONSTRUCTION.description))
+
+                    }
+                )
+                DreamItemGrid(
+                    title = DreamType.FURNISH.description,
+                    modifier =  Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.FURNISH.description))
+
+                    })
+                DreamItemGrid(title = DreamType.CHANGE_MOBILE.description,
+                    modifier =  Modifier.weight(1f),
+                    onClick = {
+                    dreamListData.add(DreamDataBody(description = DreamType.CHANGE_MOBILE.description))
+
+                })
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = "Video juegos", Modifier.weight(1f))
-                DreamItemGrid(title = "Cambiar mi celular", Modifier.weight(1f))
-                DreamItemGrid(title = "Comprar lavadora", Modifier.weight(1f))
+                DreamItemGrid(title = DreamType.FAMILIAR_GIF.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                    dreamListData.add(DreamDataBody(description = DreamType.FAMILIAR_GIF.description))
+                })
+                DreamItemGrid(
+                    title = DreamType.VACATION.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.VACATION.description))
+
+                    })
+                DreamItemGrid(title = DreamType.VIDEO_GAMES_CONSOLE.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.VIDEO_GAMES_CONSOLE.description))
+
+                    })
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = "Comprar refrigerador", Modifier.weight(1f))
-                DreamItemGrid(title = "Comprar televisor", Modifier.weight(1f))
-                DreamItemGrid(title = "Otro", Modifier.weight(1f))
+                DreamItemGrid(title =  DreamType.EVENT_EXPERIENCE.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.EVENT_EXPERIENCE.description))
+
+                    })
+                DreamItemGrid(title = DreamType.APPLIANCE.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.APPLIANCE.description))
+
+                    })
+                DreamItemGrid(title = DreamType.CAR_MOTORCYCLE.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.CAR_MOTORCYCLE.description))
+
+                    })
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                DreamItemGrid(title =  DreamType.OTHER.description,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        dreamListData.add(DreamDataBody(description = DreamType.OTHER.description))
+
+                    })
+
             }
         }
 
         SubmitButton(
             text = "continuar",
-            onClick = { onNext() }
+            onClick = {
+                dreamBody = DreamBody(dream = dreamListData)
+                model.setDreamData(dreamBody)
+                onNext()
+            }
         )
     }
 
@@ -77,7 +200,7 @@ fun DreamsGridStep(
 }
 
 @Composable
-fun DreamItemGrid(title: String, modifier: Modifier) {
+fun DreamItemGrid(title: String, modifier: Modifier, onClick: () -> Unit ) {
     var checked by remember { mutableStateOf(false) }
 
     val radius = RoundedCornerShape(6.dp)
@@ -92,6 +215,7 @@ fun DreamItemGrid(title: String, modifier: Modifier) {
             .background(backgroundColor, radius)
             .clickable {
                 checked = !checked
+                if(checked) onClick()
             }
     ) {
         Text(

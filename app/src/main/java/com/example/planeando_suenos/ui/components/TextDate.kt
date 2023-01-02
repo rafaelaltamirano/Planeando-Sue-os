@@ -32,7 +32,7 @@ import java.util.*
 private val mCalendar: Calendar = Calendar.getInstance()
 
 @Composable
-fun TextDate() {
+fun TextDate( onValueChanged: (String) -> Unit) {
     val hint: String = stringResource(id = com.example.planeando_suenos.R.string.date_example)
 
     var date by rememberSaveable {
@@ -57,6 +57,7 @@ fun TextDate() {
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }
             date = formatter.format(mCalendar.time)
+            onValueChanged(date)
         }, mYear, mMonth, mDay
     )
 
@@ -73,7 +74,8 @@ fun TextDate() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = date, style = MaterialTheme.typography.caption, modifier = Modifier.padding(
+            text = date,
+            style = MaterialTheme.typography.caption, modifier = Modifier.padding(
                 vertical = dimensionResource(
                     R.dimen.gap4
                 )
