@@ -1,4 +1,4 @@
-package com.example.planeando_suenos.domain.response.authentication
+package com.example.planeando_suenos.domain.response.users
 
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.domain.response.Response

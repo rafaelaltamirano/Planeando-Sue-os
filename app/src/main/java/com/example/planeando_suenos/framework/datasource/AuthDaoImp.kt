@@ -27,7 +27,7 @@ class AuthDaoImp @Inject constructor(
     }
 
     override suspend fun verifyEmail(token: String) {
-        val res = authenticationApi.refreshToken(token)
+        val res = authenticationApi.verifyEmail(token)
         ApiTools.validateResponseOrFail(res)
     }
 

@@ -2,7 +2,7 @@ package com.example.planeando_suenos.framework.retrofit.users
 
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.domain.response.ResponseWrapper
-import com.example.planeando_suenos.domain.response.authentication.UserResponse
+import com.example.planeando_suenos.domain.response.users.UserResponse
 import retrofit2.Response
 import retrofit2.http.*
 
