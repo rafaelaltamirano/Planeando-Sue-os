@@ -21,7 +21,6 @@ import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
-import java.util.*
 
 
 @Composable
@@ -31,7 +30,8 @@ fun ReviewNumbersStep(
     mainModel: MainViewModel,
     onShowBottomSheet : () -> Unit
 ) {
-    val name = mainModel.state.name
+    val name = mainModel.state.user?.firstName ?: ""
+
     Column(Modifier.fillMaxHeight().verticalScroll(rememberScrollState()))
     {
         TopBarWithText("Planeando sueños")

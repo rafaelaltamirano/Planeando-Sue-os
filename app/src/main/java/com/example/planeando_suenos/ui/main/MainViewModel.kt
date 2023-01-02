@@ -3,6 +3,7 @@ package com.example.planeando_suenos.ui.main
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.planeando_suenos.domain.body.users.User
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ModelStatus
 import com.example.planeando_suenos.ui.ViewModelWithStatus
@@ -35,8 +36,12 @@ class MainViewModel @Inject constructor(
         state = state.copy(token = token)
     }
 
-    fun setName(name: String) {
-        state = state.copy(name = name)
+    fun setId(id: String) {
+        state = state.copy(id = id)
+    }
+
+    fun setUser(user: User) {
+        state = state.copy(user = user)
     }
 
 }
