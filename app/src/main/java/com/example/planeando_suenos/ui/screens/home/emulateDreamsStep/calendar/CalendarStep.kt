@@ -1,11 +1,11 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.calendar
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
+import java.text.SimpleDateFormat
+import java.util.*
 
 private val first6Months = listOf("Ene", "Feb", "Mar", "Abr", "May", "Jun")
 private val last6Months = listOf("Jul", "Ago", "Sep", "Oct", "Nov", "Dic")
@@ -239,8 +241,75 @@ fun RowMonths(listMonths: List<String>) {
     }
 }
 
+private data class DreamCalendarItem(
+    val dateInit: String,
+    val dateFinish: String,
+    val color: Color,
+    val id: String
+)
+
+private val dateDreams = listOf(
+    DreamCalendarItem("02/2023", "04/2023", Color.Blue, "dream2"),
+    DreamCalendarItem("01/2023", "08/2023", Color.Green, "dream1"),
+)
+
+private val calendar = Calendar.getInstance()
+
+private fun isInThisMonth(actualDate: Date, itemDate: Date): Boolean {
+    return actualDate.before(itemDate)
+}
+
+@Composable
+fun CalendarPerYear(year: String) {
+
+    val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+
+        Text(
+            text = year,
+            modifier = Modifier.align(Alignment.End),
+            style = TextStyle(
+                color = TextColorUncheckedItemDreamGrid,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp
+            )
+        )
+        RowMonths(listMonths = first6Months)
+        dateDreams.forEach { dream ->
+            val dateInit = dateFormat.parse(dream.dateInit)
+            val dateFinish = dateFormat.parse(dream.dateFinish)
+            Row(modifier = Modifier.fillMaxWidth().wrapContentHeight(),horizontalArrangement = Arrangement.SpaceAround) {
+                repeat(6) {
+                    if (isInThisMonth(dateInit, dateFinish)) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(25.dp)
+                                .background(dream.color)
+                        )
+
+                    } else Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(25.dp)
+                            .background(
+                                TextColorUncheckedItemDreamGrid
+                            )
+                    )
+                }
+            }
+        }
+    }
+
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PrevCalendarDream() {
-    CalendarStep({}, {})
+    CalendarPerYear("2023")
 }
