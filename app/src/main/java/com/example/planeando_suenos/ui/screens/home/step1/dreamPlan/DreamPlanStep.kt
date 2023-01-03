@@ -8,11 +8,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,13 +26,14 @@ import com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid.DreamType
 import com.example.planeando_suenos.ui.theme.BackgroundItemDream
 import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.TextColorItemDream
+import kotlinx.coroutines.launch
 
 @Composable
 fun DreamPlanStep(
     model: DreamsAndAspirationsViewModel,
     onFinish: () -> Unit
 ) {
-
+    val coroutineScope = rememberCoroutineScope()
     val itemDreams = model.state.dreamData?.dream?.mapNotNull { it.description }
     val dreamListData = model.state.dreamData?.dream?.toMutableList()
     lateinit var dreamBody: DreamBody
@@ -64,7 +62,7 @@ fun DreamPlanStep(
                         model.state.dreamData?.dream?.get(index)?.amount.toString()
                     } else "",
                     onValueChanged = {
-                        val dreamUpdate = dreamListData?.get(index)?.copy(amount = it)
+                        val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
                         dreamListData?.set(index, dreamUpdate!!)
                         dreamBody = DreamBody(dream = dreamListData)
                         model.setDreamData(dreamBody)
@@ -77,7 +75,7 @@ fun DreamPlanStep(
                     model.state.dreamData?.dream?.get(index)?.amount.toString()
                 } else "",
                 onValueChanged = {
-                    val dreamUpdate = dreamListData?.get(index)?.copy(amount = it)
+                    val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
                     dreamListData?.set(index, dreamUpdate!!)
                     dreamBody = DreamBody(dream = dreamListData)
                     model.setDreamData(dreamBody)
@@ -106,7 +104,11 @@ fun DreamPlanStep(
         })
         SubmitButton(
             text = "continuar",
-            onClick = { onFinish() }
+            onClick = {
+                coroutineScope.launch {
+                    model.submitDream()
+                }
+                onFinish() }
         )
     }
 

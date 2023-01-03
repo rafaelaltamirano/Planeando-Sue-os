@@ -180,7 +180,6 @@ fun DreamsGridStep(
                     modifier = Modifier.weight(1f),
                     onClick = {
                         dreamListData.add(DreamDataBody(description = DreamType.OTHER.description))
-
                     })
 
             }

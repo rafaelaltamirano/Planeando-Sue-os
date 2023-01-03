@@ -46,10 +46,10 @@ class HomeViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
-    suspend fun getUserById(id: String, token: String) = viewModelScope.launch {
+     fun getUserById(id: String) = viewModelScope.launch {
         setLoading(true)
         try {
-            withContext(Dispatchers.IO) { homeUseCase.getUserByIdUseCase(id, token) }.also { setUser(it) }
+            withContext(Dispatchers.IO) { homeUseCase.getUserByIdUseCase(id) }.also { setUser(it) }
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {

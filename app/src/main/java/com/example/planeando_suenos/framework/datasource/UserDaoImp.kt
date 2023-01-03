@@ -25,8 +25,8 @@ class UserDaoImp @Inject constructor(
         return res.body()!!.data
     }
 
-    override suspend fun getUserById(id: String, token: String): User {
-        val res = usersApi.getUserById(id,token)
+    override suspend fun getUserById(id: String): User {
+        val res = usersApi.getUserById(id)
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.data.toEntity()
     }

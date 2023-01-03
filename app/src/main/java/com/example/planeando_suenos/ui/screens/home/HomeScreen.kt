@@ -47,7 +47,7 @@ fun HomeScreen(
     }
 
     LaunchedEffect(Unit) {
-        homeViewModel.getUserById(state.login?.id ?: "", state.login?.token ?: "")
+        homeViewModel.getUserById(state.login?.id ?: "")
     }
 
     if (homeViewModel.state.user != null) {

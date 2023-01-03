@@ -14,11 +14,11 @@ class AuthDaoImp @Inject constructor(
 ) : AuthDao {
 
     override suspend fun login(loginBody: LoginBody): Login {
-
+        val send = LoginBody("user@user.com","1234567890pP")
 //        val res = authenticationApi.login(loginBody)
-//        ApiTools.validateResponseOrFail(res)
-//        return res.body()!!.data.toEntity()
-        return Login("mock","mock","123")
+        val res = authenticationApi.login(send)
+        ApiTools.validateResponseOrFail(res)
+        return res.body()!!.data.toEntity()
     }
 
     override suspend fun refreshToken(token: String): Login {

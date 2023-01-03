@@ -35,10 +35,10 @@ data class ExpensesBody(
 
 data class DreamDataBody(
     val description: String ?= null,
-    val amount: String?  = null,
+    val amount: Float?  = null,
     val date: String?  = null,
-    val amountPlaned: Double?  = null,
-    val paymentQuantity: Double?  = null,
+    val amountPlaned: Float?  = null,
+    val paymentQuantity: Float?  = null,
     val dreamType: DreamTypeBody?  = null,
 )
 
