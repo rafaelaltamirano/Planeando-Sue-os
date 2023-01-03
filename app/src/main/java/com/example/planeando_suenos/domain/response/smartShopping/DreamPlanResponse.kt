@@ -1,6 +1,6 @@
 package com.example.planeando_suenos.domain.response.smartShopping
 
-import com.example.planeando_suenos.domain.entities.*
+import com.example.planeando_suenos.domain.body.smartShopping.*
 import com.example.planeando_suenos.domain.response.Response
 import com.google.gson.annotations.SerializedName
 
@@ -66,10 +66,10 @@ data class ExpensesResponse(
 
 data class DreamResponse(
     @SerializedName("description") val description: String,
-    @SerializedName("amount") val amount: Double,
+    @SerializedName("amount") val amount: Float,
     @SerializedName("date") val date: String,
-    @SerializedName("amountPlaned") val amountPlaned: Double,
-    @SerializedName("paymentQuantity") val paymentQuantity: Double,
+    @SerializedName("amountPlaned") val amountPlaned: Float,
+    @SerializedName("paymentQuantity") val paymentQuantity: Float,
     @SerializedName("dreamType") val dreamType: DreamTypeResponse,
 ) : Response<Dream> {
     override fun toEntity() = Dream(

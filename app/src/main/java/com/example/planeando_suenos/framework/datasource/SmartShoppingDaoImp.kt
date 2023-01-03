@@ -1,9 +1,8 @@
 package com.example.planeando_suenos.framework.datasource
 
 import com.example.planeando_suenos.data.dao.SmartShoppingDao
-import com.example.planeando_suenos.domain.body.smartShopping.DreamBody
-import com.example.planeando_suenos.domain.entities.DreamPlan
-import com.example.planeando_suenos.domain.entities.DreamType
+import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.body.smartShopping.DreamType
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.framework.api.ApiTools
 import com.example.planeando_suenos.framework.retrofit.smartShopping.SmartShoppingApi
@@ -14,14 +13,14 @@ class SmartShoppingDaoImp @Inject constructor(
     private val smartShoppingApi: SmartShoppingApi
 ) : SmartShoppingDao {
 
-    override suspend fun getDreamsType(): DreamType {
+    override suspend fun getDreamsType(): List<DreamType> {
 
         val res = smartShoppingApi.getDreamsType()
         ApiTools.validateResponseOrFail(res)
-        return res.body()!!.data.toEntity()
+        return res.body()!!.data.map { it.toEntity() }
     }
 
-    override suspend fun createDreamPlan(dream: DreamBody?) {
+    override suspend fun createDreamPlan(dream: com.example.planeando_suenos.domain.body.smartShopping.DreamPlan?) {
         val res = smartShoppingApi.createDreamPlan(dream)
         ApiTools.validateResponseOrFail(res)
     }

@@ -1,14 +1,8 @@
 package com.example.planeando_suenos.ui.components
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +11,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
@@ -25,6 +20,8 @@ fun SubmitButton(
     text: String = "",
     onClick: () -> Unit,
     color: Color = GreenBusiness,
+    loading: Boolean = false,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = dimensionResource(R.dimen.gap4),
@@ -33,6 +30,7 @@ fun SubmitButton(
     Button(
         modifier = modifier,
         onClick = { onClick() },
+        enabled = enabled && !loading,
         shape = RoundedCornerShape(50),
         contentPadding = PaddingValues(
             vertical = 13.dp
@@ -42,11 +40,25 @@ fun SubmitButton(
             disabledBackgroundColor = Gray
         ),
     ) {
-        Text(
-            text.uppercase(),
-            color = White,
-            style = MaterialTheme.typography.button,
-            fontWeight = W900
-        )
+        when (loading) {
+            true -> {
+
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .width(25.dp)
+                        .height(25.dp),
+                    color = White
+                )
+
+            }
+            else -> {
+                Text(
+                    text.uppercase(),
+                    color = White,
+                    style = MaterialTheme.typography.button,
+                    fontWeight = W900
+                )
+            }
+        }
     }
 }

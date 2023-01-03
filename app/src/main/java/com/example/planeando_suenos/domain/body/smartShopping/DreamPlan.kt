@@ -1,22 +1,19 @@
 package com.example.planeando_suenos.domain.body.smartShopping
 
-import com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid.DreamType
-import com.google.gson.annotations.SerializedName
-
-data class DreamBody(
+data class DreamPlan(
     val title: String? = null,
-    val userFinance: UserFinanceBody? = null,
-    val dream: List<DreamDataBody>? = null,
+    val userFinance: UserFinance? = null,
+    val dream: List<Dream>? = null,
     val id: String? = null,
 )
 
-data class UserFinanceBody(
-    val income: IncomeBody? = null,
-    val expenses: ExpensesBody? = null,
+data class UserFinance(
+    val income: Income? = null,
+    val expenses: Expenses? = null,
     val paymentCapability: Double? = null,
 )
 
-data class IncomeBody(
+data class Income(
     val type: String?  = null,
     val amount: Double?  = null,
     val frequency: String?  = null,
@@ -24,7 +21,7 @@ data class IncomeBody(
     val totalIncome: Double?  = null,
 )
 
-data class ExpensesBody(
+data class Expenses(
     val home: Double?  = null,
     val transport: Double?  = null,
     val education: Double?  = null,
@@ -33,15 +30,17 @@ data class ExpensesBody(
     val totalExpense: Double?  = null,
 )
 
-data class DreamDataBody(
+data class Dream(
     val description: String ?= null,
     val amount: Float?  = null,
     val date: String?  = null,
     val amountPlaned: Float?  = null,
     val paymentQuantity: Float?  = null,
-    val dreamType: DreamTypeBody?  = null,
+    val dreamType: DreamType?  = null,
 )
 
-data class DreamTypeBody(
-     val id: String
+data class DreamType(
+    val id: String?  = null,
+    val title: String?  = null,
+    val iconName: String? = null,
 )
