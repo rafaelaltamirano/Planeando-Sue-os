@@ -14,9 +14,9 @@ class AuthDaoImp @Inject constructor(
 ) : AuthDao {
 
     override suspend fun login(loginBody: LoginBody): Login {
-        val send = LoginBody("user@user.com","1234567890pP")
-//        val res = authenticationApi.login(loginBody)
-        val res = authenticationApi.login(send)
+//        val send = LoginBody("user@user.com","1234567890pP")
+        val res = authenticationApi.login(loginBody)
+//        val res = authenticationApi.login(send)
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.data.toEntity()
     }
