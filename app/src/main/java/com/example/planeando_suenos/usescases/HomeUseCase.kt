@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class HomeUseCase @Inject constructor(private val userDao: UserDao) {
 
-    suspend fun getUserByIdUseCase(id: String, token: String): User {
-        return userDao.getUserById(id, token)
+    suspend fun getUserByIdUseCase(id: String): User {
+        return userDao.getUserById(id)
     }
 }
 

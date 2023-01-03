@@ -15,5 +15,5 @@ interface UsersApi {
     suspend fun updateUser(@Body user: User): Response<ResponseWrapper<String>>
 
     @GET("v1.0/users/{id}")
-    suspend fun getUserById(@Path("id") id: String, @Header("tokenjwt") token: String): Response<ResponseWrapper<UserResponse>>
+    suspend fun getUserById(@Path("id") id: String): Response<ResponseWrapper<UserResponse>>
 }

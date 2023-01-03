@@ -32,10 +32,13 @@ import java.util.*
 private val mCalendar: Calendar = Calendar.getInstance()
 
 @Composable
-fun TextDate() {
+fun TextDate( onValueChanged: (String) -> Unit) {
     val hint: String = stringResource(id = com.example.planeando_suenos.R.string.date_example)
 
     var date by rememberSaveable {
+        mutableStateOf(hint)
+    }
+    var dateShow by rememberSaveable {
         mutableStateOf(hint)
     }
 
@@ -46,7 +49,8 @@ fun TextDate() {
     val mMonth: Int = mCalendar.get(Calendar.MONTH)
     val mDay: Int = mCalendar.get(Calendar.DAY_OF_MONTH)
 
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val formatterShow = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     val mDatePickerDialog = DatePickerDialog(
         mContext,
@@ -56,7 +60,9 @@ fun TextDate() {
                 set(Calendar.MONTH, month)
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }
-            date = formatter.format(mCalendar.time)
+            date = formatterShow.format(mCalendar.time)
+            dateShow = formatter.format(mCalendar.time)
+            onValueChanged(dateShow)
         }, mYear, mMonth, mDay
     )
 
@@ -73,7 +79,8 @@ fun TextDate() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = date, style = MaterialTheme.typography.caption, modifier = Modifier.padding(
+            text = date,
+            style = MaterialTheme.typography.caption, modifier = Modifier.padding(
                 vertical = dimensionResource(
                     R.dimen.gap4
                 )

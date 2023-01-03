@@ -7,7 +7,7 @@ import com.example.planeando_suenos.domain.entities.User
 interface UserDao {
     suspend fun createUser(user: User): String
     suspend fun updateUser(user: User): String
-    suspend fun getUserById(id: String, token: String): User
+    suspend fun getUserById(id: String): User
 
 
 }
