@@ -1,14 +1,13 @@
 package com.example.planeando_suenos.usescases
 
 import com.example.planeando_suenos.data.adapters.FieldValidator
-import com.example.planeando_suenos.data.retrofit.UsersService
-import com.example.planeando_suenos.domain.body.users.User
-import com.example.planeando_suenos.domain.response.users.CreateUserResponse
+import com.example.planeando_suenos.data.dao.UserDao
+import com.example.planeando_suenos.domain.entities.User
 import javax.inject.Inject
 
 class RegisterUseCase @Inject constructor(
     private val fieldValidator: FieldValidator,
-    private val usersService: UsersService
+    private val userDao: UserDao
 ) {
 
     fun validatePassOne(text: String): Boolean {
@@ -23,7 +22,7 @@ class RegisterUseCase @Inject constructor(
         return fieldValidator.isPasswordValidOrFailThree(text)
     }
 
-    suspend fun registerUser(user: User): CreateUserResponse {
-        return usersService.createUser(user)
+    suspend fun registerUser(user: User): String {
+        return userDao.createUser(user)
     }
 }

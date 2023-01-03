@@ -44,27 +44,22 @@ class LoginViewModel @Inject constructor(
         state = state.copy(password = password)
     }
 
-    private fun setToken(token: String) {
-        state = state.copy(token = token)
+    private fun setLogin(login: Login) {
+        state = state.copy(login = login)
     }
 
-    private fun setId(id: String) {
-        state = state.copy(id = id)
-    }
-
-    suspend fun login() {
-        viewModelScope.launch {
+    suspend fun login() = viewModelScope.launch {
+        setLoading(true)
+        try {
             val loginBody = LoginBody(
                 email = state.email,
                 password = state.password
             )
-            val response = loginUseCase.login(loginBody)
-            if (response.success == true) {
-                val token = response.data!!.token
-                setToken(token)
-                val id = response.data.id
-                setId(id)
-            }
+            withContext(IO) { loginUseCase.login(loginBody) }.also { setLogin(it) }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -72,7 +67,6 @@ class LoginViewModel @Inject constructor(
         when (e.field) {
             Fields.EMAIL -> setEmailError(e.message)
             Fields.PASSWORD -> setPasswordError(e.message)
-            else -> {}
         }
         when (e.fieldSecond) {
             Fields.EMAIL -> setEmailError(e.message)

@@ -52,12 +52,9 @@ fun LoginScreen(
         model.clearStatus()
     }
 
-    model.state.token?.let {
-        mainModel.setToken(it)
-    }
 
-    model.state.id?.let {
-        mainModel.setId(it)
+    model.state.login?.let {
+        mainModel.setLogin(it)
     }
 
     Scaffold(

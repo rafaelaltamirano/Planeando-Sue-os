@@ -90,7 +90,7 @@ fun CreditAmountStep(
             text = "¿Cuándo dejarias de pagar el crédito?"
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap3)))
-        TextDate()
+        TextDate(onValueChanged = {})
         SubmitButton(
             text = "continuar",
             onClick = { onNext() }

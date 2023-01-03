@@ -1,5 +1,8 @@
 package com.example.planeando_suenos.ui.screens.home.step1
 
+import com.example.planeando_suenos.domain.body.smartShopping.DreamBody
+import com.example.planeando_suenos.domain.entities.Dream
+
 enum class Step1Step(val step: Int) {
 
     DREAMS_GRID(0),
@@ -17,5 +20,6 @@ enum class Step1Step(val step: Int) {
 data class DreamsAndAspirationsState(
     val loading: Boolean = false,
     val step: Step1Step = Step1Step.DREAMS_GRID,
-    val checked: Boolean = false
+    val checked: Boolean = false,
+    val dreamData: DreamBody? = null
 )

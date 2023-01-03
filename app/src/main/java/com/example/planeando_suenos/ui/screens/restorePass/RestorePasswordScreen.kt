@@ -32,8 +32,8 @@ fun RestorePasswordScreen(
         else model.prevStep()
     }
 
-    model.state.token?.let {
-        mainModel.setToken(it)
+    model.state.login?.let {
+        mainModel.setLogin(it)
     }
 
     val headerTitle = if (state.step == ENTER_EMAIL) stringResource(R.string.forgot_pass_heder)

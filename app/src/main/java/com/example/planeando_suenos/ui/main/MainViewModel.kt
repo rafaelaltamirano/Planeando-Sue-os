@@ -3,7 +3,7 @@ package com.example.planeando_suenos.ui.main
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.example.planeando_suenos.domain.body.users.User
+import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ModelStatus
 import com.example.planeando_suenos.ui.ViewModelWithStatus
@@ -32,8 +32,9 @@ class MainViewModel @Inject constructor(
         state = state.copy(internetConnectionError = internetConnectionError)
     }
 
-    fun setToken(token: String) {
-        state = state.copy(token = token)
+
+    fun setLogin(login: Login) {
+        state = state.copy(login = login)
     }
 
     fun setId(id: String) {
