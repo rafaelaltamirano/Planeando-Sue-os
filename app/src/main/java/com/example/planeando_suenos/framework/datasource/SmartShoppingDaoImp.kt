@@ -5,6 +5,7 @@ import com.example.planeando_suenos.domain.body.smartShopping.DreamBody
 import com.example.planeando_suenos.domain.entities.DreamPlan
 import com.example.planeando_suenos.domain.entities.DreamType
 import com.example.planeando_suenos.domain.entities.DreamWithUser
+import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.framework.api.ApiTools
 import com.example.planeando_suenos.framework.retrofit.smartShopping.SmartShoppingApi
 import javax.inject.Inject
@@ -15,7 +16,6 @@ class SmartShoppingDaoImp @Inject constructor(
 ) : SmartShoppingDao {
 
     override suspend fun getDreamsType(): DreamType {
-
         val res = smartShoppingApi.getDreamsType()
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.data.toEntity()
@@ -41,6 +41,12 @@ class SmartShoppingDaoImp @Inject constructor(
         val res = smartShoppingApi.getDreamById(dreamId)
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.toEntity()
+    }
+
+    override suspend fun getDreamPlanCalendar(dreamId: String): List<DreamCalendarItem> {
+        val res = smartShoppingApi.getDreamPlanCalendar(dreamId)
+        ApiTools.validateResponseOrFail(res)
+        return res.body()?.data?.dreams.orEmpty()
     }
 
 

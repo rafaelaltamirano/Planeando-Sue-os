@@ -1,7 +1,5 @@
 package com.example.planeando_suenos.domain.entities
 
-import com.google.gson.annotations.SerializedName
-
 
 class DreamWithUser(
     val title: String,
