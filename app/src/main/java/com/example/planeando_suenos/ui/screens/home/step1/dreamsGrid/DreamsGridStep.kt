@@ -16,9 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
@@ -110,7 +112,7 @@ fun DreamsGridStep(
             }
         }
             SubmitButton(
-                text = "continuar",
+                text = stringResource(R.string.continue_),
                 enabled = dreamListData.isNotEmpty(),
                 onClick = {
                     dreamPlan = DreamPlan(dream = dreamListData)

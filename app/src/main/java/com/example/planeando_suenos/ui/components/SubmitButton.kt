@@ -45,11 +45,10 @@ fun SubmitButton(
 
                 CircularProgressIndicator(
                     modifier = Modifier
-                        .width(25.dp)
-                        .height(25.dp),
+                        .width(20.dp)
+                        .height(20.dp),
                     color = White
                 )
-
             }
             else -> {
                 Text(

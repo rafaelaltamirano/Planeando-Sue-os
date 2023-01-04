@@ -33,7 +33,8 @@ data class Expenses(
 data class Dream(
     val description: String ?= null,
     val amount: Float?  = null,
-    val date: String?  = null,
+    val startDate: String?  = null,
+    val endDate: String?  = null,
     val amountPlaned: Float?  = null,
     val paymentQuantity: Float?  = null,
     val dreamType: DreamType?  = null,

@@ -24,6 +24,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.planeando_suenos.R
+import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.ui.theme.BackgroundCard
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import java.text.SimpleDateFormat
@@ -43,14 +44,9 @@ fun TextDate( onValueChanged: (String) -> Unit) {
     }
 
     val mContext = LocalContext.current
-
-
     val mYear: Int = mCalendar.get(Calendar.YEAR)
     val mMonth: Int = mCalendar.get(Calendar.MONTH)
     val mDay: Int = mCalendar.get(Calendar.DAY_OF_MONTH)
-
-    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-    val formatterShow = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     val mDatePickerDialog = DatePickerDialog(
         mContext,
@@ -60,9 +56,10 @@ fun TextDate( onValueChanged: (String) -> Unit) {
                 set(Calendar.MONTH, month)
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }
-            date = formatterShow.format(mCalendar.time)
-            dateShow = formatter.format(mCalendar.time)
-            onValueChanged(dateShow)
+            date = mCalendar.time.convertDateToFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            dateShow = mCalendar.time.convertDateToFormat("dd/MM/yyyy")
+
+            onValueChanged(date)
         }, mYear, mMonth, mDay
     )
 
@@ -79,7 +76,7 @@ fun TextDate( onValueChanged: (String) -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = date,
+            text = dateShow,
             style = MaterialTheme.typography.caption, modifier = Modifier.padding(
                 vertical = dimensionResource(
                     R.dimen.gap4

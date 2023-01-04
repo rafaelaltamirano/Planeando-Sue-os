@@ -10,20 +10,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TextDate
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
+import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.ui.theme.BackgroundItemDream
 import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.TextColorItemDream
 import kotlinx.coroutines.launch
+import java.util.*
 
 @Composable
 fun DreamPlanStep(
@@ -94,25 +98,32 @@ fun DreamPlanStep(
                 lineHeight = 23.sp
             )
         )
-        TextDate(onValueChanged = { date ->
-            dreamPlan = DreamPlan(dream = dreamListData?.map {  it.copy(date = date)})
-            model.setDreamData(dreamPlan)
-            Log.d("TEST",model.state.dreamData?.dream.toString())
-        })
-        SubmitButton(
-            text = "continuar",
-            loading = model.state.loading,
-            onClick = {
-                coroutineScope.launch {
-                    model.submitDream()
+        TextDate(
+            onValueChanged = { date ->
+                dreamPlan = DreamPlan(dream = dreamListData?.map {
+                    it.copy(
+                        endDate = date,
+                        startDate = Calendar.getInstance().time.convertDateToFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                    )
                 }
-                onFinish() }
+                )
+                model.setDreamData(dreamPlan)
+            })
 
+        val amountFilled = model.state.dreamData?.dream!!.mapNotNull { it.amount }
+        val endDateFilled = model.state.dreamData?.dream!!.mapNotNull { it.endDate }
+        SubmitButton(
+            text = stringResource(R.string.finalize),
+            loading = model.state.loading,
+            enabled = (model.state.dreamData?.dream!!.size == amountFilled.size) && (model.state.dreamData?.dream!!.size == endDateFilled.size),
+            onClick = {
+                coroutineScope.launch { model.submitDream() }
+                onFinish()
+            }
         )
     }
 
 }
-
 
 @Composable
 fun BoxDream(itemDreams: List<String>?) {
@@ -162,9 +173,6 @@ fun AmountDream(
     value: String,
     onValueChanged: (String) -> Unit
 ) {
-//    var value by rememberSaveable {
-//        mutableStateOf("")
-//    }
     Column(Modifier.padding(top = 24.dp)) {
         Text(
             text = dream, style = TextStyle(
