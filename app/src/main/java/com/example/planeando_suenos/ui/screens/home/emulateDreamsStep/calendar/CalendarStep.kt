@@ -148,12 +148,34 @@ fun CalendarPerYear(dreamCalendarItem: DreamCalendarItem) {
 
         RowMonths(listMonths = first6Months)
 
+        if (dreamCalendarItem.eneJun.isEmpty()) {
+            Row(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(25.dp)
+                        .background(BackgroundUncheckedItemDreamGrid, RoundedCornerShape(4.dp))
+                )
+            }
+        }
+
         dreamCalendarItem.eneJun.forEach {
             PaintMonths(it)
             Spacer(modifier = Modifier.height(4.dp))
         }
 
         RowMonths(listMonths = last6Months)
+
+        if (dreamCalendarItem.julDic.isEmpty()) {
+            Row(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(25.dp)
+                        .background(BackgroundUncheckedItemDreamGrid, RoundedCornerShape(4.dp))
+                )
+            }
+        }
 
         dreamCalendarItem.julDic.forEach {
             PaintMonths(it)
@@ -204,15 +226,17 @@ fun RowMonthEneJunPaint(monthInit: Int, monthFinish: Int, color: Color) {
         }
 
         for (colorBox in monthInit..monthFinish) {
-            val shape = when (colorBox) {
-                1 -> {
-                    RoundedCornerShape(topStart = 4.dp, bottomStart = 4.dp)
-                }
-                6 -> {
-                    RoundedCornerShape(topEnd = 4.dp, bottomEnd = 4.dp)
-                }
-                else -> RectangleShape
+            var shape = RectangleShape
+            if (monthInit == colorBox) {
+                shape = RoundedCornerShape(topStart = 4.dp, bottomStart = 4.dp)
             }
+            if (monthFinish == colorBox) {
+                shape = RoundedCornerShape(topEnd = 4.dp, bottomEnd = 4.dp)
+            }
+            if (monthInit == monthFinish) {
+                shape = RoundedCornerShape(4.dp)
+            }
+
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -264,14 +288,15 @@ fun RowMonthJulDicPaint(monthInit: Int, monthFinish: Int, color: Color) {
         }
 
         for (colorBox in monthInit..monthFinish) {
-            val shape = when (colorBox) {
-                7 -> {
-                    RoundedCornerShape(topStart = 4.dp, bottomStart = 4.dp)
-                }
-                12 -> {
-                    RoundedCornerShape(topEnd = 4.dp, bottomEnd = 4.dp)
-                }
-                else -> RectangleShape
+            var shape = RectangleShape
+            if (monthInit == colorBox) {
+                shape = RoundedCornerShape(topStart = 4.dp, bottomStart = 4.dp)
+            }
+            if (monthFinish == colorBox) {
+                shape = RoundedCornerShape(topEnd = 4.dp, bottomEnd = 4.dp)
+            }
+            if (monthInit == monthFinish) {
+                shape = RoundedCornerShape(4.dp)
             }
             Box(
                 modifier = Modifier
