@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColorInt
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.domain.response.smartShopping.DreamItem
 import com.example.planeando_suenos.ui.components.SubmitButton
@@ -168,13 +169,13 @@ private fun PaintMonths(item: DreamItem) {
         RowMonthEneJunPaint(
             monthInit = item.monthInit,
             monthFinish = item.monthFinish,
-            color = item.color
+            color = Color(item.color.toColorInt())
         )
     } else {
         RowMonthJulDicPaint(
             monthInit = item.monthInit,
             monthFinish = item.monthFinish,
-            color = item.color
+            color = Color(item.color.toColorInt())
         )
     }
 }
