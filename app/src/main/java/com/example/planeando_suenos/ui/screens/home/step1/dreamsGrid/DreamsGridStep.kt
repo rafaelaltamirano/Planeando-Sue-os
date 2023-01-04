@@ -1,6 +1,7 @@
 package com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +24,6 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
-import com.example.planeando_suenos.ui.ModelStatus
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
 import com.example.planeando_suenos.ui.theme.Accent
@@ -77,11 +76,11 @@ fun DreamsGridStep(
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 var totalItem = model.state.dreamTypes.size
-                val x = (totalItem.toDouble() / 3).ceilRound()
+                val totalRows = (totalItem.toDouble() / 3).ceilRound()
                 var itemCount = 0
                 var clearPosition = 0
 
-                for (n in 0 until x) {
+                for (n in 0 until totalRows) {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         for (i in 1..3) {
                             if (totalItem != 0) {
@@ -89,14 +88,20 @@ fun DreamsGridStep(
                                     title = model.state.dreamTypes[itemCount].title ?: "",
                                     modifier = Modifier.weight(1f),
                                     onClick = {
+                                        Log.d("TEST",((3*n)+i).toString())
                                         dreamListData.add(
+//                                            ((3*n)+i)-1 = position formula
                                             Dream(
-                                                description = model.state.dreamTypes[n].title ?: "",
+                                                description = model.state.dreamTypes[((3*n)+i)-1].title ?: "",
                                                 dreamType = DreamType(
-                                                    id = model.state.dreamTypes[n].id
+                                                    id = model.state.dreamTypes[((3*n)+i)-1].id
                                                 )
                                             )
                                         )
+                                        dreamListData.forEach{
+                                            Log.d("TEST",it.toString())
+                                        }
+
                                         clearPosition += 1
                                     },
                                     onClear = {
