@@ -21,6 +21,7 @@ data class DreamsAndAspirationsState(
     val loading: Boolean = false,
     val step: Step1Step = Step1Step.DREAMS_GRID,
     val checked: Boolean = false,
+    val dreamId: String? = null,
     val dreamData: DreamPlan? = null,
     val dreamTypes: List<DreamType> = emptyList()
 )

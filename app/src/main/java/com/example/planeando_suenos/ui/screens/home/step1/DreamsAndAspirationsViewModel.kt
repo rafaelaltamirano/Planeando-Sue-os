@@ -54,10 +54,18 @@ class DreamsAndAspirationsViewModel @Inject constructor(
         state = state.copy(dreamTypes = dreamTypes)
     }
 
-    suspend fun submitDream() = viewModelScope.launch {
+     fun setDreamId(dreamId: String?) {
+        state = state.copy(dreamId = dreamId)
+    }
+
+   suspend  fun submitDream() = viewModelScope.launch {
         setLoading(true)
         try {
-            withContext(Dispatchers.IO) { dreamAndAspirationUseCase.createDreamPlan(state.dreamData) }
+            withContext(Dispatchers.IO) {
+               val  res = dreamAndAspirationUseCase.createDreamPlan(state.dreamData)
+                setDreamId(res)
+                setChecked(true)
+            }
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {

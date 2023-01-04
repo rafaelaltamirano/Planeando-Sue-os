@@ -16,3 +16,12 @@ data class DreamTypeResponse(
         iconName = iconName
     )
 }
+
+data class DreamTypeIdResponse(
+    @SerializedName("id") val id: String,
+) : Response<DreamType> {
+
+    override fun toEntity() = DreamType(
+        id = id,
+    )
+}

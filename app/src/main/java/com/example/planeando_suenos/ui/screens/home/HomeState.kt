@@ -10,5 +10,5 @@ data class HomeState(
     val checkedStep3: Boolean = false,
     val emulateDreamStep: Boolean = false,
     val loading: Boolean = false,
-    val user: User? = null
+    val user: User? = null,
 )

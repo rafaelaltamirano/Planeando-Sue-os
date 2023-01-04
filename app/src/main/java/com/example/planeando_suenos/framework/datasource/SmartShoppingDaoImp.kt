@@ -20,9 +20,10 @@ class SmartShoppingDaoImp @Inject constructor(
         return res.body()!!.data.map { it.toEntity() }
     }
 
-    override suspend fun createDreamPlan(dream: com.example.planeando_suenos.domain.body.smartShopping.DreamPlan?) {
+    override suspend fun createDreamPlan(dream: DreamPlan?):String {
         val res = smartShoppingApi.createDreamPlan(dream)
         ApiTools.validateResponseOrFail(res)
+        return res.body()!!.data
     }
 
     override suspend fun updateDreamPlan(dream: DreamPlan) {
@@ -37,9 +38,9 @@ class SmartShoppingDaoImp @Inject constructor(
     }
 
     override suspend fun getDreamById(dreamId: String): DreamWithUser {
-        val res = smartShoppingApi.getDreamById(dreamId)
+        val res = smartShoppingApi.getDreamById(dreamId,"equal")
         ApiTools.validateResponseOrFail(res)
-        return res.body()!!.toEntity()
+        return res.body()!!.data.toEntity()
     }
 
 

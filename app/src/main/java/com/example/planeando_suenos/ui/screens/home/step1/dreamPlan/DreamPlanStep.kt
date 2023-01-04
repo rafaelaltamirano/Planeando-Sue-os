@@ -35,12 +35,10 @@ fun DreamPlanStep(
     model: DreamsAndAspirationsViewModel,
     onFinish: () -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
+
     val itemDreams = model.state.dreamData?.dream?.mapNotNull { it.description }
     val dreamListData = model.state.dreamData?.dream?.toMutableList()
     lateinit var dreamPlan: DreamPlan
-
-    Log.d("TEST",itemDreams.toString())
 
     Column(
         modifier = Modifier
@@ -120,8 +118,8 @@ fun DreamPlanStep(
             loading = model.state.loading,
             enabled = (model.state.dreamData?.dream!!.size == amountFilled.size) && (model.state.dreamData?.dream!!.size == endDateFilled.size),
             onClick = {
-                coroutineScope.launch { model.submitDream() }
                 onFinish()
+
             }
         )
     }

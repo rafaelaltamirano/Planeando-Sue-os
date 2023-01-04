@@ -88,9 +88,8 @@ fun DreamsGridStep(
                                     title = model.state.dreamTypes[itemCount].title ?: "",
                                     modifier = Modifier.weight(1f),
                                     onClick = {
-                                        Log.d("TEST",((3*n)+i).toString())
+//                                        ((3*n)+i)-1 = position formula
                                         dreamListData.add(
-//                                            ((3*n)+i)-1 = position formula
                                             Dream(
                                                 description = model.state.dreamTypes[((3*n)+i)-1].title ?: "",
                                                 dreamType = DreamType(

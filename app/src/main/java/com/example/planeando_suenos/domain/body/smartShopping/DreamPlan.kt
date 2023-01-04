@@ -19,6 +19,8 @@ data class Income(
     val frequency: String?  = null,
     val additionalIncomeAmount: Double?  = null,
     val totalIncome: Double?  = null,
+    val amountPerDay: Double?  = null,
+
 )
 
 data class Expenses(
@@ -28,6 +30,8 @@ data class Expenses(
     val hobby: Double?  = null,
     val loanOrCredit: Double?  = null,
     val totalExpense: Double?  = null,
+    val loanOrCreditPaymentDate: String?  = null,
+    val amountPerDay: Double?  = null,
 )
 
 data class Dream(

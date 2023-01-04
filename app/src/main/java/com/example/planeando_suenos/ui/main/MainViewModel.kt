@@ -19,6 +19,9 @@ class MainViewModel @Inject constructor(
     var state by mutableStateOf(MainState())
         private set
 
+    fun setDreamId(dreamId: String?) {
+        state = state.copy(dreamId = dreamId)
+    }
 
     fun setErrorStatus(errorStatus: ModelStatus?) {
         state = state.copy(errorStatus = errorStatus)

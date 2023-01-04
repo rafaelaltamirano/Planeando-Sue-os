@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class DreamAndAspirationUseCase @Inject constructor(private val smartShoppingDao: SmartShoppingDao) {
 
-    suspend fun createDreamPlan(dream: DreamPlan?) {
+    suspend fun createDreamPlan(dream: DreamPlan?):String {
         return smartShoppingDao.createDreamPlan(dream)
     }
 

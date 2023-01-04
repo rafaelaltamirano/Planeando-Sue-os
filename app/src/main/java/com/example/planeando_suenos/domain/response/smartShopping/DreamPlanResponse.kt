@@ -34,8 +34,9 @@ data class IncomeResponse(
     @SerializedName("type") val type: String,
     @SerializedName("amount") val amount: Double,
     @SerializedName("frequency") val frequency: String,
-    @SerializedName("aditionalIncomeAmount") val additionalIncomeAmount: Double,
+    @SerializedName("additionalIncomeAmount") val additionalIncomeAmount: Double,
     @SerializedName("totalIncome") val totalIncome: Double,
+    @SerializedName("amountPerDay") val amountPerDay: Double,
 ) : Response<Income> {
     override fun toEntity() = Income(
         type = type,
@@ -43,6 +44,7 @@ data class IncomeResponse(
         frequency = frequency,
         additionalIncomeAmount = additionalIncomeAmount,
         totalIncome = totalIncome,
+        amountPerDay = amountPerDay
     )
 }
 
@@ -52,7 +54,9 @@ data class ExpensesResponse(
     @SerializedName("education") val education: Double,
     @SerializedName("hobby") val hobby: Double,
     @SerializedName("loanOrCredit") val loanOrCredit: Double,
+    @SerializedName("loanOrCreditPaymentDate") val loanOrCreditPaymentDate: String,
     @SerializedName("totalExpense") val totalExpense: Double,
+    @SerializedName("amountPerDay") val amountPerDay: Double,
 ) : Response<Expenses> {
     override fun toEntity() = Expenses(
         home = home,
@@ -60,7 +64,9 @@ data class ExpensesResponse(
         education = education,
         hobby = hobby,
         loanOrCredit = loanOrCredit,
-        totalExpense = totalExpense
+        totalExpense = totalExpense,
+        loanOrCreditPaymentDate = loanOrCreditPaymentDate,
+        amountPerDay = amountPerDay
     )
 }
 
@@ -71,7 +77,7 @@ data class DreamResponse(
     @SerializedName("date") val endDate: String,
     @SerializedName("amountPlaned") val amountPlaned: Float,
     @SerializedName("paymentQuantity") val paymentQuantity: Float,
-    @SerializedName("dreamType") val dreamType: DreamTypeResponse,
+    @SerializedName("dreamType") val dreamType: DreamTypeIdResponse,
 ) : Response<Dream> {
     override fun toEntity() = Dream(
         description = description,
