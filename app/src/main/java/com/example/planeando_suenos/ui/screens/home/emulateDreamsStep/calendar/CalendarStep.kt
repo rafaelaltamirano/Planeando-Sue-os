@@ -3,8 +3,10 @@ package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.calendar
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,13 +14,13 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.domain.response.smartShopping.DreamItem
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithText
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 
@@ -27,61 +29,83 @@ private val last6Months = listOf("Jul", "Ago", "Sep", "Oct", "Nov", "Dic")
 
 @Composable
 fun CalendarStep(
+    model: EmulateDreamsViewModel,
+    dreamId: String,
     onSubmit: () -> Unit,
     onBack: () -> Unit
 ) {
-    Column(
-        Modifier
-            .fillMaxHeight()
-            .verticalScroll(rememberScrollState())
-    )
-    {
-        TopBarWithText("Cronograma de pago")
 
+    LaunchedEffect(Unit) {
+        model.getDreamCalendar(dreamId)
+    }
+
+    if (model.state.loading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    } else {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
+            Modifier
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState())
+        )
+        {
+            TopBarWithText("Cronograma de pago")
 
-            Text(
-                text = "Cronograma de pago",
-                style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Arrastra y prioriza tu pago.",
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = TextColorUncheckedItemDreamGrid
-                )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            dateDreams.forEach {
-                CalendarPerYear(dreamCalendarItem = it)
-                Spacer(modifier = Modifier.height(4.dp))
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            SubmitButton(onClick = {
-                onSubmit()
-            }, text = "guardar plan")
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Volver",
-                style = TextStyle(
-                    color = Color(0xFF9D4BEB),
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 14.sp
-                ),
+            Column(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .clickable {
-                        onBack()
-                    }
-            )
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+
+                Text(
+                    text = "Cronograma de pago",
+                    style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = "Arrastra y prioriza tu pago.",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = TextColorUncheckedItemDreamGrid
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                model.state.dreamsCalendarItem.forEach {
+                    CalendarPerYear(dreamCalendarItem = it)
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                SubmitButton(onClick = {
+                    onSubmit()
+                }, text = "guardar plan")
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Volver",
+                    style = TextStyle(
+                        color = Color(0xFF9D4BEB),
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .clickable {
+                            onBack()
+                        }
+                )
+            }
         }
     }
+
 }
 
 @Composable
@@ -100,22 +124,6 @@ fun RowMonths(listMonths: List<String>) {
         }
     }
 }
-
-private val dateDreams = listOf(
-    DreamCalendarItem(
-        year = 2023,
-        eneJun = listOf(
-            DreamItem(2, 6, Color.Blue),
-            DreamItem(1, 6, Color.Red)
-        ),
-        julDic = listOf(DreamItem(7, 11, Color.Blue))
-    ),
-    DreamCalendarItem(
-        year =2024,
-        eneJun = listOf(DreamItem(1, 3, Color.Green)),
-        julDic = listOf(DreamItem(7, 9, Color.Green))
-    ),
-)
 
 @Composable
 fun CalendarPerYear(dreamCalendarItem: DreamCalendarItem) {
@@ -136,12 +144,16 @@ fun CalendarPerYear(dreamCalendarItem: DreamCalendarItem) {
                 fontSize = 14.sp
             )
         )
+
         RowMonths(listMonths = first6Months)
+
         dreamCalendarItem.eneJun.forEach {
             PaintMonths(it)
             Spacer(modifier = Modifier.height(4.dp))
         }
+
         RowMonths(listMonths = last6Months)
+
         dreamCalendarItem.julDic.forEach {
             PaintMonths(it)
             Spacer(modifier = Modifier.height(4.dp))
@@ -285,14 +297,5 @@ fun RowMonthJulDicPaint(monthInit: Int, monthFinish: Int, color: Color) {
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PrevCalendarDream() {
-//    CalendarPerYear(dateDreams.first())
-    CalendarStep(onSubmit = { }) {
-
     }
 }
