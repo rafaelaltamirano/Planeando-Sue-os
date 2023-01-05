@@ -101,6 +101,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
                 checked = homeViewModel.state.checkedStep2,
+                enable = homeViewModel.state.checkedStep1,
                 title = "Tus ingresos aproximados",
                 subTitle = "$ 1.600.00 semanales",
                 onClick = {
@@ -119,6 +120,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
                 checked = homeViewModel.state.checkedStep3,
+                enable = homeViewModel.state.checkedStep1 && homeViewModel.state.checkedStep2,
                 title = "Tus egresos o gastos",
                 subTitle = "$ 861.40 semanales",
                 onClick = {
