@@ -30,6 +30,7 @@ fun FrequencyExpensesStep(
 ) {
 
     val state = model.state
+
     Column(
         Modifier
             .padding(horizontal = dimensionResource(R.dimen.gap4),)
