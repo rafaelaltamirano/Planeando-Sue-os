@@ -12,18 +12,18 @@ enum class Step3Step(val step: Int) {
         fun getByStep(step: Int) = values().first { it.step == step }
     }
 
-    fun next() = if (step==2) CREDIT_AMOUNT else getByStep(step + 1)
-    fun prev() = if (step==0) FREQUENCY_EXPENSES else getByStep(step - 1)
+    fun next() = if (step == 2) CREDIT_AMOUNT else getByStep(step + 1)
+    fun prev() = if (step == 0) FREQUENCY_EXPENSES else getByStep(step - 1)
 }
 
 data class YourExpensesState(
     val loading: Boolean = false,
     val checked: Boolean = false,
-    val homeExpense: String = "",
-    val transportExpense: String = "",
-    val educationInversion: String = "",
-    val entertainmentExpense : String = "",
-    val creditAmount: String = "",
-    val creditEndDate: String = "",
+    val homeExpense: Float? = null,
+    val transportExpense: Float? = null,
+    val educationInversion: Float? = null,
+    val entertainmentExpense: Float? = null,
+    val creditAmount: Float? = null,
+    val creditEndDate: Float? = null,
     val step: Step3Step = Step3Step.FREQUENCY_EXPENSES
 )

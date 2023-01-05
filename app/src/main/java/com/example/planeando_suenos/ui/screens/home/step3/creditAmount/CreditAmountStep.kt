@@ -6,6 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -26,6 +27,8 @@ fun CreditAmountStep(
     onNext: () -> Unit,
     model: YourExpensesIncomeViewModel,
 ) {
+
+    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     val state = model.state
     Column(
         Modifier
@@ -73,11 +76,17 @@ fun CreditAmountStep(
             text = "¿Cuánto es el valor del crédito?"
         )
         CustomTextField(
-            value = state.creditAmount,
+            value = if (state.creditAmount != null && state.creditAmount == 0.0f) {
+                state.creditAmount.toString()
+            } else "",
             onDone = true,
             keyboardType = KeyboardType.Number,
             placeholder = R.string.enter_amount,
-            onValueChanged = model::setCreditAmount,
+            onValueChanged = {
+                if (it.isEmpty() || it.matches(decimalPatter)) {
+                    model.setCreditAmount(it.toFloat())
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))

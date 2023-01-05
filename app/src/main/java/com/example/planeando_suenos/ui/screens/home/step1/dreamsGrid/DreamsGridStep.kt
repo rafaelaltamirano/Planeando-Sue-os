@@ -110,7 +110,7 @@ fun DreamsGridStep(
                                         clearPosition += 1
                                     },
                                     onClear = {
-                                        dreamListData.removeIf { dream -> dream.dreamType?.id === model.state.dreamTypes[n].id }
+                                        dreamListData.removeIf { dream -> dream.dreamType?.id == model.state.dreamTypes[((3 * n) + i) - 1].id }
                                     }
                                 )
                                 totalItem -= 1

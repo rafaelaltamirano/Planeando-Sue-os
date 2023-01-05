@@ -32,28 +32,28 @@ class YourExpensesIncomeViewModel @Inject constructor(
         state = state.copy(checked = checked)
     }
 
-    fun setCreditAmount(creditAmount: String) {
+    fun setCreditAmount(creditAmount: Float) {
         state = state.copy(creditAmount = creditAmount)
     }
 
-    fun setCreditEndDate(creditEndDate: String) {
+    fun setCreditEndDate(creditEndDate: Float) {
         state = state.copy(creditEndDate = creditEndDate)
     }
 
 
-    fun setHomeExpense(homeExpense: String) {
+    fun setHomeExpense(homeExpense: Float) {
         state = state.copy(homeExpense = homeExpense)
     }
 
-    fun setTransportExpense(transportExpense: String) {
+    fun setTransportExpense(transportExpense: Float) {
         state = state.copy(transportExpense = transportExpense)
     }
 
-    fun setEducationInversion(educationInversion: String) {
+    fun setEducationInversion(educationInversion: Float) {
         state = state.copy(educationInversion = educationInversion)
     }
 
-    fun setEntertainmentExpense(entertainmentExpense: String) {
+    fun setEntertainmentExpense(entertainmentExpense: Float) {
         state = state.copy(entertainmentExpense = entertainmentExpense)
     }
 }
