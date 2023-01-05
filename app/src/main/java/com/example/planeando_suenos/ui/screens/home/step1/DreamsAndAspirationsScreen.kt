@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -33,17 +34,16 @@ fun DreamsAndAspirationsScreen(
 
     if (model.state.checked) {
         homeModel.setCheckedStep1(true)
-    }
-
-    if (model.state.dreamId != null) {
         mainModel.setDreamId(model.state.dreamId!!)
-        navController.navigate(UserRouterDir.HOME.route) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                inclusive = true
+        LaunchedEffect(Unit){
+            navController.navigate(UserRouterDir.HOME.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
             }
         }
-        model.setDreamId(null)
     }
+
 
     model.status?.also {
         val (status, _) = it
