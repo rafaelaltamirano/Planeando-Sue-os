@@ -1,8 +1,8 @@
 package com.example.planeando_suenos.domain.entities
 
+
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
-
 
 class DreamWithUser(
     val title: String,

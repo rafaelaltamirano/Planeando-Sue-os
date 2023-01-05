@@ -4,6 +4,7 @@ import com.example.planeando_suenos.data.dao.SmartShoppingDao
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
 import com.example.planeando_suenos.domain.entities.DreamWithUser
+import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.framework.api.ApiTools
 import com.example.planeando_suenos.framework.retrofit.smartShopping.SmartShoppingApi
 import javax.inject.Inject
@@ -14,13 +15,12 @@ class SmartShoppingDaoImp @Inject constructor(
 ) : SmartShoppingDao {
 
     override suspend fun getDreamsType(): List<DreamType> {
-
         val res = smartShoppingApi.getDreamsType()
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.data.map { it.toEntity() }
     }
 
-    override suspend fun createDreamPlan(dream: DreamPlan?):String {
+    override suspend fun createDreamPlan(dream: DreamPlan?): String {
         val res = smartShoppingApi.createDreamPlan(dream)
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.data
@@ -38,9 +38,15 @@ class SmartShoppingDaoImp @Inject constructor(
     }
 
     override suspend fun getDreamById(dreamId: String): DreamWithUser {
-        val res = smartShoppingApi.getDreamById(dreamId,"equal")
+        val res = smartShoppingApi.getDreamById(dreamId, "equal")
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.data.toEntity()
+    }
+
+    override suspend fun getDreamPlanCalendar(dreamId: String): List<DreamCalendarItem> {
+        val res = smartShoppingApi.getDreamPlanCalendar(dreamId)
+        ApiTools.validateResponseOrFail(res)
+        return res.body()?.data?.dreams.orEmpty()
     }
 
 
