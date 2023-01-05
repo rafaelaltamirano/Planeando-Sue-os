@@ -38,6 +38,7 @@ fun DreamPlanStep(
 
     val itemDreams = model.state.dreamData?.dream?.mapNotNull { it.description }
     val dreamListData = model.state.dreamData?.dream?.toMutableList()
+    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     lateinit var dreamPlan: DreamPlan
 
     Column(
@@ -60,14 +61,17 @@ fun DreamPlanStep(
                 AmountDream(
                     dream = string,
                     onDone = true,
-                    value = if (model.state.dreamData?.dream?.get(index)?.amount != null) {
+                    value =
+                    if (model.state.dreamData?.dream?.get(index)?.amount != null) {
                         model.state.dreamData?.dream?.get(index)?.amount.toString()
                     } else "",
                     onValueChanged = {
-                        val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
-                        dreamListData?.set(index, dreamUpdate!!)
-                        dreamPlan = DreamPlan(dream = dreamListData)
-                        model.setDreamData(dreamPlan)
+                        if (it.isEmpty() || it.matches(decimalPatter)) {
+                            val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
+                            dreamListData?.set(index, dreamUpdate!!)
+                            dreamPlan = DreamPlan(dream = dreamListData)
+                            model.setDreamData(dreamPlan)
+                        }
                     }
 
                 )
@@ -77,10 +81,12 @@ fun DreamPlanStep(
                     model.state.dreamData?.dream?.get(index)?.amount.toString()
                 } else "",
                 onValueChanged = {
-                    val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
-                    dreamListData?.set(index, dreamUpdate!!)
-                    dreamPlan = DreamPlan(dream = dreamListData)
-                    model.setDreamData(dreamPlan)
+                    if (it.isEmpty() || it.matches(decimalPatter)) {
+                        val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
+                        dreamListData?.set(index, dreamUpdate!!)
+                        dreamPlan = DreamPlan(dream = dreamListData)
+                        model.setDreamData(dreamPlan)
+                    }
                 })
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -116,7 +122,8 @@ fun DreamPlanStep(
         SubmitButton(
             text = stringResource(R.string.finalize),
             loading = model.state.loading,
-            enabled = (model.state.dreamData?.dream!!.size == amountFilled.size) && (model.state.dreamData?.dream!!.size == endDateFilled.size),
+            enabled = (model.state.dreamData?.dream!!.size == amountFilled.size)
+                    && (model.state.dreamData?.dream!!.size == endDateFilled.size),
             onClick = {
                 onFinish()
 
@@ -174,6 +181,7 @@ fun AmountDream(
     value: String,
     onValueChanged: (String) -> Unit
 ) {
+
     Column(Modifier.padding(top = 24.dp)) {
         Text(
             text = dream, style = TextStyle(
@@ -186,7 +194,7 @@ fun AmountDream(
         CustomTextField(
             value = value,
             onValueChanged = onValueChanged,
-            placeholder = com.example.planeando_suenos.R.string.put_amount,
+            placeholder = R.string.put_amount,
             keyboardType = KeyboardType.Number,
             modifier = Modifier.fillMaxWidth(),
             onDone = onDone

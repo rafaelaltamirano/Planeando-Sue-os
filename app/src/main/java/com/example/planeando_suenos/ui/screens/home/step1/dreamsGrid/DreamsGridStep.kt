@@ -34,7 +34,6 @@ import java.text.DecimalFormat
 import kotlin.math.ceil
 
 
-@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun DreamsGridStep(
     onNext: () -> Unit,

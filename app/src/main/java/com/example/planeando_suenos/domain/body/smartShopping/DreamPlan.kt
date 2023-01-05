@@ -10,7 +10,7 @@ data class DreamPlan(
 data class UserFinance(
     val income: Income? = null,
     val expenses: Expenses? = null,
-    val paymentCapability: Double? = null,
+    val paymentCapability: Float? = null,
 )
 
 data class Income(
@@ -24,14 +24,14 @@ data class Income(
 )
 
 data class Expenses(
-    val home: Double?  = null,
-    val transport: Double?  = null,
-    val education: Double?  = null,
-    val hobby: Double?  = null,
-    val loanOrCredit: Double?  = null,
-    val totalExpense: Double?  = null,
+    val home: Float?  = null,
+    val transport: Float?  = null,
+    val education: Float?  = null,
+    val hobby: Float?  = null,
+    val loanOrCredit: Float?  = null,
+    val totalExpense: Float?  = null,
     val loanOrCreditPaymentDate: String?  = null,
-    val amountPerDay: Double?  = null,
+    val amountPerDay: Float?  = null,
 )
 
 data class Dream(

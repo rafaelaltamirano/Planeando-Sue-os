@@ -8,6 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.example.planeando_suenos.ui.Status
 import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
@@ -42,6 +43,17 @@ fun DreamsAndAspirationsScreen(
             }
         }
         model.setDreamId(null)
+    }
+
+    model.status?.also {
+        val (status, _) = it
+        when (status) {
+            Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
+            Status.ERROR -> mainModel.setErrorStatus(it)
+            Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
+            else -> {}
+        }
+        model.clearStatus()
     }
 
     BackHandler(enabled = true) {

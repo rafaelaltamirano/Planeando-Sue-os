@@ -13,4 +13,7 @@ class ApproximateIncomeUseCase @Inject constructor(private val smartShoppingDao:
         return smartShoppingDao.getDreamById(dreamId)
     }
 
+    suspend fun updateDream(dream: DreamPlan) {
+        return smartShoppingDao.updateDreamPlan(dream)
+    }
 }

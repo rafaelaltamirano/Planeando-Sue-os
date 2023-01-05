@@ -5,6 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
+import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.body.smartShopping.Expenses
+import com.example.planeando_suenos.domain.body.smartShopping.Income
+import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.ApproximateIncomeUseCase
@@ -43,21 +47,23 @@ class ApproximateIncomesViewModel @Inject constructor(
     fun setFrequency(frequency: String) {
         state = state.copy(frequency = frequency)
     }
-
+    fun setFrequencyToShow(frequencyToShow: String) {
+        state = state.copy(frequencyToShow = frequencyToShow)
+    }
     fun setChecked(check: Boolean) {
         state = state.copy(checked = check)
     }
 
-    fun setSalaryAmount(salaryAmount: String) {
+    fun setSalaryAmount(salaryAmount: Float) {
         state = state.copy(salaryAmount = salaryAmount)
     }
 
-    fun setAdditionalIncomes(additionalIncomes: String) {
+    fun setAdditionalIncomes(additionalIncomes: Float) {
         state = state.copy(additionalIncomes = additionalIncomes)
     }
 
-    fun setVariableSalary(variableSalary: Boolean) {
-        state = state.copy(variableSalary = variableSalary)
+    fun setSalaryType(salaryType: String) {
+        state = state.copy(salaryType = salaryType)
     }
 
     private fun setLoading(loading: Boolean) {
@@ -72,6 +78,34 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(dreamId = dreamId)
     }
 
+    fun setDream(dream: DreamPlan) {
+        state = state.copy(dream = dream)
+    }
+
+    fun getDreamObject(): DreamPlan {
+       return  DreamPlan(
+           id = state.dreamId,
+           userFinance = UserFinance(
+               income = Income(
+                   type = state.salaryType,
+                   amount = state.salaryAmount?.toDouble(),
+                   frequency = state.frequency,
+                   additionalIncomeAmount = state.additionalIncomes?.toDouble()
+               ),
+               expenses = Expenses(
+                   home = 0f,
+                   transport = 0f,
+                   education = 0f,
+                   hobby = 0f,
+                   loanOrCredit = 0f,
+                   totalExpense = 0f,
+                   amountPerDay = 0f
+               ),
+               paymentCapability = 0f
+           ),
+       )
+    }
+
 
     fun getDream(dreamId: String) = viewModelScope.launch {
         setLoading(true)
@@ -83,6 +117,18 @@ class ApproximateIncomesViewModel @Inject constructor(
             handleNetworkError(e)
         } finally {
             setLoading(false)
+        }
+    }
+
+    suspend fun updateDream(dreamPlan:DreamPlan) = viewModelScope.launch {
+        setLoading(true)
+        try {
+            withContext(Dispatchers.IO) { approximateIncomeUseCase.updateDream(dreamPlan) }.also { setChecked(true) }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+
         }
     }
 

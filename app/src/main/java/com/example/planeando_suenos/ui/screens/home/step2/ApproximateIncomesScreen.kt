@@ -14,6 +14,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.body.smartShopping.Expenses
+import com.example.planeando_suenos.domain.body.smartShopping.Income
+import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
+import com.example.planeando_suenos.ui.Status
 import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
@@ -35,26 +40,35 @@ fun ApproximateIncomesScreen(
     val state = model.state
     val coroutineScope = rememberCoroutineScope()
 
-
     BackHandler(enabled = true) {
         if (state.step == Step2Step.INCOME_DATA) navController.popBackStack()
         else model.prevStep()
     }
 
+    model.status?.also {
+        val (status, _) = it
+        when (status) {
+            Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
+            Status.ERROR -> mainModel.setErrorStatus(it)
+            Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
+            else -> {}
+        }
+        model.clearStatus()
+    }
+
+
     if (model.state.checked) {
         homeModel.setCheckedStep2(true)
     }
-    mainModel.state.dreamId?.let{
+    mainModel.state.dreamId?.let {
 //        model.setDreamId(mainModel.state.dreamId!!)
-        coroutineScope.launch { model.getDream(it)}
+        coroutineScope.launch { model.getDream(it) }
         mainModel.setDreamId(null)
     }
 
-
-
     Scaffold(
         topBar = {
-           StepsProgressBar(
+            StepsProgressBar(
                 numberOfSteps = Step2Step.values().size - 2,
                 currentStep = state.step.step,
                 onBackPress = {
@@ -80,7 +94,9 @@ fun ApproximateIncomesScreen(
             )
             Step2Step.EXTRA_INCOMES -> ExtraIncomesStep(
                 onSubmit = {
-                    model.setChecked(true)
+                    //TODO: update dream
+                    coroutineScope.launch { model.updateDream(model.getDreamObject())}
+
                     navController.navigate(UserRouterDir.HOME.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             inclusive = true

@@ -86,7 +86,8 @@ fun CustomTextField(
             keyboardController?.hide()
             focusManager.clearFocus()
         }),
-        visualTransformation = if (!security) {
+        visualTransformation =
+            if (!security) {
             VisualTransformation.None
         } else {
             if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
