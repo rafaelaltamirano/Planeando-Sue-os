@@ -71,6 +71,8 @@ fun EmulateDreamsScreen(
 
                 )
                 EmulateDreamsStep.CALENDAR -> CalendarStep(
+                    model,
+                    "63b486d376c1f5d2aa381b7e",
                     onSubmit = {
                         navController.navigate(UserRouterDir.HOME.route){
                             popUpTo(navController.graph.findStartDestination().id){

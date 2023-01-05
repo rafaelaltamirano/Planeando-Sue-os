@@ -20,5 +20,5 @@ data class DreamCalendarItem(
 data class DreamItem(
     @SerializedName("init") val monthInit: Int,
     @SerializedName("end") val monthFinish: Int,
-    @SerializedName("color") val color: Color
+    @SerializedName("color") val color: String
 )
