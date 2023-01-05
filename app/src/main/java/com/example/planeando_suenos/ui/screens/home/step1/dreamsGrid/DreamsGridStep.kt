@@ -10,12 +10,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,6 +30,7 @@ import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
+import com.example.planeando_suenos.ui.screens.utils.ceilRound
 import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
@@ -40,7 +45,7 @@ fun DreamsGridStep(
     model: DreamsAndAspirationsViewModel
 ) {
     lateinit var dreamPlan: DreamPlan
-    val dreamListData = remember {  mutableStateListOf<Dream>()}
+    val dreamListData = remember { mutableStateListOf<Dream>() }
 
 
     Column(
@@ -85,25 +90,27 @@ fun DreamsGridStep(
                             if (totalItem != 0) {
                                 DreamItemGrid(
                                     title = model.state.dreamTypes[itemCount].title ?: "",
+                                    imageName = model.state.dreamTypes[itemCount].iconName ?: "",
                                     modifier = Modifier.weight(1f),
                                     onClick = {
 //                                        ((3*n)+i)-1 = position formula
                                         dreamListData.add(
                                             Dream(
-                                                description = model.state.dreamTypes[((3*n)+i)-1].title ?: "",
+                                                description = model.state.dreamTypes[((3 * n) + i) - 1].title
+                                                    ?: "",
                                                 dreamType = DreamType(
-                                                    id = model.state.dreamTypes[((3*n)+i)-1].id
+                                                    id = model.state.dreamTypes[((3 * n) + i) - 1].id
                                                 )
                                             )
                                         )
-                                        dreamListData.forEach{
-                                            Log.d("TEST",it.toString())
+                                        dreamListData.forEach {
+                                            Log.d("TEST", it.toString())
                                         }
 
                                         clearPosition += 1
                                     },
                                     onClear = {
-                                      dreamListData.removeIf { dream -> dream.dreamType?.id === model.state.dreamTypes[n].id }
+                                        dreamListData.removeIf { dream -> dream.dreamType?.id === model.state.dreamTypes[n].id }
                                     }
                                 )
                                 totalItem -= 1
@@ -114,21 +121,27 @@ fun DreamsGridStep(
                 }
             }
         }
-            SubmitButton(
-                text = stringResource(R.string.continue_),
-                enabled = dreamListData.isNotEmpty(),
-                onClick = {
-                    dreamPlan = DreamPlan(dream = dreamListData)
-                    model.setDreamData(dreamPlan)
-                    onNext()
-                }
-            )
+        SubmitButton(
+            text = stringResource(R.string.continue_),
+            enabled = dreamListData.isNotEmpty(),
+            onClick = {
+                dreamPlan = DreamPlan(dream = dreamListData)
+                model.setDreamData(dreamPlan)
+                onNext()
+            }
+        )
     }
 
 }
 
 @Composable
-fun DreamItemGrid(title: String, modifier: Modifier, onClick: () -> Unit,onClear: () -> Unit) {
+fun DreamItemGrid(
+    title: String,
+    imageName: String,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    onClear: () -> Unit
+) {
     var checked by remember { mutableStateOf(false) }
 
     val radius = RoundedCornerShape(6.dp)
@@ -154,13 +167,42 @@ fun DreamItemGrid(title: String, modifier: Modifier, onClick: () -> Unit,onClear
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 16.dp)
         )
+        if (imageName != "" && imageName != "otro") {
+            Icon(
+                painter = painterResource(getImage(imageName)),
+                contentDescription = "",
+                tint = textColor,
+                modifier = Modifier
+                    .width(42.dp)
+                    .height(42.dp)
+                    .align(Alignment.BottomStart)
+                    .padding(start = 8.dp, bottom = 8.dp)
+            )
+        }
     }
 }
 
-fun Double.ceilRound(): Int {
-    return DecimalFormat("#").apply {
-        roundingMode = RoundingMode.CEILING
-    }.format(this).toInt()
-}
 
-fun Double.roundCeil(): Int = ceil(this).toInt()
+fun getImage(name: String): Int {
+    return when (name) {
+        "business" -> R.drawable.ic_negocio_ic
+        "lineaBlanca" -> R.drawable.ic_lineablanca_ic
+        "electro" -> R.drawable.ic_electronica_ic
+        "tool" -> R.drawable.ic_taladro_ic
+        "toga" -> R.drawable.ic_estudio_ic
+        "tv" -> R.drawable.ic_pntalla_ic
+        "bloques" -> R.drawable.ic_construccion_ic
+        "sofa" -> R.drawable.ic_mueble_ic
+        "celular" -> R.drawable.ic_phone_ic
+        "regalo" -> R.drawable.ic_regalo_ic
+        "celular" -> R.drawable.ic_phone_ic
+        "vacaciones" -> R.drawable.ic_vacaciones_ic
+        "control" -> R.drawable.ic_gmae_ic
+        "torta" -> R.drawable.ic_cumple_ic
+        "rueda" -> R.drawable.ic_movilidad_ic
+        "batidora" -> R.drawable.ic_batidora
+        else -> {
+            R.drawable.ic_batidora
+        }
+    }
+}

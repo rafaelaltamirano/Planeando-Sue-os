@@ -26,12 +26,7 @@ import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesView
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
 
-enum class Frecuency(val value: String) {
-    Diario("diary"),
-    Semanal("weekly"),
-    Quincenal("biweekly"),
-    Mensual("monthly"),
-}
+
 
 @Composable
 fun FrequencyIncomesStep(
@@ -110,7 +105,9 @@ fun FrequencyIncomesStep(
                         "Semanal" -> "weekly"
                         "Quincenal" -> "biweekly"
                         "Mensual" -> "monthly"
-                        else -> {""}
+                        else -> {
+                            ""
+                        }
                     }
                     model.setFrequencyToShow(selectedValue.value)
                     model.setFrequency(frequency)

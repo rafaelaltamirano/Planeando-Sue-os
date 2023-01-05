@@ -60,11 +60,11 @@ fun ApproximateIncomesScreen(
     if (model.state.checked) {
         homeModel.setCheckedStep2(true)
     }
-    mainModel.state.dreamId?.let {
-//        model.setDreamId(mainModel.state.dreamId!!)
-        coroutineScope.launch { model.getDream(it) }
-        mainModel.setDreamId(null)
-    }
+//    mainModel.state.dreamId?.let {
+////        model.setDreamId(mainModel.state.dreamId!!)
+//        coroutineScope.launch { model.getDream(it) }
+//        mainModel.setDreamId(null)
+//    }
 
     Scaffold(
         topBar = {
