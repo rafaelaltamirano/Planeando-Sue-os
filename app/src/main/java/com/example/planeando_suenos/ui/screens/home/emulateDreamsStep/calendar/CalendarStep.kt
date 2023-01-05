@@ -60,14 +60,7 @@ fun CalendarStep(
             ) {
 
                 Text(
-                    text = "Cronograma de pago",
-                    style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold)
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "Arrastra y prioriza tu pago.",
+                    text = "Visualiza tu pago.",
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
