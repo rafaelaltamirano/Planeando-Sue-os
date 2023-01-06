@@ -20,6 +20,7 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.Income
 import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
+import com.example.planeando_suenos.ui.components.CurrencyTextField
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.PersonalInfoCard
 import com.example.planeando_suenos.ui.components.SubmitButton
@@ -32,7 +33,6 @@ fun ExtraIncomesStep(
 ) {
 
     val state = model.state
-    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     Column(
         Modifier
             .padding(dimensionResource(R.dimen.gap4))
@@ -74,19 +74,11 @@ fun ExtraIncomesStep(
                 fontSize = 17.sp,
                 text = "Ingresos adicionales"
             )
-            CustomTextField(
-                value = if (state.additionalIncomes != null) {
-                    state.additionalIncomes.toString()
-                } else "",
-                placeholder = R.string.enter_approximate_amount,
-                onValueChanged = {
-                    if (it.isEmpty() || it.matches(decimalPatter)) {
-                        model.setAdditionalIncomes(it.toFloat())
-                    }
-                }
-                ,
+            CurrencyTextField(
+                value = state.additionalIncomes.toString(),
                 onDone = true,
-                keyboardType = KeyboardType.Number,
+                placeholder = R.string.enter_amount,
+                onValueChanged = {model.setAdditionalIncomes(it.toFloat())},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.gap4))

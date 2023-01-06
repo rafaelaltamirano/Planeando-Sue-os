@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key.Companion.D
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.ui.components.CurrencyTextField
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TextDate
@@ -38,7 +40,6 @@ fun DreamPlanStep(
 
     val itemDreams = model.state.dreamData?.dream?.mapNotNull { it.description }
     val dreamListData = model.state.dreamData?.dream?.toMutableList()
-    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     lateinit var dreamPlan: DreamPlan
 
     Column(
@@ -66,12 +67,10 @@ fun DreamPlanStep(
                         model.state.dreamData?.dream?.get(index)?.amount.toString()
                     } else "",
                     onValueChanged = {
-                        if (it.isEmpty() || it.matches(decimalPatter)) {
                             val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
                             dreamListData?.set(index, dreamUpdate!!)
                             dreamPlan = DreamPlan(dream = dreamListData)
                             model.setDreamData(dreamPlan)
-                        }
                     }
 
                 )
@@ -81,12 +80,10 @@ fun DreamPlanStep(
                     model.state.dreamData?.dream?.get(index)?.amount.toString()
                 } else "",
                 onValueChanged = {
-                    if (it.isEmpty() || it.matches(decimalPatter)) {
                         val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
                         dreamListData?.set(index, dreamUpdate!!)
                         dreamPlan = DreamPlan(dream = dreamListData)
                         model.setDreamData(dreamPlan)
-                    }
                 })
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -107,9 +104,10 @@ fun DreamPlanStep(
         )
         TextDate(
             onValueChanged = { date ->
-                dreamPlan = DreamPlan(dream = dreamListData?.map {
+                dreamPlan = DreamPlan(
+                    endDate = date,
+                    dream = dreamListData?.map {
                     it.copy(
-                        endDate = date,
                         startDate = Calendar.getInstance().time.convertDateToFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                     )
                 }
@@ -118,12 +116,11 @@ fun DreamPlanStep(
             })
 
         val amountFilled = model.state.dreamData?.dream!!.mapNotNull { it.amount }
-        val endDateFilled = model.state.dreamData?.dream!!.mapNotNull { it.endDate }
         SubmitButton(
             text = stringResource(R.string.finalize),
             loading = model.state.loading,
-            enabled = (model.state.dreamData?.dream!!.size == amountFilled.size)
-                    && (model.state.dreamData?.dream!!.size == endDateFilled.size),
+            enabled = model.state.dreamData?.dream!!.size == amountFilled.size
+                    && model.state.dreamData?.endDate!= null,
             onClick = {
                 onFinish()
 
@@ -191,13 +188,13 @@ fun AmountDream(
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
-        CustomTextField(
+        CurrencyTextField(
             value = value,
+            onDone = onDone,
+            placeholder = R.string.enter_amount,
             onValueChanged = onValueChanged,
-            placeholder = R.string.put_amount,
-            keyboardType = KeyboardType.Number,
-            modifier = Modifier.fillMaxWidth(),
-            onDone = onDone
+            modifier = Modifier
+                .fillMaxWidth()
         )
     }
 }

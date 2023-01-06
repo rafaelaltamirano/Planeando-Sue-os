@@ -10,16 +10,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
-import com.example.planeando_suenos.ui.components.CustomTextField
-import com.example.planeando_suenos.ui.components.PersonalInfoCard
-import com.example.planeando_suenos.ui.components.SubmitButton
-import com.example.planeando_suenos.ui.components.TextDate
+import com.example.planeando_suenos.ui.components.*
 import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
 
 @Composable
@@ -28,7 +26,6 @@ fun CreditAmountStep(
     model: YourExpensesIncomeViewModel,
 ) {
 
-    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     val state = model.state
     Column(
         Modifier
@@ -66,22 +63,16 @@ fun CreditAmountStep(
                 fontSize = 17.sp,
                 text = "¿Cuánto es el valor del crédito?"
             )
-            CustomTextField(
-                value = if (state.creditAmount != null && state.creditAmount == 0.0f) {
-                    state.creditAmount.toString()
-                } else "",
+            CurrencyTextField(
+                value = state.creditAmount.toString(),
+                placeholder =  R.string.enter_amount,
+                onValueChanged = {model.setCreditAmount(it.toFloat())},
                 onDone = true,
-                keyboardType = KeyboardType.Number,
-                placeholder = R.string.enter_amount,
-                onValueChanged = {
-                    if (it.isEmpty() || it.matches(decimalPatter)) {
-                        model.setCreditAmount(it.toFloat())
-                    }
-                },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.gap3))
+                    .padding(vertical = dimensionResource(R.dimen.gap4))
             )
+            Spacer(Modifier.height(dimensionResource(R.dimen.gap3)))
             Text(
                 color = Color.Black,
                 textAlign = TextAlign.Start,
@@ -93,7 +84,8 @@ fun CreditAmountStep(
             TextDate(onValueChanged = { model.setCreditEndDate(it)})
         }
         SubmitButton(
-            text = "continuar",
+            text = stringResource(R.string.continue_),
+            enabled = !state.hasCredit || state.creditAmount!= null && state.creditEndDate!= "",
             onClick = { onNext() }
         )
     }

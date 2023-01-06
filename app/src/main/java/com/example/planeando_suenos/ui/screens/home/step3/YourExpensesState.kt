@@ -1,5 +1,7 @@
 package com.example.planeando_suenos.ui.screens.home.step3
 
+import com.example.planeando_suenos.domain.body.smartShopping.Income
+
 
 enum class Step3Step(val step: Int) {
 
@@ -28,5 +30,6 @@ data class YourExpensesState(
     val creditAmount: Float? = null,
     val creditEndDate: String = "",
     val dreamId: String = "",
+    val income: Income? = null,
     val step: Step3Step = Step3Step.FREQUENCY_EXPENSES
 )

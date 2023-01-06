@@ -81,6 +81,9 @@ class YourExpensesIncomeViewModel @Inject constructor(
         state = state.copy(dreamId = dreamId)
     }
 
+    fun setIncome(income: Income?) {
+        state = state.copy(income = income)
+    }
 
     fun getDreamObject(): DreamPlan {
         return  DreamPlan(
@@ -94,7 +97,9 @@ class YourExpensesIncomeViewModel @Inject constructor(
                     loanOrCredit = state.creditAmount,
                     loanOrCreditPaymentDate = state.creditEndDate
                 ),
+                income = state.income
             ),
+
         )
     }
 
@@ -107,7 +112,6 @@ class YourExpensesIncomeViewModel @Inject constructor(
             handleNetworkError(e)
         } finally {
             setLoading(false)
-
         }
     }
 }
