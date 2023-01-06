@@ -123,6 +123,7 @@ fun HomeScreen(
             CardChecked(
                 checked = homeViewModel.state.checkedStep3,
                 enable = homeViewModel.state.checkedStep1 && homeViewModel.state.checkedStep2,
+//                enable = true,
                 title = "Tus egresos o gastos",
                 subTitle = "$ 861.40 semanales",
                 onClick = {

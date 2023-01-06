@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
 import com.example.planeando_suenos.ui.ViewModelWithStatus
@@ -53,6 +54,7 @@ class DreamsAndAspirationsViewModel @Inject constructor(
     private fun setDreamTypes(dreamTypes: List<DreamType>) {
         state = state.copy(dreamTypes = dreamTypes)
     }
+
 
      fun setDreamId(dreamId: String?) {
         state = state.copy(dreamId = dreamId)

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
+import com.example.planeando_suenos.ui.components.CurrencyTextField
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
@@ -43,7 +44,6 @@ fun IncomeDataStep(
 ) {
     val selectedValue = remember { mutableStateOf("") }
     val items = listOf(FIXED_SALARY, VARIABLE_SALARY)
-    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
     val state = model.state
@@ -118,21 +118,16 @@ fun IncomeDataStep(
                 fontSize = 17.sp,
                 text = label
             )
-            CustomTextField(
-                value =   if (state.salaryAmount != null) {
-                    state.salaryAmount.toString()
-                } else "",
+            CurrencyTextField(
+                value = state.salaryAmount.toString(),
                 placeholder = placeholder,
+                onValueChanged = {model.setSalaryAmount(it.toFloat())},
                 onDone = true,
-                onValueChanged = {
-                    if (it.isEmpty() || it.matches(decimalPatter)) {
-                    model.setSalaryAmount(it.toFloat())}
-                                 },
-                keyboardType = KeyboardType.Number,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.gap4))
             )
+
             Row(verticalAlignment = Alignment.Bottom) {
                 SubmitButton(
                     text = "continuar",

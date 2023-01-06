@@ -6,12 +6,14 @@ import com.google.gson.annotations.SerializedName
 
 class DreamPlanResponse(
     @SerializedName("title") val title: String,
+    @SerializedName("endDate") val endDate: String,
     @SerializedName("userFinance") val userFinance: UserFinanceResponse,
     @SerializedName("dream") val dream: List<DreamResponse>,
     @SerializedName("id") val id: String,
 ) : Response<DreamPlan> {
     override fun toEntity() = DreamPlan(
         title = title,
+        endDate = endDate,
         userFinance = userFinance.toEntity(),
         dream = dream.map { it.toEntity() },
         id = id

@@ -59,6 +59,14 @@ fun ApproximateIncomesScreen(
 
     if (model.state.checked) {
         homeModel.setCheckedStep2(true)
+        homeModel.setIncome(model.getIncomeObject())
+        LaunchedEffect(Unit) {
+            navController.navigate(UserRouterDir.HOME.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
+            }
+        }
     }
 
     mainModel.state.dreamId?.let {
@@ -94,16 +102,7 @@ fun ApproximateIncomesScreen(
                 model = model
             )
             Step2Step.EXTRA_INCOMES -> ExtraIncomesStep(
-                onSubmit = {
-                    //TODO: update dream
-                    coroutineScope.launch { model.updateDream(model.getDreamObject()) }
-
-                    navController.navigate(UserRouterDir.HOME.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            inclusive = true
-                        }
-                    }
-                },
+                onSubmit = { coroutineScope.launch { model.updateDream(model.getDreamObject()) } },
                 model = model
             )
         }

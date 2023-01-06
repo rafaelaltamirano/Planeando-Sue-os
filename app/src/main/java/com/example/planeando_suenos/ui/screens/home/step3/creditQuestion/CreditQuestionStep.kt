@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home.step3.creditQuestion
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,15 +24,17 @@ import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.PersonalInfoCard
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
 
 @Composable
 fun CreditQuestionStep(
+    model: YourExpensesIncomeViewModel,
     onNext: () -> Unit
 ) {
     val selectedValue = remember { mutableStateOf("") }
-
+    val state = model.state
     val items = listOf("Si, tengo un préstamo", "No. No tengo préstamos")
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
@@ -49,13 +53,13 @@ fun CreditQuestionStep(
         PersonalInfoCard(
             "¿Cómo son tus egresos semanales?",
             "Hogar: ",
-            "1250.00",
+            state.homeExpense.toString(),
             "Transporte: ",
-            "$120.70",
+            state.transportExpense.toString(),
             "Educación: ",
-            "$220.70",
+            state.educationInversion.toString(),
             "Entretenimiento: ",
-            "$170.20"
+            state.entertainmentExpense.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
 
@@ -72,7 +76,16 @@ fun CreditQuestionStep(
                 modifier = Modifier
                     .selectable(
                         selected = isSelectedItem(item),
-                        onClick = { onChangeState(item) },
+                        onClick = {
+                            if (item == "Si, tengo un préstamo") {
+                                model.setHasCredit(true)
+                                model.setCreditText(item)
+                            } else {
+                                model.setHasCredit(false)
+                                model.setCreditText(item)
+                            }
+                            onChangeState(item)
+                        },
                         role = Role.RadioButton
                     )
                     .padding(6.dp)
@@ -98,8 +111,10 @@ fun CreditQuestionStep(
             }
         }
         SubmitButton(
-            text = "continuar",
-            onClick = { onNext() }
+            text = stringResource(R.string.continue_),
+            enabled = selectedValue.value != "",
+            onClick = {
+                onNext() }
         )
     }
 }
