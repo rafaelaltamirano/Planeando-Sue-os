@@ -3,6 +3,8 @@ package com.example.planeando_suenos.ui.main
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.ui.ModelStatus
@@ -16,8 +18,14 @@ class MainViewModel @Inject constructor(
     private val mainUseCase: MainUseCase
 ) : ViewModelWithStatus() {
 
+
+
     var state by mutableStateOf(MainState())
         private set
+
+    fun setDreamEdit(dreamEdit: DreamWithUser?) {
+        state = state.copy(dreamEdit = dreamEdit)
+    }
 
     fun setDreamId(dreamId: String?) {
         state = state.copy(dreamId = dreamId)

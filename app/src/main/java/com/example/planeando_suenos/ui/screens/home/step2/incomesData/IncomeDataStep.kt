@@ -25,6 +25,7 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CurrencyTextField
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
 import com.example.planeando_suenos.ui.screens.home.step2.incomesData.IncomeItems.*
 import com.example.planeando_suenos.ui.theme.GreenBusiness
@@ -40,14 +41,26 @@ enum class IncomeItems(val value: String) {
 @Composable
 fun IncomeDataStep(
     onNext: () -> Unit,
+    mainModel :MainViewModel,
     model: ApproximateIncomesViewModel
 ) {
+
+
     val selectedValue = remember { mutableStateOf("") }
     val items = listOf(FIXED_SALARY, VARIABLE_SALARY)
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
     val state = model.state
     lateinit var itemSelected:IncomeItems
+
+    //TODO: to edit
+    if(mainModel.state.dreamEdit!=null){
+        selectedValue.value =   when (mainModel.state.dreamEdit?.userFinance?.income?.type){
+            "fixedSalary" -> "Sueldo Fijo"
+            else -> "Sueldo Variable"
+        }
+    }
+
 
     Column(Modifier.padding(dimensionResource(R.dimen.gap4)).fillMaxHeight()) {
         Text(
@@ -72,9 +85,7 @@ fun IncomeDataStep(
                 modifier = Modifier
                     .selectable(
                         selected = isSelectedItem(item.value),
-                        onClick = {
-                            onChangeState(item.value)
-                                  },
+                        onClick = { onChangeState(item.value) },
                         role = Role.RadioButton
                     )
                     .padding(14.dp)

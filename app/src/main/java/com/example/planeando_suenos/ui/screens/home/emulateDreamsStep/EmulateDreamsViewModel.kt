@@ -70,6 +70,7 @@ class EmulateDreamsViewModel @Inject constructor(
     fun getDream(dreamId: String, priority: String) = viewModelScope.launch {
         setLoading(true)
         try {
+            //TODO: CHANGE ID FOR REAL
             withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase(dreamId, priority) }.also {
                 setDreamWithUser(it)
             }

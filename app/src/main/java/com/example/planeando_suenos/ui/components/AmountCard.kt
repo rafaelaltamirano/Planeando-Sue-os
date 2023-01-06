@@ -44,7 +44,7 @@ fun AmountCard(
             .fillMaxWidth()
             .height(100.dp)
             .clickable {
-                onClick
+                onClick()
             },
         elevation = 2.dp,
         backgroundColor = backgroundColor,

@@ -60,6 +60,8 @@ fun ApproximateIncomesScreen(
     if (model.state.checked) {
         homeModel.setCheckedStep2(true)
         homeModel.setIncome(model.getIncomeObject())
+        model.setStep(Step2Step.INCOME_DATA)
+        model.setChecked(false)
         LaunchedEffect(Unit) {
             navController.navigate(UserRouterDir.HOME.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
@@ -95,7 +97,8 @@ fun ApproximateIncomesScreen(
 //                    coroutineScope.launch { model.getDream(mainModel.state.dreamId!!) }
                     model.nextStep()
                 },
-                model = model
+                model = model,
+                mainModel = mainModel
             )
             Step2Step.FREQUENCY_INCOMES -> FrequencyIncomesStep(
                 onNext = model::nextStep,

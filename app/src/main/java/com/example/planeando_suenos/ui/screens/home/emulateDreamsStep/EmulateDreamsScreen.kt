@@ -54,7 +54,8 @@ fun EmulateDreamsScreen(
                     onNext = model::nextStep,
                     model = model,
                     mainModel = mainModel,
-                    onShowBottomSheet = expandBottomSheetFunction
+                    onShowBottomSheet = expandBottomSheetFunction,
+                    navController = navController
                 )
 
                 EmulateDreamsStep.LIST -> DreamListStep(
