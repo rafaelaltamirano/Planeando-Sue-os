@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
+import com.example.planeando_suenos.domain.body.smartShopping.Income
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.ui.ViewModelWithStatus
@@ -32,6 +33,10 @@ class HomeViewModel @Inject constructor(
 
     fun setCheckedStep2(check: Boolean) {
         state = state.copy(checkedStep2 = check)
+    }
+
+    fun setIncome(income: Income) {
+        state = state.copy(income = income)
     }
 
     fun setCheckedStep3(check: Boolean) {

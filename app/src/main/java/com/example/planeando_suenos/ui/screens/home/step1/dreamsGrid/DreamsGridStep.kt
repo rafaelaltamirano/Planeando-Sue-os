@@ -52,6 +52,7 @@ fun DreamsGridStep(
     val dreamListData = remember { mutableStateListOf<Dream>() }
     val otherMark = remember { mutableStateOf(false) }
     val otherTitle = remember { mutableStateOf("") }
+    var idOtro: String? = null
 
     Column(
         Modifier
@@ -98,7 +99,8 @@ fun DreamsGridStep(
                                     modifier = Modifier.weight(1f),
                                     onClick = {
                                         //SI ES OTRO GUARDO ACTIVO LA MARCA
-                                        if (model.state.dreamTypes[((3 * n) + i) - 1].id == "63b4759f174e12ddbb980fdc") {
+                                        if (model.state.dreamTypes[((3 * n) + i) - 1].title == "Otro") {
+                                            idOtro = model.state.dreamTypes[((3 * n) + i) - 1].title
                                             otherMark.value = true
                                         } else {
                                             // CASO CONTRARIO CARGO DIRECTAMENTE LA LISTA
@@ -131,7 +133,7 @@ fun DreamsGridStep(
 
         if (otherMark.value) {
             Text(
-                modifier = Modifier.padding(top = 12.dp),
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.gap4)),
                 color = Color.Black,
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.h3,
@@ -145,7 +147,7 @@ fun DreamsGridStep(
                 onValueChanged = { otherTitle.value = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.gap4))
+                    .padding(vertical = dimensionResource(R.dimen.gap3))
             )
         }
 
@@ -157,7 +159,7 @@ fun DreamsGridStep(
                 if(otherMark.value){
                     dreamListData.add(
                         Dream(description = otherTitle.value,
-                             dreamType = DreamType(id = "63b4759f174e12ddbb980fdc")))
+                             dreamType = DreamType(id = idOtro)))
                 }
                 dreamPlan = DreamPlan(dream = dreamListData)
                 model.setDreamData(dreamPlan)

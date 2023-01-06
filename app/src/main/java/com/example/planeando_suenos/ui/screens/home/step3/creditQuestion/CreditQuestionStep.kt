@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -76,13 +77,14 @@ fun CreditQuestionStep(
                     .selectable(
                         selected = isSelectedItem(item),
                         onClick = {
-                            if (item == "Si, tengo un préstamo")
-                            { model.setHasCredit(true)
-                                model.setCreditText(item) }
-                            else { model.setHasCredit(false)
+                            if (item == "Si, tengo un préstamo") {
+                                model.setHasCredit(true)
                                 model.setCreditText(item)
-                                onChangeState(item)
+                            } else {
+                                model.setHasCredit(false)
+                                model.setCreditText(item)
                             }
+                            onChangeState(item)
                         },
                         role = Role.RadioButton
                     )
@@ -109,7 +111,8 @@ fun CreditQuestionStep(
             }
         }
         SubmitButton(
-            text = "continuar",
+            text = stringResource(R.string.continue_),
+            enabled = selectedValue.value != "",
             onClick = {
                 onNext() }
         )

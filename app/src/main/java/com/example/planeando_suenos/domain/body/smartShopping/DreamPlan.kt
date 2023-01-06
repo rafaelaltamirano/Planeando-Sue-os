@@ -2,6 +2,7 @@ package com.example.planeando_suenos.domain.body.smartShopping
 
 data class DreamPlan(
     val title: String? = null,
+    val endDate:String? = null,
     val userFinance: UserFinance? = null,
     val dream: List<Dream>? = null,
     val id: String? = null,
@@ -38,7 +39,7 @@ data class Dream(
     val description: String ?= null,
     val amount: Float?  = null,
     val startDate: String?  = null,
-    val endDate: String?  = null,
+    val endDate:String? = null,
     val amountPlaned: Float?  = null,
     val paymentQuantity: Float?  = null,
     val dreamType: DreamType?  = null,
