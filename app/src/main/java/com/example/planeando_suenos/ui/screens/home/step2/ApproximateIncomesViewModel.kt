@@ -65,9 +65,7 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
-    private fun setDreamWithUser(dreamWithUser: DreamWithUser?) {
-        state = state.copy(dreamWithUser = dreamWithUser)
-    }
+
 
     fun setDreamId(dreamId: String) {
         state = state.copy(dreamId = dreamId)
@@ -106,18 +104,6 @@ class ApproximateIncomesViewModel @Inject constructor(
     }
 
 
-    fun getDream(dreamId: String) = viewModelScope.launch {
-        setLoading(true)
-        try {
-            withContext(Dispatchers.IO) { approximateIncomeUseCase.getDream(dreamId) }.also {
-                setDreamWithUser(it)
-            }
-        } catch (e: Exception) {
-            handleNetworkError(e)
-        } finally {
-            setLoading(false)
-        }
-    }
 
     suspend fun updateDream(dreamPlan:DreamPlan) = viewModelScope.launch {
         setLoading(true)
