@@ -23,7 +23,6 @@ data class DreamWithUserResponse(
         dream = dream.map { it.toEntity() },
     )
 
-
     data class UserDreamResponse(
         @SerializedName("id") val id: String
     ) : Response<UserDream> {

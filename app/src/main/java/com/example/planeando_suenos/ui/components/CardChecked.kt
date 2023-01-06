@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,11 +20,13 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.ui.theme.CardUnchecked
+import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
 @Composable
 fun CardChecked(
     checked: Boolean,
+    enable:Boolean = true,
     title: String,
     subTitle: String,
     onClick: () -> Unit
@@ -31,15 +34,16 @@ fun CardChecked(
 
     val colorChecked = GreenBusiness
     val colorUnchecked = CardUnchecked
+    val colorDisable = GrayBusiness
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
+            .background(if(!enable)colorDisable else Color.Transparent)
             .border(1.dp, if (checked) colorChecked else colorUnchecked)
-            .clickable {
-                onClick()
-            }, elevation = 5.dp
+            .clickable { if(enable) onClick() },
+        elevation = 5.dp
     ) {
 
         Row(
@@ -57,7 +61,7 @@ fun CardChecked(
             Column {
                 Text(
                     text = title,
-                    color = colorChecked,
+                    color = if(enable) colorChecked else colorDisable,
                     fontSize = if (checked) 14.sp else TextUnit.Unspecified,
                     fontWeight = FontWeight.Bold
                 )
@@ -70,12 +74,13 @@ fun CardChecked(
                     )
                 }
             }
-
-            Icon(
-                imageVector = Icons.Filled.ChevronRight,
-                contentDescription = "",
-                tint = colorChecked
-            )
+            if(enable) {
+                Icon(
+                    imageVector = Icons.Filled.ChevronRight,
+                    contentDescription = "",
+                    tint = colorChecked
+                )
+            }
 
         }
 
@@ -90,11 +95,11 @@ fun PrevCardChecked() {
             .fillMaxSize()
             .padding(32.dp)
     ) {
-        CardChecked(true, "Tus sueños y aspiraciones", "Datos completados con éxito") {}
+        CardChecked(true, enable = false,  "Tus sueños y aspiraciones", subTitle = "Datos completados con éxito") {}
         Spacer(modifier = Modifier.size(16.dp))
-        CardChecked(false, "Tus ingresos aproximados", "$ 1.600.00 semanales") {}
+        CardChecked(false, enable = false,title = "Tus ingresos aproximados", subTitle = "$ 1.600.00 semanales") {}
         Spacer(modifier = Modifier.size(16.dp))
-        CardChecked(false, "Tus egresos, gastos o créditos", "$ 861.40 semanales") {}
+        CardChecked(false, title = "Tus egresos, gastos o créditos", subTitle =  "$ 861.40 semanales") {}
         Spacer(modifier = Modifier.size(16.dp))
     }
 }

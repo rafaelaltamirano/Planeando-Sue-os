@@ -6,6 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
+import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.body.smartShopping.Income
+import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.PersonalInfoCard
 import com.example.planeando_suenos.ui.components.SubmitButton
@@ -28,7 +32,7 @@ fun ExtraIncomesStep(
 ) {
 
     val state = model.state
-
+    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     Column(
         Modifier
             .padding(dimensionResource(R.dimen.gap4))
@@ -44,46 +48,60 @@ fun ExtraIncomesStep(
         PersonalInfoCard(
             "¿Cómo son tus ingresos?",
             "Tengo sueldo variable de,",
-            "1250.00"
+            state.salaryAmount.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
         PersonalInfoCard(
             "¿Con qué frecuencia lo recibes?",
-            state.frequency,
+            state.frequencyToShow,
         )
-        Text(
-            modifier = Modifier.padding(vertical = 14.dp),
-            text = "¿Tienes ingresos adicionales?",
-            fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
-        )
+        if (state.salaryType != "variableSalary") {
+            Text(
+                modifier = Modifier.padding(vertical = 14.dp),
+                text = "¿Tienes ingresos adicionales?",
+                fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
+            )
 
-        Text(
-            modifier = Modifier.padding(vertical = 14.dp),
-            text = "Si los tienes, ingresa un monto semanal aproximado",
-            fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
-        )
-        Text(
-            color = Color.Black,
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.h3,
-            fontSize = 17.sp,
-            text = "Ingresos adicionales"
-        )
-        CustomTextField(
-            value = state.additionalIncomes,
-            placeholder = R.string.enter_approximate_amount,
-            onValueChanged = model::setAdditionalIncomes,
-            onDone = true,
-            keyboardType = KeyboardType.Number,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.gap4))
-        )
+            Text(
+                modifier = Modifier.padding(vertical = 14.dp),
+                text = "Si los tienes, ingresa un monto semanal aproximado",
+                fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
+            )
+            Text(
+                color = Color.Black,
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.h3,
+                fontSize = 17.sp,
+                text = "Ingresos adicionales"
+            )
+            CustomTextField(
+                value = if (state.additionalIncomes != null) {
+                    state.additionalIncomes.toString()
+                } else "",
+                placeholder = R.string.enter_approximate_amount,
+                onValueChanged = {
+                    if (it.isEmpty() || it.matches(decimalPatter)) {
+                        model.setAdditionalIncomes(it.toFloat())
+                    }
+                }
+                ,
+                onDone = true,
+                keyboardType = KeyboardType.Number,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.gap4))
+            )
+        }
+        else model.setAdditionalIncomes(0f)
+
         Spacer(Modifier.height(dimensionResource(R.dimen.gap5)))
         Row(verticalAlignment = Alignment.Bottom) {
             SubmitButton(
                 text = "calcular ingresos",
-                onClick = onSubmit
+                enabled = state.additionalIncomes!=null,
+                onClick = {
+                    onSubmit()
+                }
             )
         }
     }

@@ -1,6 +1,6 @@
 package com.example.planeando_suenos.domain.response.smartShopping
 
-import com.example.planeando_suenos.domain.entities.*
+import com.example.planeando_suenos.domain.body.smartShopping.*
 import com.example.planeando_suenos.domain.response.Response
 import com.google.gson.annotations.SerializedName
 
@@ -21,7 +21,7 @@ class DreamPlanResponse(
 class UserFinanceResponse(
     @SerializedName("income") val income: IncomeResponse,
     @SerializedName("expenses") val expenses: ExpensesResponse,
-    @SerializedName("paymentCapability") val paymentCapability: Double,
+    @SerializedName("paymentCapability") val paymentCapability: Float,
 ) : Response<UserFinance> {
     override fun toEntity() = UserFinance(
         income = income.toEntity(),
@@ -34,8 +34,9 @@ data class IncomeResponse(
     @SerializedName("type") val type: String,
     @SerializedName("amount") val amount: Double,
     @SerializedName("frequency") val frequency: String,
-    @SerializedName("aditionalIncomeAmount") val additionalIncomeAmount: Double,
+    @SerializedName("additionalIncomeAmount") val additionalIncomeAmount: Double,
     @SerializedName("totalIncome") val totalIncome: Double,
+    @SerializedName("amountPerDay") val amountPerDay: Double,
 ) : Response<Income> {
     override fun toEntity() = Income(
         type = type,
@@ -43,16 +44,19 @@ data class IncomeResponse(
         frequency = frequency,
         additionalIncomeAmount = additionalIncomeAmount,
         totalIncome = totalIncome,
+        amountPerDay = amountPerDay
     )
 }
 
 data class ExpensesResponse(
-    @SerializedName("home") val home: Double,
-    @SerializedName("transport") val transport: Double,
-    @SerializedName("education") val education: Double,
-    @SerializedName("hobby") val hobby: Double,
-    @SerializedName("loanOrCredit") val loanOrCredit: Double,
-    @SerializedName("totalExpense") val totalExpense: Double,
+    @SerializedName("home") val home: Float,
+    @SerializedName("transport") val transport: Float,
+    @SerializedName("education") val education: Float,
+    @SerializedName("hobby") val hobby: Float,
+    @SerializedName("loanOrCredit") val loanOrCredit: Float,
+    @SerializedName("loanOrCreditPaymentDate") val loanOrCreditPaymentDate: String,
+    @SerializedName("totalExpense") val totalExpense: Float,
+    @SerializedName("amountPerDay") val amountPerDay: Float,
 ) : Response<Expenses> {
     override fun toEntity() = Expenses(
         home = home,
@@ -60,22 +64,26 @@ data class ExpensesResponse(
         education = education,
         hobby = hobby,
         loanOrCredit = loanOrCredit,
-        totalExpense = totalExpense
+        totalExpense = totalExpense,
+        loanOrCreditPaymentDate = loanOrCreditPaymentDate,
+        amountPerDay = amountPerDay
     )
 }
 
 data class DreamResponse(
     @SerializedName("description") val description: String,
-    @SerializedName("amount") val amount: Double,
-    @SerializedName("date") val date: String,
-    @SerializedName("amountPlaned") val amountPlaned: Double,
-    @SerializedName("paymentQuantity") val paymentQuantity: Double,
-    @SerializedName("dreamType") val dreamType: DreamTypeResponse,
+    @SerializedName("amount") val amount: Float,
+    @SerializedName("date") val startDate: String,
+    @SerializedName("date") val endDate: String,
+    @SerializedName("amountPlaned") val amountPlaned: Float,
+    @SerializedName("paymentQuantity") val paymentQuantity: Float,
+    @SerializedName("dreamType") val dreamType: DreamTypeIdResponse,
 ) : Response<Dream> {
     override fun toEntity() = Dream(
         description = description,
         amount = amount,
-        date = date,
+        startDate = startDate,
+        endDate = endDate,
         amountPlaned = amountPlaned,
         paymentQuantity = paymentQuantity,
         dreamType = dreamType.toEntity()

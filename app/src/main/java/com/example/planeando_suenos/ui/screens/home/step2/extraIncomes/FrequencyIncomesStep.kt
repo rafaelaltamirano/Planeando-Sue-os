@@ -26,22 +26,24 @@ import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesView
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
 
+
+
 @Composable
 fun FrequencyIncomesStep(
     onNext: () -> Unit,
     model: ApproximateIncomesViewModel
 ) {
-
     val state = model.state
     val selectedValue = remember { mutableStateOf("") }
-
     val items = listOf("Diario", "Semanal", "Quincenal", "Mensual")
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
 
-
-
-    Column(Modifier.padding(dimensionResource(R.dimen.gap4)).fillMaxHeight()) {
+    Column(
+        Modifier
+            .padding(dimensionResource(R.dimen.gap4))
+            .fillMaxHeight()
+    ) {
 
         Text(
             modifier = Modifier.padding(vertical = 14.dp),
@@ -52,7 +54,7 @@ fun FrequencyIncomesStep(
         PersonalInfoCard(
             "¿Cómo son tus ingresos?",
             "Tengo sueldo variable de,",
-            "1250.00"
+            state.salaryAmount.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
 
@@ -90,21 +92,28 @@ fun FrequencyIncomesStep(
                     fontSize = 15.sp,
                     color = TextBusiness
                 )
-
             }
         }
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
         Row(verticalAlignment = Alignment.Bottom) {
             SubmitButton(
                 text = "continuar",
+                enabled = selectedValue.value != "",
                 onClick = {
-                    model.setFrequency(selectedValue.value)
+                    val frequency = when (selectedValue.value) {
+                        "Diario" -> "diary"
+                        "Semanal" -> "weekly"
+                        "Quincenal" -> "biweekly"
+                        "Mensual" -> "monthly"
+                        else -> {
+                            ""
+                        }
+                    }
+                    model.setFrequencyToShow(selectedValue.value)
+                    model.setFrequency(frequency)
                     onNext()
                 }
             )
         }
-
     }
-
-
 }

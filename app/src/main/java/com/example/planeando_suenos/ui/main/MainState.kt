@@ -9,6 +9,7 @@ data class MainState(
     val token: String? = null,
     val id: String? = null,
     val user: User? = null,
+    val dreamId: String? = null,
     val showSplash: Boolean = true,
     val errorStatus: ModelStatus? = null,
     val networkErrorStatus: ModelStatus? = null,

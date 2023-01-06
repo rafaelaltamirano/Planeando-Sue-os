@@ -1,48 +1,42 @@
 package com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.planeando_suenos.domain.body.smartShopping.DreamBody
-import com.example.planeando_suenos.domain.body.smartShopping.DreamDataBody
-import com.example.planeando_suenos.domain.entities.Dream
-import com.example.planeando_suenos.domain.entities.DreamPlan
+import com.example.planeando_suenos.R
+import com.example.planeando_suenos.domain.body.smartShopping.Dream
+import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.body.smartShopping.DreamType
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
+import com.example.planeando_suenos.ui.screens.utils.ceilRound
 import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
-import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
-
-enum class DreamType(val description:String){
-    UNDERTAKE("Emprender o crecer mi negocio"),
-    WHITE_LINE("Línea Blanca"),
-    GADGET_AND_TECH("Gadget y electrónica"),
-    NEW_TEAM_WORK("Nuevo equipo de trabajo"),
-    BUILD_FUTURE_EDUCATION("Construir un futuro / educación"),
-    NEW_SCREEN("Nueva Pantalla"),
-    REMODEL_CONSTRUCTION("Remodelar y/o construcción"),
-    FURNISH("Amueblar"),
-    CHANGE_MOBILE("Cambiar de celular"),
-    FAMILIAR_GIF("Regalo a un familiar"),
-    VACATION("Ir de vacaciones"),
-    VIDEO_GAMES_CONSOLE("Consola y Videojuegos"),
-    EVENT_EXPERIENCE("Un Evento o Una nueva Experiencia"),
-    APPLIANCE("Electrodomésticos"),
-    CAR_MOTORCYCLE("Auto / Moto"),
-    OTHER("Otros");
-}
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import kotlin.math.ceil
 
 
 @Composable
@@ -50,8 +44,8 @@ fun DreamsGridStep(
     onNext: () -> Unit,
     model: DreamsAndAspirationsViewModel
 ) {
-    lateinit var dreamBody: DreamBody
-    val dreamListData = mutableListOf<DreamDataBody>()
+    lateinit var dreamPlan: DreamPlan
+    val dreamListData = remember { mutableStateListOf<Dream>() }
 
 
     Column(
@@ -69,137 +63,85 @@ fun DreamsGridStep(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(
-                    title = DreamType.UNDERTAKE.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.UNDERTAKE.description))
-
-                    }
+        if (model.state.loading) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .width(25.dp)
+                        .height(25.dp),
+                    color = Accent
                 )
-                DreamItemGrid(title = DreamType.WHITE_LINE.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.WHITE_LINE.description))
-
-                    })
-                DreamItemGrid(title = DreamType.GADGET_AND_TECH.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.GADGET_AND_TECH.description))
-
-                    })
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(
-                    title = DreamType.NEW_TEAM_WORK.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.NEW_TEAM_WORK.description))
+        } else {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                var totalItem = model.state.dreamTypes.size
+                val totalRows = (totalItem.toDouble() / 3).ceilRound()
+                var itemCount = 0
+                var clearPosition = 0
 
-                    })
-                DreamItemGrid(title = DreamType.BUILD_FUTURE_EDUCATION.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.BUILD_FUTURE_EDUCATION.description))
+                for (n in 0 until totalRows) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        for (i in 1..3) {
+                            if (totalItem != 0) {
+                                DreamItemGrid(
+                                    title = model.state.dreamTypes[itemCount].title ?: "",
+                                    imageName = model.state.dreamTypes[itemCount].iconName ?: "",
+                                    modifier = Modifier.weight(1f),
+                                    onClick = {
+//                                        ((3*n)+i)-1 = position formula
+                                        dreamListData.add(
+                                            Dream(
+                                                description = model.state.dreamTypes[((3 * n) + i) - 1].title
+                                                    ?: "",
+                                                dreamType = DreamType(
+                                                    id = model.state.dreamTypes[((3 * n) + i) - 1].id
+                                                )
+                                            )
+                                        )
+                                        dreamListData.forEach {
+                                            Log.d("TEST", it.toString())
+                                        }
 
-                })
-                DreamItemGrid(title = DreamType.NEW_SCREEN.description,
-                    modifier = Modifier.weight(1f)
-                    ,onClick = {
-                    dreamListData.add(DreamDataBody(description = DreamType.NEW_SCREEN.description))
-
-                })
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = DreamType.REMODEL_CONSTRUCTION.description,
-                    Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.REMODEL_CONSTRUCTION.description))
-
+                                        clearPosition += 1
+                                    },
+                                    onClear = {
+                                        dreamListData.removeIf { dream -> dream.dreamType?.id === model.state.dreamTypes[n].id }
+                                    }
+                                )
+                                totalItem -= 1
+                            }
+                            itemCount += 1
+                        }
                     }
-                )
-                DreamItemGrid(
-                    title = DreamType.FURNISH.description,
-                    modifier =  Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.FURNISH.description))
-
-                    })
-                DreamItemGrid(title = DreamType.CHANGE_MOBILE.description,
-                    modifier =  Modifier.weight(1f),
-                    onClick = {
-                    dreamListData.add(DreamDataBody(description = DreamType.CHANGE_MOBILE.description))
-
-                })
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title = DreamType.FAMILIAR_GIF.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                    dreamListData.add(DreamDataBody(description = DreamType.FAMILIAR_GIF.description))
-                })
-                DreamItemGrid(
-                    title = DreamType.VACATION.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.VACATION.description))
-
-                    })
-                DreamItemGrid(title = DreamType.VIDEO_GAMES_CONSOLE.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.VIDEO_GAMES_CONSOLE.description))
-
-                    })
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title =  DreamType.EVENT_EXPERIENCE.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.EVENT_EXPERIENCE.description))
-
-                    })
-                DreamItemGrid(title = DreamType.APPLIANCE.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.APPLIANCE.description))
-
-                    })
-                DreamItemGrid(title = DreamType.CAR_MOTORCYCLE.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.CAR_MOTORCYCLE.description))
-
-                    })
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DreamItemGrid(title =  DreamType.OTHER.description,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        dreamListData.add(DreamDataBody(description = DreamType.OTHER.description))
-                    })
-
+                }
             }
         }
-
         SubmitButton(
-            text = "continuar",
+            text = stringResource(R.string.continue_),
+            enabled = dreamListData.isNotEmpty(),
             onClick = {
-                dreamBody = DreamBody(dream = dreamListData)
-                model.setDreamData(dreamBody)
+                dreamPlan = DreamPlan(dream = dreamListData)
+                model.setDreamData(dreamPlan)
                 onNext()
             }
         )
     }
 
-
 }
 
 @Composable
-fun DreamItemGrid(title: String, modifier: Modifier, onClick: () -> Unit ) {
+fun DreamItemGrid(
+    title: String,
+    imageName: String,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    onClear: () -> Unit
+) {
     var checked by remember { mutableStateOf(false) }
 
     val radius = RoundedCornerShape(6.dp)
@@ -214,7 +156,8 @@ fun DreamItemGrid(title: String, modifier: Modifier, onClick: () -> Unit ) {
             .background(backgroundColor, radius)
             .clickable {
                 checked = !checked
-                if(checked) onClick()
+                if (checked) onClick()
+                if (!checked) onClear()
             }
     ) {
         Text(
@@ -224,5 +167,42 @@ fun DreamItemGrid(title: String, modifier: Modifier, onClick: () -> Unit ) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 16.dp)
         )
+        if (imageName != "" && imageName != "otro") {
+            Icon(
+                painter = painterResource(getImage(imageName)),
+                contentDescription = "",
+                tint = textColor,
+                modifier = Modifier
+                    .width(42.dp)
+                    .height(42.dp)
+                    .align(Alignment.BottomStart)
+                    .padding(start = 8.dp, bottom = 8.dp)
+            )
+        }
+    }
+}
+
+
+fun getImage(name: String): Int {
+    return when (name) {
+        "business" -> R.drawable.ic_negocio_ic
+        "lineaBlanca" -> R.drawable.ic_lineablanca_ic
+        "electro" -> R.drawable.ic_electronica_ic
+        "tool" -> R.drawable.ic_taladro_ic
+        "toga" -> R.drawable.ic_estudio_ic
+        "tv" -> R.drawable.ic_pntalla_ic
+        "bloques" -> R.drawable.ic_construccion_ic
+        "sofa" -> R.drawable.ic_mueble_ic
+        "celular" -> R.drawable.ic_phone_ic
+        "regalo" -> R.drawable.ic_regalo_ic
+        "celular" -> R.drawable.ic_phone_ic
+        "vacaciones" -> R.drawable.ic_vacaciones_ic
+        "control" -> R.drawable.ic_gmae_ic
+        "torta" -> R.drawable.ic_cumple_ic
+        "rueda" -> R.drawable.ic_movilidad_ic
+        "batidora" -> R.drawable.ic_batidora
+        else -> {
+            R.drawable.ic_batidora
+        }
     }
 }

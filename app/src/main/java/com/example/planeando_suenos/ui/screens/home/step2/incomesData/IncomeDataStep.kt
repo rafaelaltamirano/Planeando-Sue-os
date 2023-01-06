@@ -25,6 +25,7 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
+import com.example.planeando_suenos.ui.screens.home.step2.incomesData.IncomeItems.*
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
 import kotlinx.coroutines.launch
@@ -41,11 +42,12 @@ fun IncomeDataStep(
     model: ApproximateIncomesViewModel
 ) {
     val selectedValue = remember { mutableStateOf("") }
-    val items = listOf(IncomeItems.FIXED_SALARY, IncomeItems.VARIABLE_SALARY)
+    val items = listOf(FIXED_SALARY, VARIABLE_SALARY)
+    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
     val state = model.state
-    val coroutineScope = rememberCoroutineScope()
+    lateinit var itemSelected:IncomeItems
 
     Column(Modifier.padding(dimensionResource(R.dimen.gap4)).fillMaxHeight()) {
         Text(
@@ -70,7 +72,9 @@ fun IncomeDataStep(
                 modifier = Modifier
                     .selectable(
                         selected = isSelectedItem(item.value),
-                        onClick = { onChangeState(item.value) },
+                        onClick = {
+                            onChangeState(item.value)
+                                  },
                         role = Role.RadioButton
                     )
                     .padding(14.dp)
@@ -95,13 +99,15 @@ fun IncomeDataStep(
             }
         }
         Spacer(Modifier.height(32.dp))
-        if (!selectedValue.value.isEmpty()) {
+        if (selectedValue.value.isNotEmpty()) {
             val label: String
             val placeholder: Int
-            if (selectedValue.value == IncomeItems.FIXED_SALARY.value) {
+            if (selectedValue.value == FIXED_SALARY.value) {
+                itemSelected = FIXED_SALARY
                 label = stringResource(R.string.fixed_salary)
                 placeholder = R.string.enter_amount
             } else {
+                itemSelected = VARIABLE_SALARY
                 label = stringResource(R.string.variable_salary)
                 placeholder = R.string.approximately_income
             }
@@ -113,10 +119,15 @@ fun IncomeDataStep(
                 text = label
             )
             CustomTextField(
-                value = state.salaryAmount,
+                value =   if (state.salaryAmount != null) {
+                    state.salaryAmount.toString()
+                } else "",
                 placeholder = placeholder,
                 onDone = true,
-                onValueChanged = model::setSalaryAmount,
+                onValueChanged = {
+                    if (it.isEmpty() || it.matches(decimalPatter)) {
+                    model.setSalaryAmount(it.toFloat())}
+                                 },
                 keyboardType = KeyboardType.Number,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -125,7 +136,14 @@ fun IncomeDataStep(
             Row(verticalAlignment = Alignment.Bottom) {
                 SubmitButton(
                     text = "continuar",
-                    onClick = { onNext() }
+                    enabled = state.salaryAmount!=null,
+                    onClick = {
+                        model.setSalaryType(
+                            when(itemSelected){
+                                FIXED_SALARY -> "fixedSalary"
+                                VARIABLE_SALARY -> "variableSalary"
+                            })
+                        onNext() }
                 )
             }
         }

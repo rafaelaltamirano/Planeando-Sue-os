@@ -23,7 +23,9 @@ import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.theme.Accent
+import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.GreenBusiness
+import com.example.planeando_suenos.ui.theme.TextBusiness
 
 
 @Composable
@@ -78,7 +80,7 @@ fun HomeScreen(
                 text = "Paso 1",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.W700,
-                color = Color.Black
+                color = TextBusiness
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
@@ -96,11 +98,12 @@ fun HomeScreen(
                 text = "Paso 2",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.W700,
-                color = Color.Black
+                color = if(homeViewModel.state.checkedStep1) TextBusiness else GrayBusiness
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
                 checked = homeViewModel.state.checkedStep2,
+                enable = homeViewModel.state.checkedStep1,
                 title = "Tus ingresos aproximados",
                 subTitle = "$ 1.600.00 semanales",
                 onClick = {
@@ -114,11 +117,12 @@ fun HomeScreen(
                 text = "Paso 3",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color =   if(homeViewModel.state.checkedStep1 && homeViewModel.state.checkedStep2) TextBusiness else GrayBusiness
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
                 checked = homeViewModel.state.checkedStep3,
+                enable = homeViewModel.state.checkedStep1 && homeViewModel.state.checkedStep2,
                 title = "Tus egresos o gastos",
                 subTitle = "$ 861.40 semanales",
                 onClick = {
@@ -132,7 +136,7 @@ fun HomeScreen(
                 text = "Es fácil y rápido. ¿Estás listo?",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = TextBusiness
             )
         }
         Row(verticalAlignment = Alignment.Bottom) {

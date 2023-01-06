@@ -9,34 +9,37 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key.Companion.D
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.planeando_suenos.domain.body.smartShopping.DreamBody
-import com.example.planeando_suenos.domain.body.smartShopping.DreamDataBody
+import com.example.planeando_suenos.R
+import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TextDate
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
-import com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid.DreamType
+import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.ui.theme.BackgroundItemDream
 import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.TextColorItemDream
 import kotlinx.coroutines.launch
+import java.util.*
 
 @Composable
 fun DreamPlanStep(
     model: DreamsAndAspirationsViewModel,
     onFinish: () -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
+
     val itemDreams = model.state.dreamData?.dream?.mapNotNull { it.description }
     val dreamListData = model.state.dreamData?.dream?.toMutableList()
-    lateinit var dreamBody: DreamBody
+    val decimalPatter = remember { Regex("^\\d*\\.?\\d*\$") }
+    lateinit var dreamPlan: DreamPlan
 
     Column(
         modifier = Modifier
@@ -58,14 +61,17 @@ fun DreamPlanStep(
                 AmountDream(
                     dream = string,
                     onDone = true,
-                    value = if (model.state.dreamData?.dream?.get(index)?.amount != null) {
+                    value =
+                    if (model.state.dreamData?.dream?.get(index)?.amount != null) {
                         model.state.dreamData?.dream?.get(index)?.amount.toString()
                     } else "",
                     onValueChanged = {
-                        val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
-                        dreamListData?.set(index, dreamUpdate!!)
-                        dreamBody = DreamBody(dream = dreamListData)
-                        model.setDreamData(dreamBody)
+                        if (it.isEmpty() || it.matches(decimalPatter)) {
+                            val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
+                            dreamListData?.set(index, dreamUpdate!!)
+                            dreamPlan = DreamPlan(dream = dreamListData)
+                            model.setDreamData(dreamPlan)
+                        }
                     }
 
                 )
@@ -75,10 +81,12 @@ fun DreamPlanStep(
                     model.state.dreamData?.dream?.get(index)?.amount.toString()
                 } else "",
                 onValueChanged = {
-                    val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
-                    dreamListData?.set(index, dreamUpdate!!)
-                    dreamBody = DreamBody(dream = dreamListData)
-                    model.setDreamData(dreamBody)
+                    if (it.isEmpty() || it.matches(decimalPatter)) {
+                        val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
+                        dreamListData?.set(index, dreamUpdate!!)
+                        dreamPlan = DreamPlan(dream = dreamListData)
+                        model.setDreamData(dreamPlan)
+                    }
                 })
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -97,23 +105,33 @@ fun DreamPlanStep(
                 lineHeight = 23.sp
             )
         )
-        TextDate(onValueChanged = { date ->
-            dreamBody = DreamBody(dream = dreamListData?.map {  it.copy(date = date)})
-            model.setDreamData(dreamBody)
-            Log.d("TEST",model.state.dreamData?.dream.toString())
-        })
-        SubmitButton(
-            text = "continuar",
-            onClick = {
-                coroutineScope.launch {
-                    model.submitDream()
+        TextDate(
+            onValueChanged = { date ->
+                dreamPlan = DreamPlan(dream = dreamListData?.map {
+                    it.copy(
+                        endDate = date,
+                        startDate = Calendar.getInstance().time.convertDateToFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                    )
                 }
-                onFinish() }
+                )
+                model.setDreamData(dreamPlan)
+            })
+
+        val amountFilled = model.state.dreamData?.dream!!.mapNotNull { it.amount }
+        val endDateFilled = model.state.dreamData?.dream!!.mapNotNull { it.endDate }
+        SubmitButton(
+            text = stringResource(R.string.finalize),
+            loading = model.state.loading,
+            enabled = (model.state.dreamData?.dream!!.size == amountFilled.size)
+                    && (model.state.dreamData?.dream!!.size == endDateFilled.size),
+            onClick = {
+                onFinish()
+
+            }
         )
     }
 
 }
-
 
 @Composable
 fun BoxDream(itemDreams: List<String>?) {
@@ -163,9 +181,7 @@ fun AmountDream(
     value: String,
     onValueChanged: (String) -> Unit
 ) {
-//    var value by rememberSaveable {
-//        mutableStateOf("")
-//    }
+
     Column(Modifier.padding(top = 24.dp)) {
         Text(
             text = dream, style = TextStyle(
@@ -178,7 +194,7 @@ fun AmountDream(
         CustomTextField(
             value = value,
             onValueChanged = onValueChanged,
-            placeholder = com.example.planeando_suenos.R.string.put_amount,
+            placeholder = R.string.put_amount,
             keyboardType = KeyboardType.Number,
             modifier = Modifier.fillMaxWidth(),
             onDone = onDone

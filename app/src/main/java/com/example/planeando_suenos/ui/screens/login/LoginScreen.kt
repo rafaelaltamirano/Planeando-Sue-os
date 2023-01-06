@@ -120,7 +120,9 @@ fun LoginScreen(
             )
 
             SubmitButton(
-                stringResource(R.string.log_in),
+                text = stringResource(R.string.log_in),
+                enabled = model.state.password!="" && model.state.email!="",
+                loading = model.state.loading,
                 onClick = { coroutineScope.launch { model.login() } })
 
 
