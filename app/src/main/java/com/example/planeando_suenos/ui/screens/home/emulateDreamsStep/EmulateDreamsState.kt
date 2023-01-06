@@ -24,4 +24,5 @@ data class EmulateDreamsState(
     val checked: Boolean = false,
     val dreamsCalendarItem: List<DreamCalendarItem> = emptyList(),
     val dreamWithUser: DreamWithUser? = null,
+    val prioritySelected: String? = null
 )

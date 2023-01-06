@@ -37,8 +37,8 @@ class SmartShoppingDaoImp @Inject constructor(
         return res.body()!!.toEntity()
     }
 
-    override suspend fun getDreamById(dreamId: String): DreamWithUser {
-        val res = smartShoppingApi.getDreamById(dreamId, "equal")
+    override suspend fun getDreamById(dreamId: String, priority: String): DreamWithUser {
+        val res = smartShoppingApi.getDreamById(dreamId, priority)
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.data.toEntity()
     }

@@ -10,9 +10,4 @@ class GetDreamPlanCalendarUseCase @Inject constructor(private val smartShoppingD
     suspend operator fun invoke(dreamId: String): List<DreamCalendarItem> {
         return smartShoppingDao.getDreamPlanCalendar(dreamId)
     }
-
-
-    suspend fun getDream(dreamId: String): DreamWithUser {
-        return smartShoppingDao.getDreamById(dreamId)
-    }
 }

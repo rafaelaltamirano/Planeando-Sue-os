@@ -4,22 +4,6 @@ import com.example.planeando_suenos.domain.body.smartShopping.*
 import com.example.planeando_suenos.domain.response.Response
 import com.google.gson.annotations.SerializedName
 
-class DreamPlanResponse(
-    @SerializedName("title") val title: String,
-    @SerializedName("endDate") val endDate: String,
-    @SerializedName("userFinance") val userFinance: UserFinanceResponse,
-    @SerializedName("dream") val dream: List<DreamResponse>,
-    @SerializedName("id") val id: String,
-) : Response<DreamPlan> {
-    override fun toEntity() = DreamPlan(
-        title = title,
-        endDate = endDate,
-        userFinance = userFinance.toEntity(),
-        dream = dream.map { it.toEntity() },
-        id = id
-    )
-}
-
 class UserFinanceResponse(
     @SerializedName("income") val income: IncomeResponse,
     @SerializedName("expenses") val expenses: ExpensesResponse,
@@ -75,8 +59,8 @@ data class ExpensesResponse(
 data class DreamResponse(
     @SerializedName("description") val description: String,
     @SerializedName("amount") val amount: Float,
-    @SerializedName("date") val startDate: String,
-    @SerializedName("date") val endDate: String,
+    @SerializedName("startDate") val startDate: String,
+    @SerializedName("endDate") val endDate: String,
     @SerializedName("amountPlaned") val amountPlaned: Float,
     @SerializedName("paymentQuantity") val paymentQuantity: Float,
     @SerializedName("dreamType") val dreamType: DreamTypeIdResponse,

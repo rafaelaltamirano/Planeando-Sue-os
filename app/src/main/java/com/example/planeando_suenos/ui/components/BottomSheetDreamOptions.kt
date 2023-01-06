@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.domain.entities.PriorityDream
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BottomSheetDreamOptions(
-    onNext: () -> Unit,
+    onNext: (String) -> Unit,
     model: EmulateDreamsViewModel,
     mainModel: MainViewModel,
     child: @Composable (() -> Unit) -> Unit,
@@ -65,7 +66,7 @@ fun BottomSheetDreamOptions(
                 "Tu sueño más pequeño primero",
                 "Podrás cumplir tus sueños en orden, partiendo desde el más pequeño."
             ) {
-                onNext()
+                onNext(PriorityDream.TuSuenioMasPequenioPrimero.priority)
                 coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -73,7 +74,7 @@ fun BottomSheetDreamOptions(
                 "Todos tus sueños al mismo tiempo",
                 "Todos tus sueños al mismo tiempo. Tus cuotas siempre tendran el mismo valor."
             ) {
-                onNext()
+                onNext(PriorityDream.TodosTusSueniosAlMismoTiempo.priority)
                 coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -81,7 +82,7 @@ fun BottomSheetDreamOptions(
                 "Tu sueño más grande primero",
                 "Pagarás mas al principio pero tendrás tu mayor recompensa."
             ) {
-                onNext()
+                onNext(PriorityDream.TuSuenioMasGrandePrimero.priority)
                 coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
