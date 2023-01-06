@@ -107,7 +107,9 @@ class YourExpensesIncomeViewModel @Inject constructor(
     suspend fun updateDream(dreamPlan: DreamPlan) = viewModelScope.launch {
         setLoading(true)
         try {
-            withContext(Dispatchers.IO) { approximateIncomeUseCase.updateDream(dreamPlan) }.also { setChecked(true) }
+            withContext(Dispatchers.IO) {
+                approximateIncomeUseCase.updateDream(dreamPlan)
+            }.also { setChecked(true) }
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {

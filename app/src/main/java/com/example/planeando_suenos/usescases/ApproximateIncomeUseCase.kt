@@ -9,10 +9,6 @@ import javax.inject.Inject
 
 class ApproximateIncomeUseCase @Inject constructor(private val smartShoppingDao: SmartShoppingDao) {
 
-    suspend fun getDream(dreamId: String):DreamWithUser {
-        return smartShoppingDao.getDreamById(dreamId)
-    }
-
     suspend fun updateDream(dream: DreamPlan) {
         return smartShoppingDao.updateDreamPlan(dream)
     }

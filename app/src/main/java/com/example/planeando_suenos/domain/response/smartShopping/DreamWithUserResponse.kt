@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName
 data class DreamWithUserResponse(
     @SerializedName("id") val id: String,
     @SerializedName("title") val title: String,
+    @SerializedName("endDate") val endDate: String,
     @SerializedName("active") val active: Boolean,
     @SerializedName("user") val user: UserDreamResponse,
     @SerializedName("userFinance") val userFinance: UserFinanceResponse,

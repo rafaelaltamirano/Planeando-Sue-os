@@ -4,8 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.ui.ViewModelWithStatus
+import com.example.planeando_suenos.usescases.GetDreamByIdAndPriorityUseCase
 import com.example.planeando_suenos.usescases.GetDreamPlanCalendarUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EmulateDreamsViewModel @Inject constructor(
-    private val getDreamPlanCalendarUseCase: GetDreamPlanCalendarUseCase
+    private val getDreamPlanCalendarUseCase: GetDreamPlanCalendarUseCase,
+    private val getDreamByIdAndPriorityUseCase: GetDreamByIdAndPriorityUseCase
 ) : ViewModelWithStatus() {
 
     var state by mutableStateOf(EmulateDreamsState())
@@ -45,6 +48,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(dreamsCalendarItem = dreamsCalendarItem)
     }
 
+    private fun setDreamWithUser(dreamWithUser: DreamWithUser?) {
+        state = state.copy(dreamWithUser = dreamWithUser)
+    }
+
     fun getDreamCalendar(dreamId: String) {
         viewModelScope.launch {
             setLoading(true)
@@ -59,4 +66,23 @@ class EmulateDreamsViewModel @Inject constructor(
             }
         }
     }
+
+    fun getDream(dreamId: String, priority: String) = viewModelScope.launch {
+        setLoading(true)
+        try {
+            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase(dreamId, priority) }.also {
+                setDreamWithUser(it)
+            }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    fun setPriority(priority: String) {
+        state = state.copy(prioritySelected = priority)
+    }
+
+
 }

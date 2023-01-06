@@ -85,7 +85,7 @@ fun CreditAmountStep(
         }
         SubmitButton(
             text = stringResource(R.string.continue_),
-            enabled = !state.hasCredit || state.creditAmount!= null && state.creditEndDate!= "",
+            enabled = !state.hasCredit || state.creditAmount!= null && !state.creditEndDate.isNullOrBlank(),
             onClick = { onNext() }
         )
     }

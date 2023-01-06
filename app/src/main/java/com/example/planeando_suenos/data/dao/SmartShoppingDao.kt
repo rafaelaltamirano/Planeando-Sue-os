@@ -11,6 +11,6 @@ interface SmartShoppingDao {
     suspend fun createDreamPlan(dream: DreamPlan?):String
     suspend fun updateDreamPlan(dream : DreamPlan)
     suspend fun getAllDreamsPlan(): DreamWithUser
-    suspend fun getDreamById(dreamId: String): DreamWithUser
+    suspend fun getDreamById(dreamId: String, priority: String): DreamWithUser
     suspend fun getDreamPlanCalendar(dreamId: String): List<DreamCalendarItem>
 }

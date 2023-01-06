@@ -36,17 +36,17 @@ fun EmulateDreamsScreen(
     }
 
     Scaffold(
-        topBar = {
-
-        },
         backgroundColor = Color.White,
     ) {
 
         BottomSheetDreamOptions(
-            onNext = model::nextStep,
+            onNext = {
+                model.setPriority(it)
+                model.nextStep()
+            },
             model = model,
             mainModel = mainModel
-        ) {
+        ) { expandBottomSheetFunction ->
 
             when (state.step) {
 
@@ -54,7 +54,7 @@ fun EmulateDreamsScreen(
                     onNext = model::nextStep,
                     model = model,
                     mainModel = mainModel,
-                    onShowBottomSheet = it
+                    onShowBottomSheet = expandBottomSheetFunction
                 )
 
                 EmulateDreamsStep.LIST -> DreamListStep(
@@ -74,9 +74,11 @@ fun EmulateDreamsScreen(
                     model,
                     mainModel.state.dreamId.orEmpty(),
                     onSubmit = {
-                        navController.navigate(UserRouterDir.HOME.route){
-                            popUpTo(navController.graph.findStartDestination().id){
-                                inclusive = true  }}
+                        navController.navigate(UserRouterDir.HOME.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                inclusive = true
+                            }
+                        }
                     },
                     onBack = model::prevStep
                 )

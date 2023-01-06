@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 
 enum class EmulateDreamsStep(val step: Int) {
@@ -21,5 +22,7 @@ data class EmulateDreamsState(
     val loading: Boolean = true,
     val step: EmulateDreamsStep = EmulateDreamsStep.REVIEW_NUMBERS,
     val checked: Boolean = false,
-    val dreamsCalendarItem: List<DreamCalendarItem> = emptyList()
+    val dreamsCalendarItem: List<DreamCalendarItem> = emptyList(),
+    val dreamWithUser: DreamWithUser? = null,
+    val prioritySelected: String? = null
 )

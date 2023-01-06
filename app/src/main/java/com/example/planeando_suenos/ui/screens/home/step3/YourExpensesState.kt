@@ -27,8 +27,8 @@ data class YourExpensesState(
     val transportExpense: Float? = null,
     val educationInversion: Float? = null,
     val entertainmentExpense: Float? = null,
-    val creditAmount: Float? = null,
-    val creditEndDate: String = "",
+    val creditAmount: Float = 0f,
+    val creditEndDate: String? = null,
     val dreamId: String = "",
     val income: Income? = null,
     val step: Step3Step = Step3Step.FREQUENCY_EXPENSES

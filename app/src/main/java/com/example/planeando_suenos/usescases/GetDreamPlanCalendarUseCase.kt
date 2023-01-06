@@ -1,6 +1,7 @@
 package com.example.planeando_suenos.usescases
 
 import com.example.planeando_suenos.data.dao.SmartShoppingDao
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import javax.inject.Inject
 
