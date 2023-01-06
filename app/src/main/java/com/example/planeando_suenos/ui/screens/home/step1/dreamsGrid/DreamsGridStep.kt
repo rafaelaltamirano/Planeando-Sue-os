@@ -1,8 +1,5 @@
 package com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,8 +10,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,9 +33,6 @@ import com.example.planeando_suenos.ui.screens.utils.ceilRound
 import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import kotlin.math.ceil
 
 
 @Composable
@@ -231,7 +223,6 @@ fun getImage(name: String): Int {
         "sofa" -> R.drawable.ic_mueble_ic
         "celular" -> R.drawable.ic_phone_ic
         "regalo" -> R.drawable.ic_regalo_ic
-        "celular" -> R.drawable.ic_phone_ic
         "vacaciones" -> R.drawable.ic_vacaciones_ic
         "control" -> R.drawable.ic_gmae_ic
         "torta" -> R.drawable.ic_cumple_ic
