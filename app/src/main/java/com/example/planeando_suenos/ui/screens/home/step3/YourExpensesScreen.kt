@@ -3,6 +3,7 @@ package com.example.planeando_suenos.ui.screens.home.step3
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -14,6 +15,7 @@ import com.example.planeando_suenos.ui.screens.home.step2.Step2Step
 import com.example.planeando_suenos.ui.screens.home.step3.creditAmount.CreditAmountStep
 import com.example.planeando_suenos.ui.screens.home.step3.creditQuestion.CreditQuestionStep
 import com.example.planeando_suenos.ui.screens.home.step3.frequencyExpenses.FrequencyExpensesStep
+import kotlinx.coroutines.launch
 
 @Composable
 fun YourExpensesScreen(
@@ -24,6 +26,7 @@ fun YourExpensesScreen(
 ) {
 
     val state = model.state
+    val coroutineScope = rememberCoroutineScope()
 
     BackHandler(enabled = true) {
         if (state.step == Step3Step.FREQUENCY_EXPENSES) navController.popBackStack()
@@ -54,11 +57,13 @@ fun YourExpensesScreen(
             )
             Step3Step.CREDIT_QUESTION -> CreditQuestionStep(
                 onNext = model::nextStep,
+                model = model,
             )
             Step3Step.CREDIT_AMOUNT -> CreditAmountStep(
                 model = model,
                 onNext = {
-                    model.setChecked(true)
+                    coroutineScope.launch { model.updateDream(model.getDreamObject()) }
+
                     navController.navigate(UserRouterDir.HOME.route){
                         popUpTo(navController.graph.findStartDestination().id){
                             inclusive = true  }}

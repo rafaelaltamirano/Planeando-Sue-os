@@ -44,62 +44,54 @@ fun CreditAmountStep(
         PersonalInfoCard(
             "¿Cómo son tus egresos semanales?",
             "Hogar: ",
-            "1250.00",
+            state.homeExpense.toString(),
             "Transporte: ",
-            "$120.70",
+            state.transportExpense.toString(),
             "Educación: ",
-            "$220.70",
+            state.educationInversion.toString(),
             "Entretenimiento: ",
-            "$170.20"
+            state.entertainmentExpense.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap3)))
         PersonalInfoCard(
             "¿Tienes algún préstamo o crédito?",
-            "Si, tengo un préstamo",
+            state.creditText,
         )
-        Spacer(Modifier.height(dimensionResource(R.dimen.gap3)))
-        Text(
-            modifier = Modifier.padding(end = 24.dp),
-            text = "¿Tienes ingresos \nadicionales?",
-            style = MaterialTheme.typography.h2,
-        )
-        Text(
-            modifier = Modifier.padding(vertical = 14.dp),
-            text = "Si los tienes, ingresa un monto semanal aproximado",
-            fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
-        )
-        Text(
-            color = Color.Black,
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.h3,
-            fontSize = 17.sp,
-            text = "¿Cuánto es el valor del crédito?"
-        )
-        CustomTextField(
-            value = if (state.creditAmount != null && state.creditAmount == 0.0f) {
-                state.creditAmount.toString()
-            } else "",
-            onDone = true,
-            keyboardType = KeyboardType.Number,
-            placeholder = R.string.enter_amount,
-            onValueChanged = {
-                if (it.isEmpty() || it.matches(decimalPatter)) {
-                    model.setCreditAmount(it.toFloat())
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.gap4))
-        )
-        Text(
-            color = Color.Black,
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.h3,
-            fontSize = 17.sp,
-            text = "¿Cuándo dejarias de pagar el crédito?"
-        )
-        Spacer(Modifier.height(dimensionResource(R.dimen.gap3)))
-        TextDate(onValueChanged = {})
+        Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
+        if (state.hasCredit) {
+            Text(
+                color = Color.Black,
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.h3,
+                fontSize = 17.sp,
+                text = "¿Cuánto es el valor del crédito?"
+            )
+            CustomTextField(
+                value = if (state.creditAmount != null && state.creditAmount == 0.0f) {
+                    state.creditAmount.toString()
+                } else "",
+                onDone = true,
+                keyboardType = KeyboardType.Number,
+                placeholder = R.string.enter_amount,
+                onValueChanged = {
+                    if (it.isEmpty() || it.matches(decimalPatter)) {
+                        model.setCreditAmount(it.toFloat())
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.gap3))
+            )
+            Text(
+                color = Color.Black,
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.h3,
+                fontSize = 17.sp,
+                text = "¿Cuándo dejarias de pagar el crédito?"
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.gap3)))
+            TextDate(onValueChanged = { model.setCreditEndDate(it)})
+        }
         SubmitButton(
             text = "continuar",
             onClick = { onNext() }

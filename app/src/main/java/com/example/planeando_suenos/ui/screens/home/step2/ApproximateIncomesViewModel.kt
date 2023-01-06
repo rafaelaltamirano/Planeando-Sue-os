@@ -27,10 +27,9 @@ class ApproximateIncomesViewModel @Inject constructor(
     var state by mutableStateOf(ApproximateIncomeState())
         private set
 
-    init {
-        getDream(state.dreamId)
-
-    }
+//    init {
+//        getDream(state.dreamId)
+//    }
 
     fun setStep(step: Step2Step) {
         state = state.copy(step = step)
