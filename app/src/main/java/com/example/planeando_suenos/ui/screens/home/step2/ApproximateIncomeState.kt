@@ -27,7 +27,6 @@ data class ApproximateIncomeState(
     val salaryAmount: Float? = null,
     val additionalIncomes: Float? = null,
     val salaryType: String = "",
-    val dreamWithUser: DreamWithUser? = null,
     val dreamId: String = "",
     val dream: DreamPlan? = null,
 )

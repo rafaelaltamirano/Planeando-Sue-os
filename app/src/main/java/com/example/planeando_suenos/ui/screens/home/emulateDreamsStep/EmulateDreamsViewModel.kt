@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.GetDreamPlanCalendarUseCase
@@ -45,6 +46,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(dreamsCalendarItem = dreamsCalendarItem)
     }
 
+    private fun setDreamWithUser(dreamWithUser: DreamWithUser?) {
+        state = state.copy(dreamWithUser = dreamWithUser)
+    }
+
     fun getDreamCalendar(dreamId: String) {
         viewModelScope.launch {
             setLoading(true)
@@ -59,4 +64,18 @@ class EmulateDreamsViewModel @Inject constructor(
             }
         }
     }
+
+    fun getDream(dreamId: String) = viewModelScope.launch {
+        setLoading(true)
+        try {
+            withContext(Dispatchers.IO) { getDreamPlanCalendarUseCase.getDream(dreamId) }.also {
+                setDreamWithUser(it)
+            }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+        }
+    }
+
 }
