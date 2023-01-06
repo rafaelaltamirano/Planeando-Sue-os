@@ -100,7 +100,7 @@ fun DreamsGridStep(
                                     onClick = {
                                         //SI ES OTRO GUARDO ACTIVO LA MARCA
                                         if (model.state.dreamTypes[((3 * n) + i) - 1].title == "Otro") {
-                                            idOtro = model.state.dreamTypes[((3 * n) + i) - 1].title
+                                            idOtro = model.state.dreamTypes[((3 * n) + i) - 1].id
                                             otherMark.value = true
                                         } else {
                                             // CASO CONTRARIO CARGO DIRECTAMENTE LA LISTA
