@@ -52,8 +52,6 @@ fun CalendarStep(
                 .verticalScroll(rememberScrollState())
         )
         {
-            TopBarWithText("Cronograma de pago")
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()

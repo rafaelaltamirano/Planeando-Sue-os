@@ -64,8 +64,6 @@ fun DreamListStep(
             .verticalScroll(rememberScrollState())
     )
     {
-        TopBarWithText("Todos tus sueños al mismo tiempo")
-
         Column(
             Modifier
                 .padding(dimensionResource(R.dimen.gap4))

@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.AmountCard
 import com.example.planeando_suenos.ui.components.CardType
+import com.example.planeando_suenos.ui.components.TopBarClearWithBack
 import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
@@ -58,30 +59,11 @@ fun ReviewNumbersStep(
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState()))
         {
-            TopBarWithText("Planeando sueños")
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-                    .height(125.dp),
-            ) {
-                Text(
-                    modifier = Modifier.padding(
-                        horizontal = 16.dp,
-                        vertical = 18.dp
-                    ),
-                    text = "$name, repasemos \nestas cuentas",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    fontSize = 24.sp
-                )
-            }
             Column(
                 Modifier
                     .padding(dimensionResource(R.dimen.gap4))
                     .fillMaxHeight()
             ) {
-
 
                 AmountCard(CardType.INCOMES, user.userFinance?.income!!.totalIncome.toString(),
                     onClick = {

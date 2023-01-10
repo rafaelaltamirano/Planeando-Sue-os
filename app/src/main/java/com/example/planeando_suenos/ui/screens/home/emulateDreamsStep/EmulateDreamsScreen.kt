@@ -9,14 +9,13 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.ui.components.BottomSheetDreamOptions
+import com.example.planeando_suenos.ui.components.TopBarClearWithBack
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.calendar.CalendarStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.dreamsList.DreamListStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -48,9 +47,41 @@ fun EmulateDreamsScreen(
         if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
         else model.prevStep()
     }
+    val topBarTitle: String
+    val bigFont: Boolean
+
+    when (state.step) {
+        EmulateDreamsStep.REVIEW_NUMBERS -> {
+            topBarTitle = "${mainModel.state.user?.firstName}, repasemos \nestas cuentas"
+            bigFont = true
+        }
+        EmulateDreamsStep.LIST -> {
+            topBarTitle = "Todos tus sueños al mismo tiempo"
+            bigFont = false
+        }
+        EmulateDreamsStep.CALENDAR -> {
+            topBarTitle = "Calendario de pago"
+            bigFont = false
+        }
+
+        EmulateDreamsStep.SAVE_DREAM -> {
+            topBarTitle = "Calendario de pago"
+            bigFont = false
+        }
+       else -> {topBarTitle = ""
+           bigFont = false}
+    }
 
     Scaffold(
         backgroundColor = Color.White,
+        topBar = {
+            TopBarClearWithBack(title = topBarTitle,
+                bigFont = bigFont,
+                onBackPress = {
+                if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
+                else model.prevStep()
+            })
+        }
     ) {
         BottomSheetDreamOptions(
             onNext = {
@@ -80,9 +111,21 @@ fun EmulateDreamsScreen(
                 EmulateDreamsStep.LIST -> DreamListStep(
                     onNext = { model.updateDreamAndGetCalendar() },
                     onSubmit = {
-                        navController.navigate(UserRouterDir.HOME.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                inclusive = true
+                        coroutineScope.launch {
+                            model.updateDream(
+                                DreamPlan(
+                                    title = state.dreamWithUser?.title,
+                                    endDate = state.dreamWithUser?.endDate,
+                                    userFinance = state.dreamWithUser?.userFinance,
+                                    dream = state.dreamWithUser?.dream,
+                                    id = state.dreamWithUser?.id
+                                )
+                            )
+                        }.invokeOnCompletion {
+                            navController.navigate(UserRouterDir.HOME.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    inclusive = true
+                                }
                             }
                         }
                     },
@@ -103,6 +146,8 @@ fun EmulateDreamsScreen(
                     },
                     onBack = model::prevStep
                 )
+                EmulateDreamsStep.SAVE_DREAM -> {}
+                EmulateDreamsStep.CONFIRMATION ->{}
             }
         }
     }
