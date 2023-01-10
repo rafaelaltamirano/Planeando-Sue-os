@@ -29,11 +29,15 @@ fun EmulateDreamsScreen(
 ) {
 
     val state = model.state
+//    val dreamId = mainModel.state.dreamId!!
     val dreamId = "63bc8479d97880ed1b56f034"
     val coroutineScope = rememberCoroutineScope()
     //TODO: CHANGE
 //    val dreamId = state.dreamId!!
 
+    dreamId.let {
+        model.setDreamId(it)
+    }
 
     if (model.state.checked) {
 

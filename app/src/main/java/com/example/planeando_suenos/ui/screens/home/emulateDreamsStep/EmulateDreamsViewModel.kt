@@ -56,6 +56,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(cancelOnNext = cancelOnNext)
     }
 
+    fun setDreamId(dreamId: String) {
+        state = state.copy(dreamId = dreamId)
+
+    }
 
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {
         val list = state.dreamWithUser?.dream?.toMutableList()
@@ -131,10 +135,12 @@ class EmulateDreamsViewModel @Inject constructor(
                 id = state.dreamWithUser?.id
             )
         ).invokeOnCompletion {
-            getDream("63bc8479d97880ed1b56f034", "").invokeOnCompletion {
+            getDream(state.dreamId, "").invokeOnCompletion {
                 nextStep()
             }
         }
     }
+
+
 }
 

@@ -45,6 +45,8 @@ fun DreamListStep(
 //    val dreamId = mainModel.state.dreamId!!
     val priority = model.state.prioritySelected
     val expandedNested = remember { mutableStateOf(false) }
+    val position = remember { mutableStateOf(0) }
+
 
     LaunchedEffect(Unit) {
         model.getDream(dreamId, priority ?: "equal")
@@ -99,7 +101,8 @@ fun DreamListStep(
                 }
             } else {
                 state.dreamWithUser?.dream?.forEachIndexed { index, dream ->
-                    Box {
+                    Column {
+
                         DreamRow(
                             position = (index + 1).toString(),
                             colors = dream.color,
@@ -223,89 +226,89 @@ fun DreamListStep(
                             },
                             onLongPress = {
                                 expandedNested.value = true
+                                position.value = it.toInt() -1
                             }
                         )
-
+                        if (position.value == index) {
+                            NestedMenu(
+                                expandedNested = expandedNested,
+                            )
+                        }
                     }
-                    NestedMenu(
-                        expandedNested = expandedNested,
-//                    position = (index * 10)
-                    )
                     Spacer(Modifier.height(12.dp))
                 }
             }
-            Spacer(Modifier.height(32.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 10.dp),
-                verticalAlignment = Alignment.Bottom
-            ) {
+        }
+        Spacer(Modifier.height(32.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.caption,
+                textAlign = TextAlign.Start,
+                text = "Monto disponible",
+                fontSize = 12.sp,
+            )
+
+            if (model.state.loading) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(6.dp)
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .width(6.dp)
+                            .height(6.dp),
+                        color = Accent
+                    )
+                }
+            } else {
                 Text(
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.caption,
+                    text = " \$ ${state.dreamWithUser?.userFinance?.paymentCapability}",
                     textAlign = TextAlign.Start,
-                    text = "Monto disponible",
-                    fontSize = 12.sp,
-                )
-
-                if (model.state.loading) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(6.dp)
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .width(6.dp)
-                                .height(6.dp),
-                            color = Accent
-                        )
-                    }
-                } else {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        style = MaterialTheme.typography.caption,
-                        text = " \$ ${state.dreamWithUser?.userFinance?.paymentCapability}",
-                        textAlign = TextAlign.Start,
-                        fontWeight = W800,
-                        fontSize = 18.sp,
-                    )
-                }
-            }
-            Text(
-                modifier = Modifier.padding(vertical = 10.dp),
-                style = MaterialTheme.typography.caption,
-                color = TextColorUncheckedItemDreamGrid,
-                text = "Para aumentar tu capacidad debes aumentar tus ingresos o bajar tus egresos\n",
-                fontSize = 14.sp,
-            )
-            Spacer(Modifier.height(16.dp))
-            SubmitButton(
-                loading = state.loading,
-                text = "ver calendario",
-                onClick = onNext
-            )
-            Spacer(Modifier.height(16.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    "Guardar plan de sueños",
-                    color = Accent,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier
-                        .clickable(onClick = onSubmit)
+                    fontWeight = W800,
+                    fontSize = 18.sp,
                 )
             }
         }
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            style = MaterialTheme.typography.caption,
+            color = TextColorUncheckedItemDreamGrid,
+            text = "Para aumentar tu capacidad debes aumentar tus ingresos o bajar tus egresos\n",
+            fontSize = 14.sp,
+        )
+        Spacer(Modifier.height(16.dp))
+        SubmitButton(
+            loading = state.loading,
+            text = "ver calendario",
+            onClick = onNext
+        )
+        Spacer(Modifier.height(16.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                "Guardar plan de sueños",
+                color = Accent,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier
+                    .clickable(onClick = onSubmit)
+            )
+        }
     }
 }
-
 
 
 @Composable
@@ -316,7 +319,7 @@ fun DreamRow(
     dreamAmount: Float? = null,
     onSum: () -> Unit,
     onRest: () -> Unit,
-    onLongPress: () -> Unit,
+    onLongPress: (String) -> Unit,
     dreamAmountNext: Float?,
 //    dreamAmountNext: Unit
 ) {
@@ -324,8 +327,7 @@ fun DreamRow(
     val colorString = colors ?: "0x00000000"
     color = try {
         Color(colorString.toColorInt())
-    }
-    catch (e:Exception){
+    } catch (e: Exception) {
         GreenBusiness
     }
 
@@ -366,8 +368,7 @@ fun DreamRow(
             shape = RoundedCornerShape(10),
             modifier = Modifier
                 .weight(80f)
-                .fillMaxHeight()
-               ,
+                .fillMaxHeight(),
             elevation = 0.dp,
             backgroundColor = color.copy(alpha = 0.2f),
 
@@ -376,10 +377,10 @@ fun DreamRow(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .pointerInput(Unit){
+                    .pointerInput(Unit) {
                         detectTapGestures(
                             onLongPress = {
-                                onLongPress()
+                                onLongPress(position)
                             }
                         )
                     },
@@ -420,7 +421,7 @@ fun DreamRow(
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clickable {
-                        if(dreamAmount!!.minus(10f) >= 10f)onRest()
+                        if (dreamAmount!!.minus(10f) >= 10f) onRest()
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -447,7 +448,7 @@ fun DreamRow(
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clickable {
-                        if(dreamAmountNext!!.minus(10f) >= 10f) onSum()
+                        if (dreamAmountNext!!.minus(10f) >= 10f) onSum()
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
