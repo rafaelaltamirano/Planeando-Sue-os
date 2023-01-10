@@ -6,16 +6,19 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.DreamPromotionCardItem
+import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.theme.*
 
 
@@ -27,6 +30,7 @@ fun SuccessSavedDreamScreen(){
             .padding(
                 horizontal = dimensionResource(id = R.dimen.gap5)
             )
+            .verticalScroll(rememberScrollState())
     ){
         Text(
             text = "Plan de sueños\nguardado con éxito",
@@ -46,7 +50,8 @@ fun SuccessSavedDreamScreen(){
         )
         Spacer(modifier = Modifier.height(20.dp))
         Column(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
+            modifier = Modifier
+                .padding(vertical = dimensionResource(id = R.dimen.gap4)),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
             DreamPromotionCardItem(
@@ -66,5 +71,21 @@ fun SuccessSavedDreamScreen(){
                 bottomGradientColor = BottomBlueGradient
             )
         }
+        Spacer(modifier = Modifier.height(20.dp))
+        SubmitButton(
+            text = "PEDIR",
+            onClick = {  }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        TextButton(
+            onClick = {}
+        ) {
+            Text(
+                text = "Regresar al inicio",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
