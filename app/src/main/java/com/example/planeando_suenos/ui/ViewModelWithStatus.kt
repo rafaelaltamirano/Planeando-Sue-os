@@ -50,4 +50,5 @@ open class ViewModelWithStatus : ViewModel() {
     }
 
     protected open fun onFieldInvalid(e: FieldInvalidException) {}
+
 }

@@ -29,6 +29,7 @@ data class EmulateDreamsState(
     val dreamWithUser: DreamWithUser? = null,
     val prioritySelected: String? = null,
     val newAmount: Float? = null,
-    val dreamListUpdated: List<Dream> = emptyList()
+    val dreamListUpdated: List<Dream> = emptyList(),
+    val cancelOnNext: Boolean = false,
 
 )

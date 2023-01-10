@@ -52,7 +52,9 @@ fun BottomSheetDreamOptions(
                     text = "¿Cómo quieres cumplir tus sueños?",
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 )
-                IconButton(onClick = { coroutine.launch { state.hide() } }) {
+                IconButton(onClick = {
+                    model.setCancelOnNext(false)
+                    coroutine.launch { state.hide() } }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "Close",

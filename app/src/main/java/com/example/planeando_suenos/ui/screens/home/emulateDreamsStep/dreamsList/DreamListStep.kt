@@ -1,6 +1,5 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.dreamsList
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -20,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColor
 import androidx.core.graphics.toColorInt
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
@@ -39,9 +37,9 @@ fun DreamListStep(
     onShowBottomSheet: () -> Unit,
 ) {
     val state = model.state
-//    val dreamId = "63bc8479d97880ed1b56f034"
+    val dreamId = "63bc8479d97880ed1b56f034"
     //TODO: CHANGE
-    val dreamId = mainModel.state.dreamId!!
+//    val dreamId = mainModel.state.dreamId!!
     val priority = model.state.prioritySelected
 
     LaunchedEffect(Unit) {
@@ -75,7 +73,10 @@ fun DreamListStep(
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier
-                    .clickable(onClick = { onShowBottomSheet() }),
+                    .clickable(onClick = {
+                        onShowBottomSheet()
+                        model.setCancelOnNext(true)
+                    }),
             )
             Spacer(Modifier.height(24.dp))
             if (model.state.loading) {
@@ -98,7 +99,8 @@ fun DreamListStep(
                         position = (index + 1).toString(),
                         colors = dream.color,
                         dreamTitle = dream.description,
-                        dreamAmount = dream.amount.toString(),
+                        dreamAmount = dream.amount,
+                        dreamAmountNext =   if (index == state.dreamWithUser.dream.lastIndex) state.dreamWithUser.dream[0].amount else state.dreamWithUser.dream[index + 1].amount ,
                         onSum = {
                             if (index == state.dreamWithUser.dream.lastIndex) {
                                 model.setNewDreamListUpdate(Dream(
@@ -282,14 +284,16 @@ fun DreamRow(
     position: String,
     colors: String? = null,
     dreamTitle: String? = null,
-    dreamAmount: String? = null,
+    dreamAmount: Float? = null,
     onSum: () -> Unit,
-    onRest: () -> Unit
+    onRest: () -> Unit,
+    dreamAmountNext: Float?,
+//    dreamAmountNext: Unit
 ) {
 
     val colorString = colors ?: "0x00000000"
     val color = Color(colorString.toColorInt())
-//    val color = GreenBusiness
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -371,7 +375,7 @@ fun DreamRow(
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clickable {
-                        onRest()
+                        if(dreamAmount!!.minus(10f) >= 10f)onRest()
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -398,7 +402,7 @@ fun DreamRow(
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clickable {
-                        onSum()
+                        if(dreamAmountNext!!.minus(10f) >= 10f) onSum()
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center

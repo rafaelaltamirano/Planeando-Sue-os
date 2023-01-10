@@ -24,6 +24,9 @@ fun EmulateDreamsScreen(
 ) {
 
     val state = model.state
+    val dreamId = "63bc8479d97880ed1b56f034"
+    //TODO: CHANGE
+//    val dreamId = state.dreamId!!
 
 
     if (model.state.checked) {
@@ -38,11 +41,14 @@ fun EmulateDreamsScreen(
     Scaffold(
         backgroundColor = Color.White,
     ) {
-
         BottomSheetDreamOptions(
             onNext = {
                 model.setPriority(it)
-                model.nextStep()
+                if (state.cancelOnNext) {
+                    model.getDream(dreamId, state.prioritySelected ?: "equal")
+                    model.setStep( EmulateDreamsStep.LIST )
+                }
+                else model.nextStep()
             },
             model = model,
             mainModel = mainModel

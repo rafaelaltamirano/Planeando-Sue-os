@@ -68,6 +68,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(dreamWithUser = dreamWithUserUpdated)
     }
 
+    fun setCancelOnNext(cancelOnNext: Boolean) {
+        state = state.copy(cancelOnNext = cancelOnNext)
+    }
+
     fun setNewAmount(newAmount: Float?) {
         state = state.copy(newAmount = newAmount)
     }
@@ -107,6 +111,8 @@ class EmulateDreamsViewModel @Inject constructor(
     fun setPriority(priority: String) {
         state = state.copy(prioritySelected = priority)
     }
+
+
 
 
 }
