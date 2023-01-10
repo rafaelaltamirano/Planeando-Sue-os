@@ -34,5 +34,5 @@ data class EmulateDreamsState(
     val dreamListUpdated: List<Dream> = emptyList(),
     val cancelOnNext: Boolean = false,
     val dreamId: String = "",
-
+    val dreamName: String = "",
 )

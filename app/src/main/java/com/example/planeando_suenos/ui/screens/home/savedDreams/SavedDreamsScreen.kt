@@ -14,7 +14,7 @@ import com.example.planeando_suenos.ui.components.TopBarClearWithBack
 @Composable
 fun SavedDreamsScreen() {
     Column {
-        TopBarClearWithBack(title = "Mis planes guardados", onBackPress = {
+        TopBarClearWithBack(title = "Mis planes guardados", bigFont = false, onBackPress = {
 
         })
 

@@ -58,7 +58,10 @@ class EmulateDreamsViewModel @Inject constructor(
 
     fun setDreamId(dreamId: String) {
         state = state.copy(dreamId = dreamId)
+    }
 
+    fun setDreamName(dreamName: String) {
+        state = state.copy(dreamName = dreamName)
     }
 
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {

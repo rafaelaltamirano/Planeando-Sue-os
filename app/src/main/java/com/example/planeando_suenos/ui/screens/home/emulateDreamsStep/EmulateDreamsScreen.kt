@@ -14,8 +14,10 @@ import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.calendar.CalendarStep
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.confirmation.SuccessSavedDreamScreen
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.dreamsList.DreamListStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.saveDream.SaveDreamStep
 import kotlinx.coroutines.launch
 
 
@@ -68,35 +70,39 @@ fun EmulateDreamsScreen(
             topBarTitle = "Calendario de pago"
             bigFont = false
         }
-       else -> {topBarTitle = ""
-           bigFont = false}
+        else -> {
+            topBarTitle = ""
+            bigFont = false
+        }
     }
 
-    Scaffold(
-        backgroundColor = Color.White,
-        topBar = {
-            TopBarClearWithBack(title = topBarTitle,
-                bigFont = bigFont,
-                onBackPress = {
-                if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
-                else model.prevStep()
-            })
-        }
-    ) {
-        BottomSheetDreamOptions(
-            onNext = {
-                model.setPriority(it)
-                if (state.cancelOnNext) {
-                    coroutineScope.launch {
-                        model.getDream(dreamId, state.prioritySelected ?: "equal")
-                        model.setStep(EmulateDreamsStep.LIST)
-                    }
+    BottomSheetDreamOptions(
+        onNext = {
+            model.setPriority(it)
+            if (state.cancelOnNext) {
+                coroutineScope.launch {
+                    model.getDream(dreamId, state.prioritySelected ?: "equal")
+                    model.setStep(EmulateDreamsStep.LIST)
+                }
 
-                } else model.nextStep()
-            },
-            model = model,
-            mainModel = mainModel
-        ) { expandBottomSheetFunction ->
+            } else model.nextStep()
+        },
+        model = model,
+        mainModel = mainModel
+    ) { expandBottomSheetFunction ->
+        Scaffold(
+            backgroundColor = Color.White,
+            topBar = {
+                if (state.step != EmulateDreamsStep.CONFIRMATION) {
+                    TopBarClearWithBack(title = topBarTitle,
+                        bigFont = bigFont,
+                        onBackPress = {
+                            if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
+                            else model.prevStep()
+                        })
+                }
+            }
+        ) {
 
             when (state.step) {
 
@@ -122,11 +128,7 @@ fun EmulateDreamsScreen(
                                 )
                             )
                         }.invokeOnCompletion {
-                            navController.navigate(UserRouterDir.HOME.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    inclusive = true
-                                }
-                            }
+                            model.setStep(EmulateDreamsStep.SAVE_DREAM)
                         }
                     },
                     model = model,
@@ -138,16 +140,48 @@ fun EmulateDreamsScreen(
                     model,
                     mainModel.state.dreamId.orEmpty(),
                     onSubmit = {
+                        coroutineScope.launch {
+                            model.updateDream(
+                                DreamPlan(
+                                    title = state.dreamWithUser?.title,
+                                    endDate = state.dreamWithUser?.endDate,
+                                    userFinance = state.dreamWithUser?.userFinance,
+                                    dream = state.dreamWithUser?.dream,
+                                    id = state.dreamWithUser?.id
+                                )
+                            )
+                        }.invokeOnCompletion {
+                            model.nextStep()
+                        }
+                    },
+                    onBack = model::prevStep
+                )
+                EmulateDreamsStep.SAVE_DREAM -> {
+                    SaveDreamStep(
+                        model = model,
+                        onNext = {
+                            coroutineScope.launch {
+                                model.updateDream(
+                                    DreamPlan(
+                                        title = state.dreamName,
+                                        endDate = state.dreamWithUser?.endDate,
+                                        userFinance = state.dreamWithUser?.userFinance,
+                                        dream = state.dreamWithUser?.dream,
+                                        id = state.dreamWithUser?.id
+                                    )
+                                )
+                            }.invokeOnCompletion { model.nextStep() }
+                        })
+                }
+                EmulateDreamsStep.CONFIRMATION -> {
+                    SuccessSavedDreamScreen(onClick = {
                         navController.navigate(UserRouterDir.HOME.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 inclusive = true
                             }
                         }
-                    },
-                    onBack = model::prevStep
-                )
-                EmulateDreamsStep.SAVE_DREAM -> {}
-                EmulateDreamsStep.CONFIRMATION ->{}
+                    })
+                }
             }
         }
     }
