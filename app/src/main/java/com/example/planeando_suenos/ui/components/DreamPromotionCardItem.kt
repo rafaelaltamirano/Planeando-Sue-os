@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.theme.BottomGreenGradient
-import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TopGreenGradient
 
 

@@ -1,6 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home.successSavedDream
 
-import android.widget.ScrollView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -27,31 +27,46 @@ import com.example.planeando_suenos.ui.theme.*
 fun SuccessSavedDreamScreen(){
     Column(
         modifier = Modifier
-            .padding(
-                horizontal = dimensionResource(id = R.dimen.gap5)
-            )
             .verticalScroll(rememberScrollState())
+            .background(BackgroundCard)
     ){
-        Text(
-            text = "Plan de sueños\nguardado con éxito",
-            style = MaterialTheme.typography.h2,
-            fontWeight = FontWeight.W700,
-            fontSize = 24.sp,
-            color = Color.Black,
-            lineHeight = 33.sp
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "24 Dic 2022, 14:06",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.W400,
-            fontSize = 12.sp,
-            color = TextColorUncheckedItemDreamGrid,
-        )
+        Box(
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxWidth()
+        ){
+            Column(
+                modifier = Modifier
+                    .padding(
+                        vertical = 20.dp,
+                        horizontal = dimensionResource(id = R.dimen.gap5)
+                    )
+            ){
+                Text(
+                    text = "Plan de sueños\nguardado con éxito",
+                    style = MaterialTheme.typography.h2,
+                    fontWeight = FontWeight.W700,
+                    fontSize = 24.sp,
+                    color = Color.Black,
+                    lineHeight = 33.sp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "24 Dic 2022, 14:06",
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.W400,
+                    fontSize = 12.sp,
+                    color = TextColorUncheckedItemDreamGrid,
+                )
+            }
+        }
         Spacer(modifier = Modifier.height(20.dp))
         Column(
             modifier = Modifier
-                .padding(vertical = dimensionResource(id = R.dimen.gap4)),
+                .padding(
+                    vertical = dimensionResource(id = R.dimen.gap4),
+                    horizontal = dimensionResource(id = R.dimen.gap5)
+                ),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
             DreamPromotionCardItem(
