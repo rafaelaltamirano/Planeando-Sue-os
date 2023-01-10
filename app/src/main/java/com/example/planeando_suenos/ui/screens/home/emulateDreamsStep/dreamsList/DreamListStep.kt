@@ -10,7 +10,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +32,10 @@ import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
-import com.example.planeando_suenos.ui.theme.*
+import com.example.planeando_suenos.ui.theme.Accent
+import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
+import com.example.planeando_suenos.ui.theme.GreenBusiness
+import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 
 @Composable
 fun DreamListStep(
@@ -226,86 +232,113 @@ fun DreamListStep(
                             },
                             onLongPress = {
                                 expandedNested.value = true
-                                position.value = it.toInt() -1
+                                position.value = it.toInt() - 1
                             }
                         )
                         if (position.value == index) {
                             NestedMenu(
                                 expandedNested = expandedNested,
+                                position = index,
+                                lastPosition = state.dreamWithUser.dream.lastIndex,
+                                onUp = {
+                                    val aux =   state.dreamWithUser.dream[index]
+                                    model.setNewDreamListUpdate(
+                                        state.dreamWithUser.dream[index - 1],
+                                        index
+                                    )
+
+                                    model.setNewDreamListUpdate(
+                                        aux,
+                                       index - 1
+                                    )
+                                },
+                                onDown = {
+                                    val aux =   state.dreamWithUser.dream[index]
+                                    model.setNewDreamListUpdate(
+                                        state.dreamWithUser.dream[index +1],
+                                        index
+                                    )
+
+                                    model.setNewDreamListUpdate(
+                                        aux,
+                                        index + 1
+                                    )
+                                }
                             )
                         }
                     }
                     Spacer(Modifier.height(12.dp))
                 }
             }
-        }
-        Spacer(Modifier.height(32.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp),
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.caption,
-                textAlign = TextAlign.Start,
-                text = "Monto disponible",
-                fontSize = 12.sp,
-            )
 
-            if (model.state.loading) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(6.dp)
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .width(6.dp)
-                            .height(6.dp),
-                        color = Accent
-                    )
-                }
-            } else {
+            Spacer(Modifier.height(32.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
                 Text(
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.caption,
-                    text = " \$ ${state.dreamWithUser?.userFinance?.paymentCapability}",
                     textAlign = TextAlign.Start,
-                    fontWeight = W800,
-                    fontSize = 18.sp,
+                    text = "Monto disponible",
+                    fontSize = 12.sp,
+                )
+
+                if (model.state.loading) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(6.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .width(6.dp)
+                                .height(6.dp),
+                            color = Accent
+                        )
+                    }
+                } else {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.caption,
+                        text = " \$ ${state.dreamWithUser?.userFinance?.paymentCapability}",
+                        textAlign = TextAlign.Start,
+                        fontWeight = W800,
+                        fontSize = 18.sp,
+                    )
+                }
+            }
+            Text(
+                modifier = Modifier.padding(vertical = 10.dp),
+                style = MaterialTheme.typography.caption,
+                color = TextColorUncheckedItemDreamGrid,
+                text = "Para aumentar tu capacidad debes aumentar tus ingresos o bajar tus egresos\n",
+                fontSize = 14.sp,
+            )
+            Spacer(Modifier.height(16.dp))
+            SubmitButton(
+                loading = state.loading,
+                text = "ver calendario",
+                onClick = onNext
+            )
+            Spacer(Modifier.height(16.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    "Guardar plan de sueños",
+                    color = Accent,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier
+                        .clickable(onClick = onSubmit)
                 )
             }
-        }
-        Text(
-            modifier = Modifier.padding(vertical = 10.dp),
-            style = MaterialTheme.typography.caption,
-            color = TextColorUncheckedItemDreamGrid,
-            text = "Para aumentar tu capacidad debes aumentar tus ingresos o bajar tus egresos\n",
-            fontSize = 14.sp,
-        )
-        Spacer(Modifier.height(16.dp))
-        SubmitButton(
-            loading = state.loading,
-            text = "ver calendario",
-            onClick = onNext
-        )
-        Spacer(Modifier.height(16.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                "Guardar plan de sueños",
-                color = Accent,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier
-                    .clickable(onClick = onSubmit)
-            )
         }
     }
 }

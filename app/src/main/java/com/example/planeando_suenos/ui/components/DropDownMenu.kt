@@ -11,7 +11,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun NestedMenu(
     expandedNested: MutableState<Boolean>,
-//    position: Int = remember{ mutableStateOf(0)}
+    onUp: () -> Unit,
+    onDown: () -> Unit,
+    position: Int,
+    lastPosition: Int,
 ) {
     DropdownMenu(
         offset = DpOffset(x = (20).dp, y = (0).dp),
@@ -20,21 +23,47 @@ fun NestedMenu(
             expandedNested.value = false
         }
     ) {
-        DropdownMenuItem(
-            onClick = {
-                // close nested menu
-                expandedNested.value = false
+        when (position) {
+            0 -> {
+                DropdownMenuItem(
+                    onClick = {
+                        onDown()
+                        expandedNested.value = false
+                    }
+                ) {
+                    Text("Bajar Priorización")
+                }
             }
-        ) {
-            Text("Subir Priorización")
-        }
-        DropdownMenuItem(
-            onClick = {
-                // close nested menu
-                expandedNested.value = false
+            lastPosition -> {
+                DropdownMenuItem(
+                    onClick = {
+                        onUp()
+                        expandedNested.value = false
+                    }
+                ) {
+                    Text("Subir Priorización")
+                }
             }
-        ) {
-            Text("Bajar Priorización")
+            else -> {
+                DropdownMenuItem(
+                    onClick = {
+                        onDown()
+                        expandedNested.value = false
+                    }
+                ) {
+                    Text("Bajar Priorización")
+                }
+                DropdownMenuItem(
+                    onClick = {
+                        onUp()
+                        expandedNested.value = false
+                    }
+                ) {
+                    Text("Subir Priorización")
+                }
+            }
         }
+
+
     }
 }
