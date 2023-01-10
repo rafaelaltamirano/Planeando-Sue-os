@@ -12,8 +12,9 @@ class DreamAndAspirationUseCase @Inject constructor(private val smartShoppingDao
         return smartShoppingDao.createDreamPlan(dream)
     }
 
-
     suspend fun getDreamType(): List<DreamType> {
         return smartShoppingDao.getDreamsType()
     }
+
+
 }

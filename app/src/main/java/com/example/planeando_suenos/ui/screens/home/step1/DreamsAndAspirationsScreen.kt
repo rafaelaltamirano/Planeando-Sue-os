@@ -1,6 +1,5 @@
 package com.example.planeando_suenos.ui.screens.home.step1
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,12 +13,9 @@ import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
-import com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid.DreamsGridStep
 import com.example.planeando_suenos.ui.screens.home.step1.dreamPlan.DreamPlanStep
-import kotlinx.coroutines.async
+import com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid.DreamsGridStep
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
 
 @Composable
 fun DreamsAndAspirationsScreen(

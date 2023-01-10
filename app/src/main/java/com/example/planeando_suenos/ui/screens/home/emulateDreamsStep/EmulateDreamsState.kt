@@ -22,7 +22,7 @@ enum class EmulateDreamsStep(val step: Int) {
 
 
 data class EmulateDreamsState(
-    val loading: Boolean = true,
+    val loading: Boolean = false,
     val step: EmulateDreamsStep = EmulateDreamsStep.REVIEW_NUMBERS,
     val checked: Boolean = false,
     val dreamsCalendarItem: List<DreamCalendarItem> = emptyList(),
