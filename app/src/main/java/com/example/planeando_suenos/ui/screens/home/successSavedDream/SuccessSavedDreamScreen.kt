@@ -104,7 +104,7 @@ fun SuccessSavedDreamScreen(){
                         color = TextColorUncheckedItemDreamGrid,
                     )
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(27.dp))
             }
         }
         Column(
