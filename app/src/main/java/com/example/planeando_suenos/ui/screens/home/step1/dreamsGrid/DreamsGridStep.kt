@@ -215,21 +215,17 @@ fun DreamItemGrid(
 
 fun getImage(name: String): Int {
     return when (name) {
+        "hogar" ->  R.drawable.ic_mueble_ic
+        "entretenimiento" -> R.drawable.ic_gmae_ic
+        "hogarEquipado" -> R.drawable.ic_batidora
         "business" -> R.drawable.ic_negocio_ic
-        "lineaBlanca" -> R.drawable.ic_lineablanca_ic
-        "electro" -> R.drawable.ic_electronica_ic
-        "tool" -> R.drawable.ic_taladro_ic
-        "toga" -> R.drawable.ic_estudio_ic
-        "tv" -> R.drawable.ic_pntalla_ic
-        "bloques" -> R.drawable.ic_construccion_ic
-        "sofa" -> R.drawable.ic_mueble_ic
-        "celular" -> R.drawable.ic_phone_ic
-        "regalo" -> R.drawable.ic_regalo_ic
-        "vacaciones" -> R.drawable.ic_vacaciones_ic
-        "control" -> R.drawable.ic_gmae_ic
-        "torta" -> R.drawable.ic_cumple_ic
+        "remodelar" -> R.drawable.ic_construccion_ic
+        "evento" -> R.drawable.ic_vacaciones_ic
+        "educativo" -> R.drawable.ic_estudio_ic
         "rueda" -> R.drawable.ic_movilidad_ic
-        "batidora" -> R.drawable.ic_batidora
+        "celular" -> R.drawable.ic_phone_ic
+        "computadora" -> R.drawable.ic_computador_ic
+        "hogarInteligente" -> R.drawable.ic_casainteligente_ic
         else -> {
             R.drawable.ic_batidora
         }
