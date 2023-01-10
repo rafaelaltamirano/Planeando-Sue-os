@@ -68,7 +68,8 @@ fun EmulateDreamsScreen(
                         }
                     },
                     model = model,
-                    mainModel = mainModel
+                    mainModel = mainModel,
+                    onShowBottomSheet = expandBottomSheetFunction,
 
                 )
                 EmulateDreamsStep.CALENDAR -> CalendarStep(

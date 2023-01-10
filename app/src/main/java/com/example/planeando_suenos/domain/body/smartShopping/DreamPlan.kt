@@ -43,6 +43,7 @@ data class Dream(
     val amountPlaned: Float? = null,
     val paymentQuantity: Float? = null,
     val dreamType: DreamType? = null,
+    val color: String? = null,
 )
 
 data class DreamType(

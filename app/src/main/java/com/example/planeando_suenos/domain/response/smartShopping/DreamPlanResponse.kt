@@ -64,6 +64,7 @@ data class DreamResponse(
     @SerializedName("amountPlaned") val amountPlaned: Float,
     @SerializedName("paymentQuantity") val paymentQuantity: Float,
     @SerializedName("dreamType") val dreamType: DreamTypeIdResponse,
+    @SerializedName("color") val color: String,
 ) : Response<Dream> {
     override fun toEntity() = Dream(
         description = description,
@@ -72,7 +73,8 @@ data class DreamResponse(
         endDate = endDate,
         amountPlaned = amountPlaned,
         paymentQuantity = paymentQuantity,
-        dreamType = dreamType.toEntity()
+        dreamType = dreamType.toEntity(),
+        color = color
     )
 }
 

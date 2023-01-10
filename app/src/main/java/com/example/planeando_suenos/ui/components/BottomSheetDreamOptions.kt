@@ -14,13 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.domain.entities.PriorityDream
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
-import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 import kotlinx.coroutines.launch
@@ -66,7 +64,7 @@ fun BottomSheetDreamOptions(
                 "Tu sueño más pequeño primero",
                 "Podrás cumplir tus sueños en orden, partiendo desde el más pequeño."
             ) {
-                onNext(PriorityDream.TuSuenioMasPequenioPrimero.priority)
+                onNext(PriorityDream.LowestFirst.priority)
                 coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -74,7 +72,7 @@ fun BottomSheetDreamOptions(
                 "Todos tus sueños al mismo tiempo",
                 "Todos tus sueños al mismo tiempo. Tus cuotas siempre tendran el mismo valor."
             ) {
-                onNext(PriorityDream.TodosTusSueniosAlMismoTiempo.priority)
+                onNext(PriorityDream.AllAtSameTime.priority)
                 coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -82,7 +80,7 @@ fun BottomSheetDreamOptions(
                 "Tu sueño más grande primero",
                 "Pagarás mas al principio pero tendrás tu mayor recompensa."
             ) {
-                onNext(PriorityDream.TuSuenioMasGrandePrimero.priority)
+                onNext(PriorityDream.BiggestFirst.priority)
                 coroutine.launch { state.hide() }
             }
             Spacer(modifier = Modifier.height(16.dp))

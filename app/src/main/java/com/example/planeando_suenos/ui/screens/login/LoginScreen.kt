@@ -47,7 +47,7 @@ fun LoginScreen(
             NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
             ERROR -> mainModel.setErrorStatus(it)
             INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
-            else -> {}
+            else -> {mainModel.setNetworkErrorStatus(it)}
         }
         model.clearStatus()
     }

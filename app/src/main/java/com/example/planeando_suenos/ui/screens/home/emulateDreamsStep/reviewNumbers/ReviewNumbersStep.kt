@@ -38,6 +38,7 @@ fun ReviewNumbersStep(
 ) {
     val name = mainModel.state.user?.firstName ?: ""
     val dreamId = mainModel.state.dreamId!!
+//    val dreamId = "63bc8479d97880ed1b56f034"
     val priority = model.state.prioritySelected
 
     LaunchedEffect(Unit) {
@@ -82,9 +83,11 @@ fun ReviewNumbersStep(
             ) {
 
 
-                AmountCard(CardType.INCOMES, user.userFinance.income!!.totalIncome.toString(),
-                    onClick = { mainModel.setDreamEdit(user)
-                        navController.navigate(UserRouterDir.STEP_2.route)})
+                AmountCard(CardType.INCOMES, user.userFinance?.income!!.totalIncome.toString(),
+                    onClick = {
+                        mainModel.setDreamEdit(user)
+                        navController.navigate(UserRouterDir.STEP_2.route)
+                    })
                 Spacer(Modifier.height(12.dp))
                 AmountCard(CardType.EXPENSES, user.userFinance.expenses!!.totalExpense.toString(), {})
                 Spacer(Modifier.height(12.dp))
@@ -109,7 +112,7 @@ fun ReviewNumbersStep(
                         fontWeight = FontWeight.W700,
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier
-                            .clickable(onClick = { onShowBottomSheet() }),
+                            .clickable(onClick = {onShowBottomSheet()}),
                     )
                 }
                 Spacer(Modifier.height(12.dp))

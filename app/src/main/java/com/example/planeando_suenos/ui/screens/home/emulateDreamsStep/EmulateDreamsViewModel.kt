@@ -1,9 +1,8 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.viewModelScope
+import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.ui.ViewModelWithStatus
@@ -13,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.FieldPosition
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,8 +48,32 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(dreamsCalendarItem = dreamsCalendarItem)
     }
 
-    private fun setDreamWithUser(dreamWithUser: DreamWithUser?) {
+    fun setDreamWithUser(dreamWithUser: DreamWithUser?) {
         state = state.copy(dreamWithUser = dreamWithUser)
+    }
+
+    fun setNewDreamListUpdate(newDream: Dream, position: Int) {
+        val list = state.dreamWithUser?.dream?.toMutableList()
+        list?.set(position, newDream)
+        val dreamWithUserUpdated = DreamWithUser(
+            id = state.dreamWithUser?.id,
+            title = state.dreamWithUser?.title,
+            active = state.dreamWithUser?.active,
+            user = state.dreamWithUser?.user,
+            endDate = state.dreamWithUser?.endDate,
+            userFinance = state.dreamWithUser?.userFinance,
+            dream = list
+        )
+
+        state = state.copy(dreamWithUser = dreamWithUserUpdated)
+    }
+
+    fun setNewAmount(newAmount: Float?) {
+        state = state.copy(newAmount = newAmount)
+    }
+
+    fun setDreamListUpdated(dreamListUpdated: List<Dream>) {
+        state = state.copy(dreamListUpdated = dreamListUpdated)
     }
 
     fun getDreamCalendar(dreamId: String) {
@@ -70,7 +94,6 @@ class EmulateDreamsViewModel @Inject constructor(
     fun getDream(dreamId: String, priority: String) = viewModelScope.launch {
         setLoading(true)
         try {
-            //TODO: CHANGE ID FOR REAL
             withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase(dreamId, priority) }.also {
                 setDreamWithUser(it)
             }

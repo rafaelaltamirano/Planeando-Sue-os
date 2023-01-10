@@ -18,6 +18,7 @@ data class DreamWithUserResponse(
     override fun toEntity() = DreamWithUser(
         id = id,
         title = title,
+        endDate = endDate,
         user = user.toEntity(),
         active = active,
         userFinance = userFinance.toEntity(),

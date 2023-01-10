@@ -5,12 +5,13 @@ import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
 
 class DreamWithUser(
-    val title: String,
-    val userFinance: UserFinance,
-    val dream: List<Dream>,
-    val id: String,
-    val active: Boolean,
-    val user: UserDream
+    val id: String? = null ,
+    val title: String? = null ,
+    val active: Boolean? = null ,
+    val user: UserDream? = null ,
+    val endDate: String? = null,
+    val userFinance: UserFinance? = null ,
+    val dream: List<Dream>? = null ,
 )
 
 data class UserDream(
