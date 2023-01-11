@@ -46,9 +46,16 @@ fun YourExpensesScreen(
             model.setDreamId(mainModel.state.dreamId!!)
         }
     }
-
-    if (model.state.checked) {
+    //SCREEN EDIT : REDIRECT TO EMULATE DREAMS, NEW DREAM : REDIRECT HOME
+    if (model.state.checked && mainModel.state.dreamEdit != null) {
+        LaunchedEffect(Unit) {
+            navController.navigate(UserRouterDir.EMULATE_DREAM.route)
+        }
+        mainModel.setDreamEdit(null)
+        model.setChecked(false)
+    } else if (model.state.checked) {
         homeModel.setCheckedStep3(true)
+        model.setStep(Step3Step.FREQUENCY_EXPENSES)
         LaunchedEffect(Unit) {
             navController.navigate(UserRouterDir.HOME.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
@@ -64,7 +71,9 @@ fun YourExpensesScreen(
             Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
             Status.ERROR -> mainModel.setErrorStatus(it)
             Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
-            else -> {}
+            else -> {
+                mainModel.setInternetConnectionError(it)
+            }
         }
         model.clearStatus()
     }
@@ -79,8 +88,16 @@ fun YourExpensesScreen(
                 numberOfSteps = Step3Step.values().size - 1,
                 currentStep = state.step.step,
                 onBackPress = {
-                    if (state.step == Step3Step.FREQUENCY_EXPENSES) navController.popBackStack()
-                    else model.prevStep()
+                    model.setEdited(false) // CLEAN EDIT OPTIONS
+                    if (state.step == Step3Step.FREQUENCY_EXPENSES) {
+                        model.setHomeExpense(null)
+                        model.setTransportExpense(null)
+                        model.setEducationInversion(null)
+                        model.setEntertainmentExpense(null)
+                        model.setCreditAmount(0f)
+                        model.setDreamId("")
+                        navController.popBackStack()
+                    } else model.prevStep()
                 }
             )
         },
@@ -90,10 +107,12 @@ fun YourExpensesScreen(
             Step3Step.FREQUENCY_EXPENSES -> FrequencyExpensesStep(
                 model = model,
                 onNext = model::nextStep,
+                mainModel = mainModel
             )
             Step3Step.CREDIT_QUESTION -> CreditQuestionStep(
                 onNext = model::nextStep,
                 model = model,
+                mainModel = mainModel
             )
             Step3Step.CREDIT_AMOUNT -> CreditAmountStep(
                 model = model,

@@ -45,7 +45,7 @@ class YourExpensesIncomeViewModel @Inject constructor(
         state = state.copy(creditAmount = creditAmount)
     }
 
-    fun setCreditEndDate(creditEndDate: String) {
+    fun setCreditEndDate(creditEndDate: String?) {
         state = state.copy(creditEndDate = creditEndDate)
     }
 
@@ -57,19 +57,23 @@ class YourExpensesIncomeViewModel @Inject constructor(
         state = state.copy(creditText = creditText)
     }
 
-    fun setHomeExpense(homeExpense: Float) {
+    fun setHomeExpense(homeExpense: Float?) {
         state = state.copy(homeExpense = homeExpense)
     }
 
-    fun setTransportExpense(transportExpense: Float) {
+    fun setTransportExpense(transportExpense: Float?) {
         state = state.copy(transportExpense = transportExpense)
     }
 
-    fun setEducationInversion(educationInversion: Float) {
+    fun setEducationInversion(educationInversion: Float?) {
         state = state.copy(educationInversion = educationInversion)
     }
 
-    fun setEntertainmentExpense(entertainmentExpense: Float) {
+    fun setEdited(edited: Boolean) {
+        state = state.copy(edited = edited)
+    }
+
+    fun setEntertainmentExpense(entertainmentExpense: Float?) {
         state = state.copy(entertainmentExpense = entertainmentExpense)
     }
 

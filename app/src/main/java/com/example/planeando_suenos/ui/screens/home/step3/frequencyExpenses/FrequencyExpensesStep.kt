@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,16 +24,31 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CurrencyTextField
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
 import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
 
 @Composable
 fun FrequencyExpensesStep(
     model: YourExpensesIncomeViewModel,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    mainModel: MainViewModel
 ) {
 
     val state = model.state
+    //EDIT OPTION
+    LaunchedEffect(Unit) {
+        if (mainModel.state.dreamEdit != null && !model.state.edited) {
+            model.setHomeExpense(mainModel.state.dreamEdit?.userFinance?.expenses?.home)
+            model.setTransportExpense(mainModel.state.dreamEdit?.userFinance?.expenses?.transport)
+            model.setEducationInversion(mainModel.state.dreamEdit?.userFinance?.expenses?.education)
+            model.setEntertainmentExpense(mainModel.state.dreamEdit?.userFinance?.expenses?.hobby)
+            model.setCreditAmount(mainModel.state.dreamEdit?.userFinance?.expenses?.loanOrCredit ?: 0f)
+            model.setDreamId(mainModel.state.dreamEdit?.id ?: "")
+           model.setIncome(mainModel.state.dreamEdit?.userFinance?.income)
+            model.setEdited(true)
+        }
+    }
 
     Column(
         Modifier

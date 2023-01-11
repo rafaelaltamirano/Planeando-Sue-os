@@ -6,19 +6,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.*
 import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
+import com.example.planeando_suenos.ui.screens.utils.toDateString
 
 @Composable
 fun CreditAmountStep(
@@ -80,12 +79,14 @@ fun CreditAmountStep(
                 fontSize = 17.sp,
                 text = "¿Cuándo dejarias de pagar el crédito?"
             )
+            val dateShow = if(state.creditEndDate!=null) state.creditEndDate.toDateString("dd/MM/yyyy")
+            else null
             Spacer(Modifier.height(dimensionResource(R.dimen.gap3)))
-            TextDate(onValueChanged = { model.setCreditEndDate(it)})
+            TextDate(onValueChanged = { model.setCreditEndDate(it)},dateToShow = dateShow)
         }
         SubmitButton(
             text = stringResource(R.string.continue_),
-            enabled = !state.hasCredit || state.creditAmount!= null && !state.creditEndDate.isNullOrBlank(),
+            enabled = !state.hasCredit || !state.creditEndDate.isNullOrBlank(),
             onClick = { onNext() }
         )
     }

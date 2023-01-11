@@ -21,6 +21,7 @@ enum class Step3Step(val step: Int) {
 data class YourExpensesState(
     val loading: Boolean = false,
     val checked: Boolean = false,
+    val edited: Boolean = false,
     val hasCredit: Boolean = false,
     val creditText: String = "",
     val homeExpense: Float? = null,

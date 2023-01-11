@@ -40,7 +40,11 @@ fun EmulateDreamsScreen(
     if (model.state.checked) homeModel.setCheckedEmulateDreamStep(true)
 
     BackHandler(enabled = true) {
-        if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
+        if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.navigate(UserRouterDir.HOME.route) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                inclusive = true
+            }
+        }
         else model.prevStep()
     }
 
@@ -89,8 +93,15 @@ fun EmulateDreamsScreen(
                     TopBarClearWithBack(title = topBarTitle,
                         bigFont = bigFont,
                         onBackPress = {
-                            if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
-                            else model.prevStep()
+                            model.setPriority(null)
+                            if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) {
+                                mainModel.setDreamEdit(null)
+                                navController.navigate(UserRouterDir.HOME.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        inclusive = true
+                                    }
+                                }
+                            } else model.prevStep()
                         })
                 }
             }

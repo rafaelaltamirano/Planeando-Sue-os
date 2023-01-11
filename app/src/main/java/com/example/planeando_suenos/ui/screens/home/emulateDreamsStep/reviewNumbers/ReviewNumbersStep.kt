@@ -34,16 +34,15 @@ fun ReviewNumbersStep(
     onNext: () -> Unit,
     model: EmulateDreamsViewModel,
     mainModel: MainViewModel,
-    onShowBottomSheet : () -> Unit,
+    onShowBottomSheet: () -> Unit,
     navController: NavHostController
 ) {
-    val name = mainModel.state.user?.firstName ?: ""
 //    val dreamId = mainModel.state.dreamId!!
     val dreamId = "63bc8479d97880ed1b56f034"
     val priority = model.state.prioritySelected
 
     LaunchedEffect(Unit) {
-        model.getDream(dreamId, priority ?: "equal")
+        model.getDream(dreamId, priority ?: "")
     }
 
     val user = model.state.dreamWithUser
@@ -57,7 +56,8 @@ fun ReviewNumbersStep(
         Column(
             Modifier
                 .fillMaxHeight()
-                .verticalScroll(rememberScrollState()))
+                .verticalScroll(rememberScrollState())
+        )
         {
             Column(
                 Modifier
@@ -71,9 +71,16 @@ fun ReviewNumbersStep(
                         navController.navigate(UserRouterDir.STEP_2.route)
                     })
                 Spacer(Modifier.height(12.dp))
-                AmountCard(CardType.EXPENSES, user.userFinance.expenses!!.totalExpense.toString(), {})
+                AmountCard(CardType.EXPENSES, user.userFinance.expenses!!.totalExpense.toString(),
+                    onClick = {
+                        mainModel.setDreamEdit(user)
+                        navController.navigate(UserRouterDir.STEP_3.route)
+                    })
                 Spacer(Modifier.height(12.dp))
-                AmountCard(CardType.CAPACITY_DREAM, user.userFinance.paymentCapability.toString(), {})
+                AmountCard(
+                    CardType.CAPACITY_DREAM,
+                    user.userFinance.paymentCapability.toString(),
+                    {})
                 Spacer(Modifier.height(12.dp))
                 Text(
                     modifier = Modifier.padding(vertical = 14.dp),
@@ -94,7 +101,7 @@ fun ReviewNumbersStep(
                         fontWeight = FontWeight.W700,
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier
-                            .clickable(onClick = {onShowBottomSheet()}),
+                            .clickable(onClick = { onShowBottomSheet() }),
                     )
                 }
                 Spacer(Modifier.height(12.dp))

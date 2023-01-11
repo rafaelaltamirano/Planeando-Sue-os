@@ -18,11 +18,11 @@ class UserFinanceResponse(
 
 data class IncomeResponse(
     @SerializedName("type") val type: String,
-    @SerializedName("amount") val amount: Double,
+    @SerializedName("amount") val amount: Float,
     @SerializedName("frequency") val frequency: String,
-    @SerializedName("additionalIncomeAmount") val additionalIncomeAmount: Double,
-    @SerializedName("totalIncome") val totalIncome: Double,
-    @SerializedName("amountPerDay") val amountPerDay: Double,
+    @SerializedName("additionalIncomeAmount") val additionalIncomeAmount: Float,
+    @SerializedName("totalIncome") val totalIncome: Float,
+    @SerializedName("amountPerDay") val amountPerDay: Float,
 ) : Response<Income> {
     override fun toEntity() = Income(
         type = type,

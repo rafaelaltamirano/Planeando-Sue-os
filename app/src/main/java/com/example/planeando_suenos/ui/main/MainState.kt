@@ -13,6 +13,7 @@ data class MainState(
     val user: User? = null,
     val dreamId: String? = null,
     val dreamEdit: DreamWithUser? = null,
+    val edited: Boolean = false,
     val dreamWithUser: List<DreamWithUser>? = null,
     val showSplash: Boolean = true,
     val errorStatus: ModelStatus? = null,

@@ -10,14 +10,12 @@ import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.GetDreamByIdAndPriorityUseCase
-import com.example.planeando_suenos.usescases.GetDreamPlanCalendarUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
 class EmulateDreamsViewModel @Inject constructor(
-    private val getDreamPlanCalendarUseCase: GetDreamPlanCalendarUseCase,
     private val getDreamByIdAndPriorityUseCase: GetDreamByIdAndPriorityUseCase
 ) : ViewModelWithStatus() {
 
@@ -86,7 +84,7 @@ class EmulateDreamsViewModel @Inject constructor(
             setLoading(true)
             try {
                 withContext(Dispatchers.IO) {
-                    getDreamPlanCalendarUseCase(dreamId)
+                    getDreamByIdAndPriorityUseCase.getDreamPlanCalendar(dreamId)
                 }.also { setDreamsCalendarItem(it) }
             } catch (e: Exception) {
                 handleNetworkError(e)
@@ -100,7 +98,7 @@ class EmulateDreamsViewModel @Inject constructor(
         setLoading(true)
         try {
             withContext(Dispatchers.IO) {
-                getDreamPlanCalendarUseCase.updateDream(dreamPlan)
+                getDreamByIdAndPriorityUseCase.updateDream(dreamPlan)
             }
         } catch (e: Exception) {
             handleNetworkError(e)
@@ -113,7 +111,7 @@ class EmulateDreamsViewModel @Inject constructor(
     fun getDream(dreamId: String, priority: String) = viewModelScope.launch {
         setLoading(true)
         try {
-            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase(dreamId, priority) }.also {
+            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase.getDreamById(dreamId, priority) }.also {
                 setDreamWithUser(it)
             }
         } catch (e: Exception) {
@@ -123,7 +121,7 @@ class EmulateDreamsViewModel @Inject constructor(
         }
     }
 
-    fun setPriority(priority: String) {
+    fun setPriority(priority: String?) {
         state = state.copy(prioritySelected = priority)
     }
 

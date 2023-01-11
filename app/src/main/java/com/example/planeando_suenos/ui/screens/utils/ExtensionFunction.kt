@@ -17,3 +17,12 @@ fun Double.ceilRound(): Int {
         roundingMode = RoundingMode.CEILING
     }.format(this).toInt()
 }
+
+fun String.toDateString(pattern: String = "dd/MM/yyyy"): String {
+    val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.getDefault())
+    val dateFormatIso = isoFormat.parse(this)
+    val sdf = SimpleDateFormat(pattern, Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
+    return sdf.format(dateFormatIso!!)
+}

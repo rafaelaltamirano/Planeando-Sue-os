@@ -1,6 +1,5 @@
 package com.example.planeando_suenos.ui.screens.home.step1.dreamPlan
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -10,18 +9,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key.Companion.D
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.ui.components.CurrencyTextField
-import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TextDate
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
@@ -29,7 +24,6 @@ import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.ui.theme.BackgroundItemDream
 import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.TextColorItemDream
-import kotlinx.coroutines.launch
 import java.util.*
 
 @Composable
@@ -113,7 +107,8 @@ fun DreamPlanStep(
                 }
                 )
                 model.setDreamData(dreamPlan)
-            })
+            }
+        )
 
         val amountFilled = model.state.dreamData?.dream!!.mapNotNull { it.amount }
         SubmitButton(

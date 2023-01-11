@@ -3,21 +3,11 @@ package com.example.planeando_suenos.ui.screens.home.step2
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
-import com.example.planeando_suenos.domain.body.smartShopping.Expenses
-import com.example.planeando_suenos.domain.body.smartShopping.Income
-import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
 import com.example.planeando_suenos.ui.Status
 import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -51,13 +41,21 @@ fun ApproximateIncomesScreen(
             Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
             Status.ERROR -> mainModel.setErrorStatus(it)
             Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
-            else -> {}
+            else -> {
+                mainModel.setNetworkErrorStatus(it)
+            }
         }
         model.clearStatus()
     }
 
-
-    if (model.state.checked) {
+    //SCREEN EDIT : REDIRECT TO EMULATE DREAMS, NEW DREAM : REDIRECT HOME
+    if (model.state.checked && mainModel.state.dreamEdit != null) {
+        LaunchedEffect(Unit) {
+            navController.navigate(UserRouterDir.EMULATE_DREAM.route)
+        }
+        mainModel.setDreamEdit(null)
+        model.setChecked(false)
+    } else if (model.state.checked) {
         homeModel.setCheckedStep2(true)
         homeModel.setIncome(model.getIncomeObject())
         model.setStep(Step2Step.INCOME_DATA)
@@ -83,8 +81,16 @@ fun ApproximateIncomesScreen(
                 numberOfSteps = Step2Step.values().size - 2,
                 currentStep = state.step.step,
                 onBackPress = {
-                    if (state.step == Step2Step.INCOME_DATA) navController.popBackStack()
-                    else model.prevStep()
+                    model.setEdited(false) // CLEAN EDIT OPTIONS
+                    if (state.step == Step2Step.INCOME_DATA) {
+                        navController.popBackStack()
+
+                        // CLEAN EDIT OPTIONS
+                        model.setSalaryAmount(null)
+                        model.setFrequency("")
+                        model.setAdditionalIncomes(null)
+                        model.setDreamId("")
+                    } else model.prevStep()
                 }
             )
         },
@@ -93,10 +99,7 @@ fun ApproximateIncomesScreen(
         when (state.step) {
 
             Step2Step.INCOME_DATA -> IncomeDataStep(
-                onNext = {
-//                    coroutineScope.launch { model.getDream(mainModel.state.dreamId!!) }
-                    model.nextStep()
-                },
+                onNext = model::nextStep,
                 model = model,
                 mainModel = mainModel
             )
@@ -105,7 +108,16 @@ fun ApproximateIncomesScreen(
                 model = model
             )
             Step2Step.EXTRA_INCOMES -> ExtraIncomesStep(
-                onSubmit = { coroutineScope.launch { model.updateDream(model.getDreamObject()) } },
+                onSubmit = {
+                    coroutineScope.launch {
+                        if (mainModel.state.dreamEdit != null)
+                            model.updateDream(model.getDreamObjectWithExpenses(
+                                mainModel.state.dreamEdit?.userFinance?.expenses!!,
+                                mainModel.state.dreamEdit?.userFinance?.paymentCapability!!
+                            ))
+                        else model.updateDream(model.getDreamObject())
+                    }
+                },
                 model = model
             )
         }

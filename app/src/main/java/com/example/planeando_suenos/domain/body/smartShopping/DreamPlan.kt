@@ -16,11 +16,11 @@ data class UserFinance(
 
 data class Income(
     val type: String? = null,
-    val amount: Double? = null,
+    val amount: Float? = null,
     val frequency: String? = null,
-    val additionalIncomeAmount: Double? = null,
-    val totalIncome: Double? = null,
-    val amountPerDay: Double? = null,
+    val additionalIncomeAmount: Float? = null,
+    val totalIncome: Float? = null,
+    val amountPerDay: Float? = null,
 
     )
 

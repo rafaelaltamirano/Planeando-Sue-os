@@ -24,12 +24,13 @@ import com.example.planeando_suenos.ui.components.CurrencyTextField
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.PersonalInfoCard
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
 
 @Composable
 fun ExtraIncomesStep(
     onSubmit: () -> Unit,
-    model: ApproximateIncomesViewModel
+    model: ApproximateIncomesViewModel,
 ) {
 
     val state = model.state

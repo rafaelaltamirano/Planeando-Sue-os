@@ -21,6 +21,7 @@ enum class Step2Step(val step: Int) {
 data class ApproximateIncomeState(
     val loading: Boolean = false,
     val step: Step2Step = Step2Step.INCOME_DATA,
+    val edited: Boolean = false,
     val frequency: String = "",
     val frequencyToShow: String = "",
     val checked: Boolean = false,

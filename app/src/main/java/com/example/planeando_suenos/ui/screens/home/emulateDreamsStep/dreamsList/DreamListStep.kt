@@ -55,7 +55,7 @@ fun DreamListStep(
 
 
     LaunchedEffect(Unit) {
-        model.getDream(dreamId, priority ?: "equal")
+        model.getDream(dreamId, priority ?: "")
     }
 
     Column(

@@ -33,14 +33,15 @@ import java.util.*
 private val mCalendar: Calendar = Calendar.getInstance()
 
 @Composable
-fun TextDate( onValueChanged: (String) -> Unit) {
-    val hint: String = stringResource(id = com.example.planeando_suenos.R.string.date_example)
+fun TextDate(onValueChanged: (String) -> Unit, dateToShow: String? = null) {
+    val hint: String = stringResource(id = R.string.date_example)
 
     var date by rememberSaveable {
         mutableStateOf(hint)
     }
+
     var dateShow by rememberSaveable {
-        mutableStateOf(hint)
+        mutableStateOf(dateToShow ?: hint)
     }
 
     val mContext = LocalContext.current

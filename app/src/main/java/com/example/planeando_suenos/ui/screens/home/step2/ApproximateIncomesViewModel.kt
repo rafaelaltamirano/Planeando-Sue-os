@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home.step2
 
+import android.content.pm.Capability
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -49,11 +50,11 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(checked = check)
     }
 
-    fun setSalaryAmount(salaryAmount: Float) {
+    fun setSalaryAmount(salaryAmount: Float?) {
         state = state.copy(salaryAmount = salaryAmount)
     }
 
-    fun setAdditionalIncomes(additionalIncomes: Float) {
+    fun setAdditionalIncomes(additionalIncomes: Float?) {
         state = state.copy(additionalIncomes = additionalIncomes)
     }
 
@@ -65,6 +66,9 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
+    fun setEdited(edited: Boolean) {
+        state = state.copy(edited = edited)
+    }
 
 
     fun setDreamId(dreamId: String) {
@@ -78,9 +82,9 @@ class ApproximateIncomesViewModel @Inject constructor(
     fun getIncomeObject(): Income {
     return Income(
         type = state.salaryType,
-        amount = state.salaryAmount?.toDouble(),
+        amount = state.salaryAmount,
         frequency = state.frequency,
-        additionalIncomeAmount = state.additionalIncomes?.toDouble()
+        additionalIncomeAmount = state.additionalIncomes
     )
     }
 
@@ -101,6 +105,18 @@ class ApproximateIncomesViewModel @Inject constructor(
                paymentCapability = 0f
            ),
        )
+    }
+
+
+    fun getDreamObjectWithExpenses(expenses: Expenses,paymentCapability: Float): DreamPlan {
+        return  DreamPlan(
+            id = state.dreamId,
+            userFinance = UserFinance(
+                income = getIncomeObject(),
+                expenses = expenses,
+                paymentCapability = paymentCapability
+            ),
+        )
     }
 
 
