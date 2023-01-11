@@ -106,7 +106,7 @@ fun DreamPromotionCardItem(
                                     text = "Plazo de 20 a 23 semanas",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W500,
-                                    fontSize = 12.sp,
+                                    fontSize = 11.sp,
                                     lineHeight = 16.sp,
                                     color = Color.White
                                 )
@@ -125,8 +125,8 @@ fun DreamPromotionCardItem(
                                     text = "$30.00 a $33.77",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W700,
-                                    fontSize = 22.sp,
-                                    lineHeight = 16.sp,
+                                    fontSize = 18.sp,
+                                    lineHeight = 20.sp,
                                     color = Color.White
                                 )
                             }
@@ -173,8 +173,8 @@ fun DreamPromotionCardItem(
                                     text = "$30.00 a $33.77",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W700,
-                                    fontSize = 22.sp,
-                                    lineHeight = 16.sp,
+                                    fontSize = 18.sp,
+                                    lineHeight = 20.sp,
                                     color = Color.White
                                 )
                             }
@@ -186,11 +186,15 @@ fun DreamPromotionCardItem(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewDreamPromotionCardItem() {
     
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(dimensionResource(R.dimen.gap5))
+    ){
         DreamPromotionCardItem(
             topGradientColor = TopGreenGradient, 
             bottomGradientColor = BottomGreenGradient

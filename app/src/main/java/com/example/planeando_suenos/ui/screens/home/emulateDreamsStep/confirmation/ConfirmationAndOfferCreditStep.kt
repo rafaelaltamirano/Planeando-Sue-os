@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +61,7 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
             Spacer(modifier = Modifier.height(27.dp))
 
             DreamPromotionCardItem(
+                painter = painterResource(id = R.drawable.cat_hogar),
                 topGradientColor = TopGreenGradient,
                 bottomGradientColor = BottomGreenGradient
             )
@@ -70,11 +72,13 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(13.dp))
             DreamPromotionCardItem(
+                painter = painterResource(id = R.drawable.cat_conectividad),
                 topGradientColor = TopPinkGradient,
                 bottomGradientColor = BottomPinkGradient
             )
             Spacer(modifier = Modifier.height(13.dp))
             DreamPromotionCardItem(
+                painter = painterResource(id = R.drawable.cat_movilidad),
                 topGradientColor = TopBlueGradient,
                 bottomGradientColor = BottomBlueGradient
             )
