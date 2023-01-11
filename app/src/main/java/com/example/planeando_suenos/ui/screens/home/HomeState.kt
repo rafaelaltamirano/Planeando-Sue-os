@@ -1,6 +1,7 @@
 package com.example.planeando_suenos.ui.screens.home
 
 import com.example.planeando_suenos.domain.body.smartShopping.Income
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.domain.entities.User
 
@@ -13,4 +14,5 @@ data class HomeState(
     val emulateDreamStep: Boolean = false,
     val loading: Boolean = false,
     val user: User? = null,
+    val dreamWithUserList: List<DreamWithUser>? = null,
 )

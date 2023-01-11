@@ -3,6 +3,7 @@ package com.example.planeando_suenos.framework.retrofit.smartShopping
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.response.ResponseData
 import com.example.planeando_suenos.domain.response.ResponseWrapper
+import com.example.planeando_suenos.domain.response.ResponseWrapperWithList
 import com.example.planeando_suenos.domain.response.smartShopping.CalendarResponse
 import com.example.planeando_suenos.domain.response.smartShopping.DreamTypeResponse
 import com.example.planeando_suenos.domain.response.smartShopping.DreamWithUserResponse
@@ -21,7 +22,7 @@ interface SmartShoppingApi {
     suspend fun updateDreamPlan(@Body dream: DreamPlan):  Response<ResponseWrapper<Boolean>>
 
     @GET("v1.0/dreamPlan")
-    suspend fun getAllDreamsPlan(): Response<DreamWithUserResponse>
+    suspend fun getAllDreamsPlan(): Response<ResponseWrapperWithList<DreamWithUserResponse>>
 
     @GET("v1.0/dreamPlan/{dreamPlanId}")
     suspend fun getDreamById(@Path("dreamPlanId") dreamPlanId: String,@Query("priority") priority:String): Response<ResponseData<DreamWithUserResponse>>

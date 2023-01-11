@@ -51,7 +51,7 @@ fun TopBarClearWithBack(
             navigationIcon = {
                 IconButton(onClick = onBackPress) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_arrow),
+                        painter = painterResource(R.drawable.ic_flecha),
                         contentDescription = "back",
                         tint = Accent
                     )

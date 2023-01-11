@@ -14,7 +14,7 @@ import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.calendar.CalendarStep
-import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.confirmation.SuccessSavedDreamScreen
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.confirmation.ConfirmationAndOfferCreditStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.dreamsList.DreamListStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.saveDream.SaveDreamStep
@@ -33,24 +33,16 @@ fun EmulateDreamsScreen(
 //    val dreamId = mainModel.state.dreamId!!
     val dreamId = "63bc8479d97880ed1b56f034"
     val coroutineScope = rememberCoroutineScope()
-    //TODO: CHANGE
-//    val dreamId = state.dreamId!!
+    val topBarTitle: String
+    val bigFont: Boolean
 
-    dreamId.let {
-        model.setDreamId(it)
-    }
-
-    if (model.state.checked) {
-
-        homeModel.setCheckedEmulateDreamStep(true)
-    }
+    dreamId.let { model.setDreamId(it) }
+    if (model.state.checked) homeModel.setCheckedEmulateDreamStep(true)
 
     BackHandler(enabled = true) {
         if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
         else model.prevStep()
     }
-    val topBarTitle: String
-    val bigFont: Boolean
 
     when (state.step) {
         EmulateDreamsStep.REVIEW_NUMBERS -> {
@@ -174,7 +166,7 @@ fun EmulateDreamsScreen(
                         })
                 }
                 EmulateDreamsStep.CONFIRMATION -> {
-                    SuccessSavedDreamScreen(onClick = {
+                    ConfirmationAndOfferCreditStep(onClick = {
                         navController.navigate(UserRouterDir.HOME.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 inclusive = true

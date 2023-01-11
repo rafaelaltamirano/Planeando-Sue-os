@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -20,7 +21,7 @@ import com.example.planeando_suenos.ui.theme.CardUnchecked
 
 
 @Composable
-fun CardTextDetail(title: String, onPress: () -> Unit) {
+fun CardTextDetail(title: String?, onPress: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,7 +42,7 @@ fun CardTextDetail(title: String, onPress: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ){
             Text(
-                text = "Probando",
+                text = title ?: "",
                 modifier = Modifier.weight(1f)
             )
             IconButton(
@@ -50,7 +51,7 @@ fun CardTextDetail(title: String, onPress: () -> Unit) {
                     .width(24.dp)
                     .fillMaxHeight()
             ) {
-                androidx.compose.material3.Icon(
+               Icon(
                     painter = painterResource(R.drawable.ic_arrow_next),
                     contentDescription = "next",
                     tint = Accent
