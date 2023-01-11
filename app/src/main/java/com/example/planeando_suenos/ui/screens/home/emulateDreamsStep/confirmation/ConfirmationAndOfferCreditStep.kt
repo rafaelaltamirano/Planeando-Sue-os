@@ -63,16 +63,17 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
                 topGradientColor = TopGreenGradient,
                 bottomGradientColor = BottomGreenGradient
             )
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(13.dp))
             DreamPromotionCardItem(
                 topGradientColor = TopPurpleGradient,
                 bottomGradientColor = BottomPurpleGradient
             )
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(13.dp))
             DreamPromotionCardItem(
                 topGradientColor = TopPinkGradient,
                 bottomGradientColor = BottomPinkGradient
             )
+            Spacer(modifier = Modifier.height(13.dp))
             DreamPromotionCardItem(
                 topGradientColor = TopBlueGradient,
                 bottomGradientColor = BottomBlueGradient

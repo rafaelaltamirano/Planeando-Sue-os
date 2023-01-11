@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +27,7 @@ import com.example.planeando_suenos.ui.theme.TopGreenGradient
 
 @Composable
 fun DreamPromotionCardItem(
+    painter: Painter? = null,
     topGradientColor : Color,
     bottomGradientColor: Color,
 ){
@@ -77,48 +79,105 @@ fun DreamPromotionCardItem(
                         .fillMaxWidth()
                         .padding(
                             horizontal = dimensionResource(id = R.dimen.gap5)
-                        )
+                        ),
+                    horizontalArrangement = Arrangement.spacedBy(30.dp)
                 ){
-                    Spacer(modifier = Modifier.weight(1F))
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(14.dp)
-                    ){
-                        Column {
-                            Text(
-                            text = "Total a pagar  $675.33",
-                            style = MaterialTheme.typography.subtitle1,
-                            fontWeight = FontWeight.W700,
-                            fontSize = 12.sp,
-                            lineHeight = 16.sp,
-                            color = Color.White
+                    painter?.let {
+                        Image(
+                            painter = it,
+                            contentDescription = "category",
+                            modifier = Modifier
+                                .width(100.dp)
                         )
-                            Text(
-                                text = "Plazo de 20 a 23 semanas",
-                                style = MaterialTheme.typography.subtitle2,
-                                fontWeight = FontWeight.W500,
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                                color = Color.White
-                            )
-                        }
 
-                        Column {
-                            Text(
-                                text = "Semanalidades de",
-                                style = MaterialTheme.typography.subtitle1,
-                                fontWeight = FontWeight.W700,
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                                color = Color.White
-                            )
-                            Text(
-                                text = "$30.00 a $33.77",
-                                style = MaterialTheme.typography.subtitle2,
-                                fontWeight = FontWeight.W700,
-                                fontSize = 22.sp,
-                                lineHeight = 16.sp,
-                                color = Color.White
-                            )
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(14.dp)
+                        ){
+                            Column {
+                                Text(
+                                    text = "Total a pagar  $675.33",
+                                    style = MaterialTheme.typography.subtitle1,
+                                    fontWeight = FontWeight.W700,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "Plazo de 20 a 23 semanas",
+                                    style = MaterialTheme.typography.subtitle2,
+                                    fontWeight = FontWeight.W500,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                            }
+
+                            Column {
+                                Text(
+                                    text = "Semanalidades de",
+                                    style = MaterialTheme.typography.subtitle1,
+                                    fontWeight = FontWeight.W700,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "$30.00 a $33.77",
+                                    style = MaterialTheme.typography.subtitle2,
+                                    fontWeight = FontWeight.W700,
+                                    fontSize = 22.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    }
+
+                    if(painter == null) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(24.dp)
+                        ){
+                            Column(
+                                modifier = Modifier
+                                    .width(98.dp),
+                                verticalArrangement = Arrangement.spacedBy(5.dp)
+                            ){
+                                Text(
+                                    text = "Total a pagar $675.33",
+                                    style = MaterialTheme.typography.subtitle1,
+                                    fontWeight = FontWeight.W700,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "Plazo de 20 a 23 semanas",
+                                    style = MaterialTheme.typography.subtitle2,
+                                    fontWeight = FontWeight.W500,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                            }
+
+                            Column {
+                                Text(
+                                    text = "Semanalidades de",
+                                    style = MaterialTheme.typography.subtitle1,
+                                    fontWeight = FontWeight.W700,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "$30.00 a $33.77",
+                                    style = MaterialTheme.typography.subtitle2,
+                                    fontWeight = FontWeight.W700,
+                                    fontSize = 22.sp,
+                                    lineHeight = 16.sp,
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
                 }
@@ -130,7 +189,17 @@ fun DreamPromotionCardItem(
 @Preview
 @Composable
 fun PreviewDreamPromotionCardItem() {
-    DreamPromotionCardItem(
-        topGradientColor = TopGreenGradient, bottomGradientColor = BottomGreenGradient
-    )
+    
+    Column {
+        DreamPromotionCardItem(
+            topGradientColor = TopGreenGradient, 
+            bottomGradientColor = BottomGreenGradient
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        DreamPromotionCardItem(
+            painter = painterResource(id = R.drawable.cat_conectividad),
+            topGradientColor = TopGreenGradient, 
+            bottomGradientColor = BottomGreenGradient
+        )
+    }
 }
