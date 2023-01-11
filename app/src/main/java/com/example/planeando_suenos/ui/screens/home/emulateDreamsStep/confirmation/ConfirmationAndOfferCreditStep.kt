@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
@@ -33,7 +34,12 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(R.dimen.gap5)),
+                .padding(
+                    top = 0.dp,
+                    start = dimensionResource(R.dimen.gap5),
+                    end = dimensionResource(R.dimen.gap5),
+                    bottom = dimensionResource(R.dimen.gap5)
+                ),
         ) {
             Text(
                 text = "Plan de sueños\nguardado con éxito",
