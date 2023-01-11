@@ -40,6 +40,10 @@ fun DreamsAndAspirationsScreen(
         }
     }
 
+    LaunchedEffect(Unit){
+        model.getDreamType()
+    }
+
 
     model.status?.also {
         val (status, _) = it

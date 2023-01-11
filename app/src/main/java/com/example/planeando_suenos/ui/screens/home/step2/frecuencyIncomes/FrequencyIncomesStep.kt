@@ -66,7 +66,8 @@ fun FrequencyIncomesStep(
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
         PersonalInfoCard(
             "¿Cómo son tus ingresos?",
-            "Tengo sueldo variable de,",
+            if (state.salaryType == "variableSalary") "Tengo sueldo variable de,"
+            else "Tengo sueldo fijo de," ,
             state.salaryAmount.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))

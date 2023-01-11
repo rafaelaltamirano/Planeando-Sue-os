@@ -44,9 +44,9 @@ class HomeViewModel @Inject constructor(
         state = state.copy(checkedStep3 = check)
     }
 
-    fun setCheckedEmulateDreamStep(emulateDreamStep: Boolean) {
-        state = state.copy(emulateDreamStep = emulateDreamStep)
-    }
+//    fun setCheckedEmulateDreamStep(emulateDreamStep: Boolean) {
+//        state = state.copy(emulateDreamStep = emulateDreamStep)
+//    }
 
     private fun setLoading(loading: Boolean) {
         state = state.copy(loading = loading)

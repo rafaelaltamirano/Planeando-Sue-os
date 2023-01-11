@@ -11,7 +11,7 @@ data class HomeState(
     val checkedStep2: Boolean = false,
     val income: Income? = null,
     val checkedStep3: Boolean = false,
-    val emulateDreamStep: Boolean = false,
+//    val emulateDreamStep: Boolean = false,
     val loading: Boolean = false,
     val user: User? = null,
     val dreamWithUserList: List<DreamWithUser>? = null,

@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.domain.entities.Login
+import com.example.planeando_suenos.domain.enums.Fields
+import com.example.planeando_suenos.domain.exceptions.FieldInvalidException
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
 import com.example.planeando_suenos.usescases.RegisterUseCase
@@ -92,6 +94,14 @@ class RegisterViewModel @Inject constructor(
         passThree(registerCase.validatePassThree(password))
     }
 
+    fun validateEmail(email: String) {
+         try {
+             registerCase.isEmailValidOrFail(email)
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        }
+    }
+
     private fun setLoading(loading: Boolean) {
         state = state.copy(loading = loading)
     }
@@ -107,6 +117,14 @@ class RegisterViewModel @Inject constructor(
 
     private fun setLogin(login: Login) {
         state = state.copy(login = login)
+    }
+
+    fun setEmailError(emailError: String = "") {
+        state = state.copy(emailError = emailError)
+    }
+
+    fun setPasswordError(passwordError: String = "") {
+        state = state.copy(passwordError = passwordError)
     }
 
     suspend fun registerUser() = viewModelScope.launch {
@@ -147,4 +165,17 @@ class RegisterViewModel @Inject constructor(
             setLoading(false)
         }
     }
+
+    override fun onFieldInvalid(e: FieldInvalidException) {
+        when (e.field) {
+            Fields.EMAIL -> setEmailError(e.message)
+            Fields.PASSWORD -> setPasswordError(e.message)
+        }
+        when (e.fieldSecond) {
+            Fields.EMAIL -> setEmailError(e.message)
+            Fields.PASSWORD -> setPasswordError(e.message)
+            else -> {}
+        }
+    }
 }
+

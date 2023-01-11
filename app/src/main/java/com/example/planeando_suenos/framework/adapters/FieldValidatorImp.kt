@@ -67,4 +67,20 @@ class FieldValidatorImp @Inject constructor(): FieldValidator {
             false
         }
     }
+
+    @Throws(FieldInvalidException::class)
+    override fun isEmailValidOrFail(field: String) {
+        val validator = Validator().apply {
+            required("Por favor, ingresa tu usuario")
+            email()
+        }
+         try {
+            validator.isValidOrFail(field)
+        } catch (e: InvalidEvaluationException) {
+            throw FieldInvalidException(
+                message = e.message!!,
+                field = Fields.EMAIL
+            )
+        }
+    }
 }

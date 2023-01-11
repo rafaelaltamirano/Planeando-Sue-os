@@ -26,3 +26,9 @@ fun String.toDateString(pattern: String = "dd/MM/yyyy"): String {
     }
     return sdf.format(dateFormatIso!!)
 }
+
+fun String.toDate(): Date? {
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.getDefault())
+    return sdf.parse(this)
+
+}

@@ -46,9 +46,9 @@ fun DreamListStep(
     onShowBottomSheet: () -> Unit,
 ) {
     val state = model.state
-    val dreamId = "63bc8479d97880ed1b56f034"
+//    val dreamId = "63bc8479d97880ed1b56f034"
     //TODO: CHANGE
-//    val dreamId = mainModel.state.dreamId!!
+    val dreamId = mainModel.state.dreamId!!
     val priority = model.state.prioritySelected
     val expandedNested = remember { mutableStateOf(false) }
     val position = remember { mutableStateOf(0) }

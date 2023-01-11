@@ -50,4 +50,21 @@ data class DreamType(
     val id: String? = null,
     val title: String? = null,
     val iconName: String? = null,
+    val index: Int? = null,
+    val category: Category? = null,
+)
+
+data class Category(
+    val id: String? = null,
+    val title: String? = null,
+    val interestRatePercentage: Float? = null,
+)
+
+
+data class DreamTypeForGrid(
+    val id: String? = null,
+    val title: String? = null,
+    val iconName: String? = null,
+    val index: Int? = null,
+    val category: Category? = null,
 )

@@ -52,6 +52,8 @@ fun AccountRegisterStep(
             placeholder = R.string.email_example,
             leadingIcon = R.drawable.ic_arrouba,
             onValueChanged =  model::setEmail,
+            onFocus = model::setEmailError,
+            error =  model.state.emailError,
             modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.gap4) )
         )
         Text(
@@ -70,7 +72,7 @@ fun AccountRegisterStep(
             modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.gap4) )
         )
         ValidatorMessage("Mínimo 8 caracteres",model.state.validCharacter)
-        ValidatorMessage("Al menos un número (0-9) o símbolo",model.state.validMayus)
+        ValidatorMessage("Al menos un número (0-9)",model.state.validMayus)
         ValidatorMessage("Minúscula (a-z) y mayúscula(A-Z)",model.state.validNumber)
         Spacer(Modifier.height(10.dp))
         Text(
@@ -92,7 +94,12 @@ fun AccountRegisterStep(
 
         SubmitButton(
             text = "Crear nueva cuenta".uppercase(),
-            onClick = { onNext() }
+            onClick = {
+               model.validateEmail(model.state.email)
+                if (model.state.emailError=="") {
+                    onNext()
+                }
+            }
         )
     }
 

@@ -21,7 +21,9 @@ fun MyDreamsScreen(mainModel: MainViewModel, navController: NavHostController) {
         TopBarClearWithBack(
             title = "Mis planes guardados",
             bigFont = false,
-            onBackPress = {navController.navigate(UserRouterDir.HOME.route)})
+            onBackPress = {
+                navController.navigate(UserRouterDir.HOME.route)
+            })
 
         Column(
             modifier = Modifier
@@ -29,7 +31,10 @@ fun MyDreamsScreen(mainModel: MainViewModel, navController: NavHostController) {
                 .padding(horizontal = dimensionResource(id = R.dimen.gap4))
         ) {
             dreamList?.forEach {
-                CardTextDetail(title = it.title, onPress = {})
+                CardTextDetail(title = it.title, onPress = {
+                    mainModel.setDreamId(it.id)
+                    navController.navigate(UserRouterDir.EMULATE_DREAM.route)
+                })
             }
         }
     }

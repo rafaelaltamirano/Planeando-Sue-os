@@ -56,7 +56,7 @@ fun EnterPasswordStep(
                 .padding(vertical = dimensionResource(R.dimen.gap4))
         )
         ValidatorMessage("Mínimo 8 caracteres", null)
-        ValidatorMessage("Al menos un número (0-9) o símbolo", null)
+        ValidatorMessage("Al menos un número (0-9)", null)
         ValidatorMessage("Minúscula (a-z) y mayúscula(A-Z)", null)
         Spacer(Modifier.height(10.dp))
         Text(

@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.entities.Categories
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.ui.ViewModelWithStatus
@@ -26,16 +27,16 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(step = step)
     }
 
+    fun setCategories(categories: List<Categories>) {
+        state = state.copy(categories = categories)
+    }
+
     fun nextStep() {
         setStep(state.step.next())
     }
 
     fun prevStep() {
         setStep(state.step.prev())
-    }
-
-    fun setChecked(check: Boolean) {
-        state = state.copy(checked = check)
     }
 
     private fun setLoading(loading: Boolean) {

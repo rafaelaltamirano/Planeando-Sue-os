@@ -52,6 +52,7 @@ fun ExtraIncomesStep(
             state.salaryAmount.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
+
         PersonalInfoCard(
             "¿Con qué frecuencia lo recibes?",
             state.frequencyToShow,
@@ -79,19 +80,18 @@ fun ExtraIncomesStep(
                 value = state.additionalIncomes.toString(),
                 onDone = true,
                 placeholder = R.string.enter_amount,
-                onValueChanged = {model.setAdditionalIncomes(it.toFloat())},
+                onValueChanged = { model.setAdditionalIncomes(it.toFloat()) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.gap4))
             )
-        }
-        else model.setAdditionalIncomes(0f)
+        } else model.setAdditionalIncomes(0f)
 
         Spacer(Modifier.height(dimensionResource(R.dimen.gap5)))
         Row(verticalAlignment = Alignment.Bottom) {
             SubmitButton(
                 text = "calcular ingresos",
-                enabled = state.additionalIncomes!=null,
+                enabled = state.additionalIncomes != null,
                 onClick = {
                     onSubmit()
                 }

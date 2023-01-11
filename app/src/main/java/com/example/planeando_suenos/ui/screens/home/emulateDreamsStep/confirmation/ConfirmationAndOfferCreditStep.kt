@@ -14,18 +14,41 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.DreamPromotionCardItem
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithCheck
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.*
 
 
+enum class DreamCategories(val type: String) {
+    CASH("efectivo"),
+    HOME("hogar"),
+    MOBILITY("movilidad"),
+    CONNECTIVITY("conectividad")
+}
+
 @Composable
-fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
+fun ConfirmationAndOfferCreditStep(onClick: () -> Unit, model: EmulateDreamsViewModel) {
+
+
+//    val group = model.state.dreamWithUser?.dream?.groupBy { dream -> dream.dreamType?.category }
+//
+//    val categories = remember { mutableStateListOf<Categories>() }
+//
+//    group?.map { (category, dream) ->
+//        val title = category?.title
+//        val totalAmountPlaned = dream.mapNotNull { it.amountPlaned }.sum()
+//        val percentage = category?.interestRatePercentage
+//        val weeks = dream.map {getWeeksFromDates(it.startDate,it.endDate)}.maxOrNull()
+//        categories.add(Categories(title, totalAmountPlaned, weeks, percentage))
+//    }
+
+//    Log.d("TAG", categories.forEach { it.toString() }.toString())
+
     Column(
         modifier = Modifier
             .fillMaxSize()

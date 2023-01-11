@@ -48,7 +48,6 @@ fun IncomeDataStep(
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
     val state = model.state
-    lateinit var itemSelected:IncomeItems
 
     //EDIT OPTION
     LaunchedEffect(Unit) {
@@ -119,11 +118,9 @@ fun IncomeDataStep(
             val label: String
             val placeholder: Int
             if (selectedValue.value == FIXED_SALARY.value) {
-                itemSelected = FIXED_SALARY
                 label = stringResource(R.string.fixed_salary)
                 placeholder = R.string.enter_amount
             } else {
-                itemSelected = VARIABLE_SALARY
                 label = stringResource(R.string.variable_salary)
                 placeholder = R.string.approximately_income
             }
@@ -150,9 +147,9 @@ fun IncomeDataStep(
                     enabled = state.salaryAmount!=null,
                     onClick = {
                         model.setSalaryType(
-                            when(itemSelected){
-                                FIXED_SALARY -> "fixedSalary"
-                                VARIABLE_SALARY -> "variableSalary"
+                            when(selectedValue.value){
+                                FIXED_SALARY.value -> "fixedSalary"
+                                else -> "variableSalary"
                             })
                         onNext() }
                 )

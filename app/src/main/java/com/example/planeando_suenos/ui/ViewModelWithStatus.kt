@@ -40,11 +40,12 @@ open class ViewModelWithStatus : ViewModel() {
 
     fun handleNetworkError(e: Exception) {
         println(">>: handleNetworkError: $e")
-        status = when (e) {
-            is HttpException ->  ModelStatus(Status.NETWORK_ERROR, e.message?.replace("Bad Request backend:", ""))
-            is UnknownHostException -> ModelStatus(Status.INTERNET_CONNECTION_ERROR, e.message)
-            is UnauthorizedException -> ModelStatus(Status.NETWORK_ERROR, e.message)
-            else -> ModelStatus(Status.ERROR)
+       when (e) {
+            is FieldInvalidException -> onFieldInvalid(e)
+            is HttpException -> status = ModelStatus(Status.NETWORK_ERROR, e.message?.replace("Bad Request backend:", ""))
+            is UnknownHostException -> status = ModelStatus(Status.INTERNET_CONNECTION_ERROR, e.message)
+            is UnauthorizedException -> status = ModelStatus(Status.NETWORK_ERROR, e.message)
+            else -> status = ModelStatus(Status.ERROR)
 
         }
     }
