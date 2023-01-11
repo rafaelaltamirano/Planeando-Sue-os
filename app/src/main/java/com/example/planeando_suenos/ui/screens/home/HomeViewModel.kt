@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.body.smartShopping.Income
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.ui.ViewModelWithStatus
@@ -51,10 +52,27 @@ class HomeViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
+    fun setDreamWithUserList(dreamWithUserList: List<DreamWithUser>?) {
+        state = state.copy(dreamWithUserList = dreamWithUserList)
+    }
+
      fun getUserById(id: String) = viewModelScope.launch {
         setLoading(true)
         try {
             withContext(Dispatchers.IO) { homeUseCase.getUserByIdUseCase(id) }.also { setUser(it) }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    fun getDream() = viewModelScope.launch {
+        setLoading(true)
+        try {
+            withContext(Dispatchers.IO) { homeUseCase.getAllDreams() }.also {
+                setDreamWithUserList(it)
+            }
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {

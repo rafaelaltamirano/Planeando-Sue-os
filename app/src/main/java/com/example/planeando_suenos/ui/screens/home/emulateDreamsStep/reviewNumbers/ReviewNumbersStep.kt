@@ -17,11 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.AmountCard
 import com.example.planeando_suenos.ui.components.CardType
+import com.example.planeando_suenos.ui.components.TopBarClearWithBack
 import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
+import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 
@@ -31,10 +34,12 @@ fun ReviewNumbersStep(
     onNext: () -> Unit,
     model: EmulateDreamsViewModel,
     mainModel: MainViewModel,
-    onShowBottomSheet : () -> Unit
+    onShowBottomSheet : () -> Unit,
+    navController: NavHostController
 ) {
     val name = mainModel.state.user?.firstName ?: ""
-    val dreamId = mainModel.state.dreamId!!
+//    val dreamId = mainModel.state.dreamId!!
+    val dreamId = "63bc8479d97880ed1b56f034"
     val priority = model.state.prioritySelected
 
     LaunchedEffect(Unit) {
@@ -54,32 +59,17 @@ fun ReviewNumbersStep(
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState()))
         {
-            TopBarWithText("Planeando sueños")
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-                    .height(125.dp),
-            ) {
-                Text(
-                    modifier = Modifier.padding(
-                        horizontal = 16.dp,
-                        vertical = 18.dp
-                    ),
-                    text = "$name, repasemos \nestas cuentas",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    fontSize = 24.sp
-                )
-            }
             Column(
                 Modifier
                     .padding(dimensionResource(R.dimen.gap4))
                     .fillMaxHeight()
             ) {
 
-
-                AmountCard(CardType.INCOMES, user.userFinance.income!!.totalIncome.toString(), {})
+                AmountCard(CardType.INCOMES, user.userFinance?.income!!.totalIncome.toString(),
+                    onClick = {
+                        mainModel.setDreamEdit(user)
+                        navController.navigate(UserRouterDir.STEP_2.route)
+                    })
                 Spacer(Modifier.height(12.dp))
                 AmountCard(CardType.EXPENSES, user.userFinance.expenses!!.totalExpense.toString(), {})
                 Spacer(Modifier.height(12.dp))
@@ -104,7 +94,7 @@ fun ReviewNumbersStep(
                         fontWeight = FontWeight.W700,
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier
-                            .clickable(onClick = { onShowBottomSheet() }),
+                            .clickable(onClick = {onShowBottomSheet()}),
                     )
                 }
                 Spacer(Modifier.height(12.dp))

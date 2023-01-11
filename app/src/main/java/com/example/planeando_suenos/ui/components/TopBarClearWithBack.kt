@@ -22,41 +22,55 @@ import com.example.planeando_suenos.ui.theme.Accent
 @Composable
 fun TopBarClearWithBack(
     title: String? = null,
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
+    bigFont: Boolean
 ) {
 
     Column(
         Modifier
-            .background(Color.Transparent)
-            .height(96.dp),
+            .background(Color.Transparent),
         verticalArrangement = Arrangement.Center
     ) {
 
         CenterAlignedTopAppBar(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(Color.Transparent),
             title = {
-                title?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.h1,
-                        fontWeight = FontWeight.W700,
-                        fontSize = 14.sp,
-                        color = Color.Black
-                    )
+                if (!bigFont) {
+                        title?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.h1,
+                                fontWeight = FontWeight.W700,
+                                fontSize = 14.sp,
+                                color = Color.Black
+                            )
+                        }
                 }
 
             },
             navigationIcon = {
                 IconButton(onClick = onBackPress) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_arrow),
+                        painter = painterResource(R.drawable.ic_flecha),
                         contentDescription = "back",
                         tint = Accent
                     )
                 }
             }
         )
-
+        if (bigFont) {
+            Row(modifier = Modifier.padding(horizontal = 24.dp)) {
+                title?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.h1,
+                        fontWeight = FontWeight.W700,
+                        fontSize = 24.sp,
+                        color = Color.Black
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -64,7 +78,7 @@ fun TopBarClearWithBack(
 @Composable
 fun PreviewTopBarClearWithBack() {
     Column {
-        TopBarClearWithBack("title", onBackPress = {})
-        TopBarClearWithBack(onBackPress = {})
+        TopBarClearWithBack("title", onBackPress = {}, true)
+        TopBarClearWithBack(onBackPress = {}, bigFont = true)
     }
 }

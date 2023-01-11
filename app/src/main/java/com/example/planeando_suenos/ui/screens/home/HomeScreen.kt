@@ -6,6 +6,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,12 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.ui.Status
 import com.example.planeando_suenos.ui.components.CardChecked
+import com.example.planeando_suenos.ui.components.OutlineCardButton
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
@@ -30,14 +31,15 @@ import com.example.planeando_suenos.ui.theme.TextBusiness
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel,
+    model: HomeViewModel,
     navController: NavHostController,
     mainModel: MainViewModel
 ) {
 
-    val state = mainModel.state
+    val mainState = mainModel.state
+    val state = model.state
 
-    homeViewModel.status?.also {
+    model.status?.also {
         val (status, _) = it
         when (status) {
             Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
@@ -45,23 +47,29 @@ fun HomeScreen(
             Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
             else -> {}
         }
-        homeViewModel.clearStatus()
+        model.clearStatus()
     }
 
     LaunchedEffect(Unit) {
-        homeViewModel.getUserById(state.login?.id ?: "")
+        model.getUserById(mainState.login?.id ?: "")
+            .invokeOnCompletion { mainModel.setUser(model.state.user!!) }
+        model.getDream()
     }
 
-    if (homeViewModel.state.user != null) {
-        mainModel.setUser(homeViewModel.state.user!!)
-    }
+    if (state.dreamWithUserList != null) mainModel.setDreamWithUserList(state.dreamWithUserList)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        TopBarWithComponent(homeViewModel.state.user?.firstName ?: "")
+        TopBarWithComponent(name = model.state.user?.firstName ?: "",
+            showButton = !state.dreamWithUserList.isNullOrEmpty(),
+            loading = state.loading,
+            onClick = {
+                navController.navigate(UserRouterDir.MY_DREAMS.route)
+
+            })
 
         Column(
             modifier = Modifier
@@ -84,11 +92,11 @@ fun HomeScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
-                checked = homeViewModel.state.checkedStep1,
+                checked = model.state.checkedStep1,
                 title = "Tus sueños y aspiraciones",
                 subTitle = "Datos completados con éxito",
                 onClick = {
-                    if (!homeViewModel.state.checkedStep1) {
+                    if (!model.state.checkedStep1) {
                         navController.navigate(UserRouterDir.STEP_1.route)
                     }
                 }
@@ -98,16 +106,17 @@ fun HomeScreen(
                 text = "Paso 2",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.W700,
-                color = if(homeViewModel.state.checkedStep1) TextBusiness else GrayBusiness
+                color = if (model.state.checkedStep1) TextBusiness else GrayBusiness
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
-                checked = homeViewModel.state.checkedStep2,
-                enable = homeViewModel.state.checkedStep1,
+                checked = model.state.checkedStep2,
+                enable = model.state.checkedStep1,
+//                enable = true,
                 title = "Tus ingresos aproximados",
                 subTitle = "$ 1.600.00 semanales",
                 onClick = {
-                    if (!homeViewModel.state.checkedStep2) {
+                    if (!model.state.checkedStep2) {
                         navController.navigate(UserRouterDir.STEP_2.route)
                     }
                 }
@@ -117,17 +126,17 @@ fun HomeScreen(
                 text = "Paso 3",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color =   if(homeViewModel.state.checkedStep1 && homeViewModel.state.checkedStep2) TextBusiness else GrayBusiness
+                color = if (model.state.checkedStep1 && model.state.checkedStep2) TextBusiness else GrayBusiness
             )
             Spacer(modifier = Modifier.height(8.dp))
             CardChecked(
-                checked = homeViewModel.state.checkedStep3,
-                enable = homeViewModel.state.checkedStep1 && homeViewModel.state.checkedStep2,
+                checked = model.state.checkedStep3,
+                enable = model.state.checkedStep1 && model.state.checkedStep2,
 //                enable = true,
                 title = "Tus egresos o gastos",
                 subTitle = "$ 861.40 semanales",
                 onClick = {
-                    if (!homeViewModel.state.checkedStep3) {
+                    if (!model.state.checkedStep3) {
                         navController.navigate(UserRouterDir.STEP_3.route)
                     }
                 }
@@ -153,7 +162,9 @@ fun HomeScreen(
 }
 
 @Composable
-fun TopBarWithComponent(name: String) {
+fun TopBarWithComponent(name: String, onClick: () -> Unit,
+                        showButton: Boolean,
+                        loading: Boolean) {
     Box {
 
         Box(
@@ -181,22 +192,40 @@ fun TopBarWithComponent(name: String) {
                 elevation = 4.dp,
                 backgroundColor = Accent
             ) {
+                if (loading) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .width(25.dp)
+                                .height(25.dp),
+                            color = Color.White
+                        )
+                    }
+                }
+                else {
+                    Column() {
+                        Text(
+                            modifier = Modifier.padding(16.dp),
+                            text = "¡Hola $name!",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            fontSize = 17.sp
+                        )
+                        if (showButton) {
+                            OutlineCardButton(
+                                text = "Tu plan de sueños guardados",
+                                onClick = { onClick() })
 
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "¡Hola $name!",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    fontSize = 17.sp
-                )
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    TopBarWithComponent("name")
-}

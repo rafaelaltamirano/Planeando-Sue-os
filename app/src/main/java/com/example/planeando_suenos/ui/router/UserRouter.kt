@@ -18,6 +18,7 @@ import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesScre
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
 import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesIncomeViewModel
 import com.example.planeando_suenos.ui.screens.home.step3.YourExpensesScreen
+import com.example.planeando_suenos.ui.screens.myDreams.MyDreamsScreen
 
 
 @Composable
@@ -32,6 +33,9 @@ fun UserRouter(navController: NavHostController, mainModel: MainViewModel = view
     NavHost(navController = navController, startDestination = HOME.route) {
         composable(HOME.route) {
             HomeScreen(homeViewModel, navController,mainModel)
+        }
+        composable(MY_DREAMS.route) {
+            MyDreamsScreen(mainModel)
         }
         composable(STEP_1.route) {
             DreamsAndAspirationsScreen(dreamsAndAspirationsViewModel, mainModel, homeViewModel, navController)

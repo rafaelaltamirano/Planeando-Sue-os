@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.components.TextDate
 import com.example.planeando_suenos.ui.screens.register.RegisterViewModel
 
 
@@ -97,15 +98,9 @@ fun DataRegisterStep(
             fontSize = 17.sp,
             text = stringResource(R.string.born_day)
         )
-        CustomTextField(
-            value = model.state.bornDay,
-            placeholder = R.string.date_example,
-            onValueChanged = model::setBornDay,
-            leadingIcon = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.gap4))
-        )
+        Spacer(modifier = Modifier.height(8.dp))
+        TextDate(onValueChanged = model::setBornDay)
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             color = Color.Black,
             textAlign = TextAlign.Start,

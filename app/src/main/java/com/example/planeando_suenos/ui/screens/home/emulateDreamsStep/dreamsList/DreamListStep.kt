@@ -1,35 +1,41 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.dreamsList
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.W600
-import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.text.font.FontWeight.Companion.W800
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColorInt
 import com.example.planeando_suenos.R
+import com.example.planeando_suenos.domain.body.smartShopping.Dream
+import com.example.planeando_suenos.ui.components.NestedMenu
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
-import com.example.planeando_suenos.ui.router.PublicRouterDir
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
-import com.example.planeando_suenos.ui.theme.*
+import com.example.planeando_suenos.ui.theme.Accent
+import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
+import com.example.planeando_suenos.ui.theme.GreenBusiness
+import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 
 @Composable
 fun DreamListStep(
@@ -37,15 +43,27 @@ fun DreamListStep(
     onSubmit: () -> Unit,
     model: EmulateDreamsViewModel,
     mainModel: MainViewModel,
+    onShowBottomSheet: () -> Unit,
 ) {
+    val state = model.state
+    val dreamId = "63bc8479d97880ed1b56f034"
+    //TODO: CHANGE
+//    val dreamId = mainModel.state.dreamId!!
+    val priority = model.state.prioritySelected
+    val expandedNested = remember { mutableStateOf(false) }
+    val position = remember { mutableStateOf(0) }
+
+
+    LaunchedEffect(Unit) {
+        model.getDream(dreamId, priority ?: "equal")
+    }
+
     Column(
         Modifier
             .fillMaxHeight()
             .verticalScroll(rememberScrollState())
     )
     {
-        TopBarWithText("Todos tus sueños al mismo tiempo")
-
         Column(
             Modifier
                 .padding(dimensionResource(R.dimen.gap4))
@@ -65,29 +83,191 @@ fun DreamListStep(
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier
-                    .clickable(onClick = { })
+                    .clickable(onClick = {
+                        onShowBottomSheet()
+                        model.setCancelOnNext(true)
+                    }),
             )
             Spacer(Modifier.height(24.dp))
-            DreamRow(
-                position = "1",
-                colors = TextCardGreen,
-                dreamTitle = "Comprar muebles nuevos",
-                dreamAmount = "246.33"
-            )
-            Spacer(modifier = Modifier.height(22.dp))
-            DreamRow(
-                position = "2",
-                colors = TextCardBlue,
-                dreamTitle = "Construir / Remodelar",
-                dreamAmount = "246.33"
-            )
-            Spacer(modifier = Modifier.height(22.dp))
-            DreamRow(
-                position = "3",
-                colors = TextCardYellow,
-                dreamTitle = "Línea blanca",
-                dreamAmount = "246.33"
-            )
+            if (model.state.loading) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .width(25.dp)
+                            .height(25.dp),
+                        color = Accent
+                    )
+                }
+            } else {
+                state.dreamWithUser?.dream?.forEachIndexed { index, dream ->
+                    Column {
+
+                        DreamRow(
+                            position = (index + 1).toString(),
+                            colors = dream.color,
+                            dreamTitle = dream.description,
+                            dreamAmount = dream.amount,
+                            dreamAmountNext = if (index == state.dreamWithUser.dream.lastIndex) state.dreamWithUser.dream[0].amount else state.dreamWithUser.dream[index + 1].amount,
+                            onSum = {
+                                if (index == state.dreamWithUser.dream.lastIndex) {
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = state.dreamWithUser.dream[0].description,
+                                            amount = state.dreamWithUser.dream[0].amount?.minus(10),
+                                            startDate = state.dreamWithUser.dream[0].startDate,
+                                            endDate = state.dreamWithUser.dream[0].endDate,
+                                            amountPlaned = state.dreamWithUser.dream[0].amountPlaned,
+                                            paymentQuantity = state.dreamWithUser.dream[0].paymentQuantity,
+                                            dreamType = state.dreamWithUser.dream[0].dreamType,
+                                            color = state.dreamWithUser.dream[0].color
+                                        ), 0
+                                    )
+
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = dream.description,
+                                            amount = dream.amount?.plus(10),
+                                            startDate = dream.startDate,
+                                            endDate = dream.endDate,
+                                            amountPlaned = dream.amountPlaned,
+                                            paymentQuantity = dream.paymentQuantity,
+                                            dreamType = dream.dreamType,
+                                            color = dream.color
+                                        ), index
+                                    )
+                                } else {
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = dream.description,
+                                            amount = dream.amount?.plus(10),
+                                            startDate = dream.startDate,
+                                            endDate = dream.endDate,
+                                            amountPlaned = dream.amountPlaned,
+                                            paymentQuantity = dream.paymentQuantity,
+                                            dreamType = dream.dreamType,
+                                            color = dream.color
+                                        ), index
+                                    )
+
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = state.dreamWithUser.dream[index + 1].description,
+                                            amount = state.dreamWithUser.dream[index + 1].amount?.minus(
+                                                10
+                                            ),
+                                            startDate = state.dreamWithUser.dream[index + 1].startDate,
+                                            endDate = state.dreamWithUser.dream[index + 1].endDate,
+                                            amountPlaned = state.dreamWithUser.dream[index + 1].amountPlaned,
+                                            paymentQuantity = state.dreamWithUser.dream[index + 1].paymentQuantity,
+                                            dreamType = state.dreamWithUser.dream[index + 1].dreamType,
+                                            color = state.dreamWithUser.dream[index + 1].color
+                                        ), index + 1
+                                    )
+                                }
+
+                            },
+                            onRest = {
+                                if (index == state.dreamWithUser.dream.lastIndex) {
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = state.dreamWithUser.dream[0].description,
+                                            amount = state.dreamWithUser.dream[0].amount?.plus(10),
+                                            startDate = state.dreamWithUser.dream[0].startDate,
+                                            endDate = state.dreamWithUser.dream[0].endDate,
+                                            amountPlaned = state.dreamWithUser.dream[0].amountPlaned,
+                                            paymentQuantity = state.dreamWithUser.dream[0].paymentQuantity,
+                                            dreamType = state.dreamWithUser.dream[0].dreamType,
+                                            color = state.dreamWithUser.dream[0].color
+                                        ), 0
+                                    )
+
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = dream.description,
+                                            amount = dream.amount?.minus(10),
+                                            startDate = dream.startDate,
+                                            endDate = dream.endDate,
+                                            amountPlaned = dream.amountPlaned,
+                                            paymentQuantity = dream.paymentQuantity,
+                                            dreamType = dream.dreamType,
+                                            color = dream.color
+                                        ), index
+                                    )
+
+                                } else {
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = dream.description,
+                                            amount = dream.amount?.minus(10),
+                                            startDate = dream.startDate,
+                                            endDate = dream.endDate,
+                                            amountPlaned = dream.amountPlaned,
+                                            paymentQuantity = dream.paymentQuantity,
+                                            dreamType = dream.dreamType,
+                                            color = dream.color
+                                        ), index
+                                    )
+                                    model.setNewDreamListUpdate(
+                                        Dream(
+                                            description = state.dreamWithUser.dream[index + 1].description,
+                                            amount = state.dreamWithUser.dream[index + 1].amount?.plus(
+                                                10
+                                            ),
+                                            startDate = state.dreamWithUser.dream[index + 1].startDate,
+                                            endDate = state.dreamWithUser.dream[index + 1].endDate,
+                                            amountPlaned = state.dreamWithUser.dream[index + 1].amountPlaned,
+                                            paymentQuantity = state.dreamWithUser.dream[index + 1].paymentQuantity,
+                                            dreamType = state.dreamWithUser.dream[index + 1].dreamType,
+                                            color = state.dreamWithUser.dream[index + 1].color
+                                        ), index + 1
+                                    )
+                                }
+                            },
+                            onLongPress = {
+                                expandedNested.value = true
+                                position.value = it.toInt() - 1
+                            }
+                        )
+                        if (position.value == index) {
+                            NestedMenu(
+                                expandedNested = expandedNested,
+                                position = index,
+                                lastPosition = state.dreamWithUser.dream.lastIndex,
+                                onUp = {
+                                    val aux =   state.dreamWithUser.dream[index]
+                                    model.setNewDreamListUpdate(
+                                        state.dreamWithUser.dream[index - 1],
+                                        index
+                                    )
+
+                                    model.setNewDreamListUpdate(
+                                        aux,
+                                       index - 1
+                                    )
+                                },
+                                onDown = {
+                                    val aux =   state.dreamWithUser.dream[index]
+                                    model.setNewDreamListUpdate(
+                                        state.dreamWithUser.dream[index +1],
+                                        index
+                                    )
+
+                                    model.setNewDreamListUpdate(
+                                        aux,
+                                        index + 1
+                                    )
+                                }
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(12.dp))
+                }
+            }
 
             Spacer(Modifier.height(32.dp))
             Row(
@@ -100,17 +280,34 @@ fun DreamListStep(
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.caption,
                     textAlign = TextAlign.Start,
-                    text = "Capacidad disponible",
+                    text = "Monto disponible",
                     fontSize = 12.sp,
                 )
-                Text(
-                    modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.caption,
-                    text = " \$ 739.40",
-                    textAlign = TextAlign.Start,
-                    fontWeight = W800,
-                    fontSize = 18.sp,
-                )
+
+                if (model.state.loading) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(6.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .width(6.dp)
+                                .height(6.dp),
+                            color = Accent
+                        )
+                    }
+                } else {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.caption,
+                        text = " \$ ${state.dreamWithUser?.userFinance?.paymentCapability}",
+                        textAlign = TextAlign.Start,
+                        fontWeight = W800,
+                        fontSize = 18.sp,
+                    )
+                }
             }
             Text(
                 modifier = Modifier.padding(vertical = 10.dp),
@@ -121,8 +318,9 @@ fun DreamListStep(
             )
             Spacer(Modifier.height(16.dp))
             SubmitButton(
-                text = "guardar plan",
-                onClick = onSubmit
+                loading = state.loading,
+                text = "ver calendario",
+                onClick = onNext
             )
             Spacer(Modifier.height(16.dp))
             Row(
@@ -131,12 +329,12 @@ fun DreamListStep(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    "Ver cronograma",
+                    "Guardar plan de sueños",
                     color = Accent,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
-                        .clickable(onClick =  onNext)
+                        .clickable(onClick = onSubmit)
                 )
             }
         }
@@ -147,10 +345,23 @@ fun DreamListStep(
 @Composable
 fun DreamRow(
     position: String,
-    colors: Color,
-    dreamTitle: String,
-    dreamAmount: String
+    colors: String? = null,
+    dreamTitle: String? = null,
+    dreamAmount: Float? = null,
+    onSum: () -> Unit,
+    onRest: () -> Unit,
+    onLongPress: (String) -> Unit,
+    dreamAmountNext: Float?,
+//    dreamAmountNext: Unit
 ) {
+    val color: Color
+    val colorString = colors ?: "0x00000000"
+    color = try {
+        Color(colorString.toColorInt())
+    } catch (e: Exception) {
+        GreenBusiness
+    }
+
 
 
     Row(
@@ -190,28 +401,35 @@ fun DreamRow(
                 .weight(80f)
                 .fillMaxHeight(),
             elevation = 0.dp,
-            backgroundColor = colors.copy(alpha = 0.2f),
+            backgroundColor = color.copy(alpha = 0.2f),
 
             ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp),
+                    .padding(start = 10.dp)
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = {
+                                onLongPress(position)
+                            }
+                        )
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Text(
-                    color = colors.copy(alpha = 1f),
+                    color = color.copy(alpha = 1f),
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.caption,
                     fontSize = 13.sp,
-                    text = dreamTitle
+                    text = dreamTitle ?: ""
                 )
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end=12.dp),
-                    color = colors.copy(alpha = 1f),
+                        .padding(end = 12.dp),
+                    color = color.copy(alpha = 1f),
                     textAlign = TextAlign.End,
                     style = MaterialTheme.typography.caption,
                     fontSize = 13.sp,
@@ -232,7 +450,10 @@ fun DreamRow(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .clickable {
+                        if (dreamAmount!!.minus(10f) >= 10f) onRest()
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -256,7 +477,10 @@ fun DreamRow(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .clickable {
+                        if (dreamAmountNext!!.minus(10f) >= 10f) onSum()
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -271,16 +495,5 @@ fun DreamRow(
         }
 
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun DreamRowPreview() {
-    DreamRow(
-        "1",
-        TextCardGreen,
-        "Comprar muebles nuevos",
-        "246.33"
-    )
 }
 

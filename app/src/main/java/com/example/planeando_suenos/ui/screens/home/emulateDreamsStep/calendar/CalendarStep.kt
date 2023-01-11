@@ -23,6 +23,7 @@ import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
+import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 
 private val first6Months = listOf("Ene", "Feb", "Mar", "Abr", "May", "Jun")
@@ -51,8 +52,6 @@ fun CalendarStep(
                 .verticalScroll(rememberScrollState())
         )
         {
-            TopBarWithText("Cronograma de pago")
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -180,17 +179,28 @@ fun CalendarPerYear(dreamCalendarItem: DreamCalendarItem) {
 
 @Composable
 private fun PaintMonths(item: DreamItem) {
+
     if (item.monthInit < 7) {
         RowMonthEneJunPaint(
             monthInit = item.monthInit,
             monthFinish = item.monthFinish,
-            color = Color(item.color.toColorInt())
+            color = try {
+                Color(item.color.toColorInt())
+            }
+            catch (e:Exception){
+                GreenBusiness
+            }
         )
     } else {
         RowMonthJulDicPaint(
             monthInit = item.monthInit,
             monthFinish = item.monthFinish,
-            color = Color(item.color.toColorInt())
+            color = try {
+                Color(item.color.toColorInt())
+            }
+            catch (e:Exception){
+                GreenBusiness
+            }
         )
     }
 }

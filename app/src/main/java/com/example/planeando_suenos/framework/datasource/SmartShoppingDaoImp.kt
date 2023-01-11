@@ -31,10 +31,10 @@ class SmartShoppingDaoImp @Inject constructor(
         ApiTools.validateResponseOrFail(res)
     }
 
-    override suspend fun getAllDreamsPlan(): DreamWithUser {
+    override suspend fun getAllDreamsPlan(): List<DreamWithUser> {
         val res = smartShoppingApi.getAllDreamsPlan()
         ApiTools.validateResponseOrFail(res)
-        return res.body()!!.toEntity()
+        return res.body()!!.data.map{it.toEntity()}
     }
 
     override suspend fun getDreamById(dreamId: String, priority: String): DreamWithUser {
