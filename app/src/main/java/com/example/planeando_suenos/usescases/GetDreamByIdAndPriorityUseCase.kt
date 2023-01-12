@@ -19,4 +19,9 @@ class GetDreamByIdAndPriorityUseCase @Inject constructor(private val smartShoppi
     suspend fun updateDream(dream: DreamPlan) {
         return smartShoppingDao.updateDreamPlan(dream)
     }
+
+    suspend fun sendDreamPlanEmail(dreamId: String) {
+        return smartShoppingDao.sendDreamPlanEmail(dreamId)
+    }
+
 }

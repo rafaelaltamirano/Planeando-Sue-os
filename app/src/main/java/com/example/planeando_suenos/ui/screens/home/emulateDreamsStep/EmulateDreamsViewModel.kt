@@ -67,6 +67,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(contentCreditSheet = contentCreditSheet)
     }
 
+    fun setDreamSendToEmail(status: Boolean) {
+        state = state.copy(sendToEmail = status)
+    }
+
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {
         val list = state.dreamWithUser?.dream?.toMutableList()
         list?.set(position, newDream)
@@ -111,11 +115,31 @@ class EmulateDreamsViewModel @Inject constructor(
 
         }
     }
+     suspend fun sendDreamPlanEmail() = viewModelScope.launch {
+        setLoading(true)
+        try {
+            withContext(Dispatchers.IO) {
+                getDreamByIdAndPriorityUseCase.sendDreamPlanEmail(state.dreamId)
+            }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+
+        }
+    }
+
+
 
     fun getDream(dreamId: String, priority: String) = viewModelScope.launch {
         setLoading(true)
         try {
-            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase.getDreamById(dreamId, priority) }.also {
+            withContext(Dispatchers.IO) {
+                getDreamByIdAndPriorityUseCase.getDreamById(
+                    dreamId,
+                    priority
+                )
+            }.also {
                 setDreamWithUser(it)
             }
         } catch (e: Exception) {
@@ -145,9 +169,5 @@ class EmulateDreamsViewModel @Inject constructor(
             }
         }
     }
-
-
-
-
 }
 

@@ -35,7 +35,6 @@ fun ReviewNumbersStep(
     navController: NavHostController
 ) {
     val dreamId = mainModel.state.dreamId
-//    val dreamId = "63bc8479d97880ed1b56f034"
     val priority = model.state.prioritySelected
 
     LaunchedEffect(Unit) {

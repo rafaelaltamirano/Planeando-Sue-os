@@ -112,7 +112,6 @@ fun HomeScreen(
             CardChecked(
                 checked = model.state.checkedStep2,
                 enable = model.state.checkedStep1,
-//                enable = true,
                 title = "Tus ingresos aproximados",
                 subTitle = "$ 1.600.00 semanales",
                 onClick = {
@@ -132,7 +131,6 @@ fun HomeScreen(
             CardChecked(
                 checked = model.state.checkedStep3,
                 enable = model.state.checkedStep1 && model.state.checkedStep2,
-//                enable = true,
                 title = "Tus egresos o gastos",
                 subTitle = "$ 861.40 semanales",
                 onClick = {
@@ -151,7 +149,8 @@ fun HomeScreen(
         }
         Row(verticalAlignment = Alignment.Bottom) {
             SubmitButton(
-                text = "emular sueños",
+                text ="emular sueños",
+                enabled =  model.state.checkedStep1 && model.state.checkedStep2 && model.state.checkedStep3,
                 onClick = { navController.navigate(UserRouterDir.EMULATE_DREAM.route) }
             )
         }

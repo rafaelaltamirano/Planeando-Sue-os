@@ -38,6 +38,8 @@ fun DreamsAndAspirationsScreen(
                 }
             }
         }
+        model.setChecked(false)
+        model.setStep(Step1Step.DREAMS_GRID)
     }
 
     LaunchedEffect(Unit){

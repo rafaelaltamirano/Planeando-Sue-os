@@ -3,6 +3,7 @@ package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -32,12 +33,11 @@ fun EmulateDreamsScreen(
 
     val state = model.state
     val dreamId = mainModel.state.dreamId
-//    val dreamId = "63bc8479d97880ed1b56f034"
     val coroutineScope = rememberCoroutineScope()
     val topBarTitle: String
     val bigFont: Boolean
 
-    dreamId?.let { model.setDreamId(it) }
+    LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) }}
 
     BackHandler(enabled = true) {
         if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.navigate(UserRouterDir.HOME.route) {
@@ -64,7 +64,7 @@ fun EmulateDreamsScreen(
         }
 
         EmulateDreamsStep.SAVE_DREAM -> {
-            topBarTitle = "Calendario de pago"
+            topBarTitle = "Guarda tu sueño"
             bigFont = false
         }
         else -> {
@@ -178,6 +178,7 @@ fun EmulateDreamsScreen(
                                     )
                                 )
                             }.invokeOnCompletion {
+                                if(state.sendToEmail) coroutineScope.launch { model.sendDreamPlanEmail()}
                                 model.setCategories(getCategoryList(dream = model.state.dreamWithUser?.dream))
                                 model.nextStep()
                                 model.setContentCreditSheet(true)

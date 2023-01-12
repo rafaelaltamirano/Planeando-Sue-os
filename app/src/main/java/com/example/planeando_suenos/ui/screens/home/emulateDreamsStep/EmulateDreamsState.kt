@@ -37,4 +37,5 @@ data class EmulateDreamsState(
     val dreamId: String = "",
     val dreamName: String = "",
     val contentCreditSheet: Boolean = false,
+    val sendToEmail: Boolean = false
 )

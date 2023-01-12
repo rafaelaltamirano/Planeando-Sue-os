@@ -29,4 +29,8 @@ interface SmartShoppingApi {
 
     @GET("v1.0/dreamPlan/calendar/{dreamPlanId}")
     suspend fun getDreamPlanCalendar(@Path("dreamPlanId") dreamPlanId: String): Response<CalendarResponse>
+
+    @POST("v1.0/dreamPlan/email/{dreamPlanId}")
+    suspend fun sendDreamPlanEmail(@Path("dreamPlanId") dreamPlanId: String): Response<ResponseWrapper<Boolean>>
+
 }
