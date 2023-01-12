@@ -1,6 +1,8 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.entities.Categories
@@ -37,5 +39,5 @@ data class EmulateDreamsState(
     val dreamId: String = "",
     val dreamName: String = "",
     val contentCreditSheet: Boolean = false,
-    val sendToEmail: Boolean = false
+    val sendToEmail: Boolean = false,
 )

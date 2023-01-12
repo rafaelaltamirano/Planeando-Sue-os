@@ -3,6 +3,7 @@ package com.example.planeando_suenos.ui.screens.register
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.entities.User
@@ -28,7 +29,7 @@ class RegisterViewModel @Inject constructor(
         private set
 
     fun setEmail(email: String) {
-        state = state.copy(email = email)
+        state = state.copy(email = email.lowercase())
     }
 
     fun setPassword(password: String) {
@@ -94,11 +95,12 @@ class RegisterViewModel @Inject constructor(
         passThree(registerCase.validatePassThree(password))
     }
 
-    fun validateEmail(email: String) {
-         try {
-             registerCase.isEmailValidOrFail(email)
+    fun validateEmail(email: String): Boolean {
+        return try {
+              registerCase.isEmailValidOrFail(email)
         } catch (e: Exception) {
             handleNetworkError(e)
+            false
         }
     }
 

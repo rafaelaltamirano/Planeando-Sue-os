@@ -14,11 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W800
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
@@ -27,14 +30,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
+import com.example.planeando_suenos.ui.components.CardType
 import com.example.planeando_suenos.ui.components.NestedMenu
+import com.example.planeando_suenos.ui.components.ResizeText
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
-import com.example.planeando_suenos.ui.theme.Accent
-import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
-import com.example.planeando_suenos.ui.theme.GreenBusiness
-import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
+import com.example.planeando_suenos.ui.theme.*
 
 @Composable
 fun DreamListStep(
@@ -50,7 +52,7 @@ fun DreamListStep(
     val expandedNested = remember { mutableStateOf(false) }
     val position = remember { mutableStateOf(0) }
 
-    LaunchedEffect(Unit) {
+        LaunchedEffect(Unit) {
         dreamId?.let { model.getDream(dreamId, priority ?: "") }
     }
 
@@ -107,17 +109,18 @@ fun DreamListStep(
                             position = (index + 1).toString(),
                             colors = dream.color,
                             dreamTitle = dream.description,
-                            dreamAmount = dream.amount,
+                            dreamAmount = dream.amountPlaned,
                             dreamAmountNext = if (index == state.dreamWithUser.dream.lastIndex) state.dreamWithUser.dream[0].amount else state.dreamWithUser.dream[index + 1].amount,
                             onSum = {
+                                model.setPriority("")
                                 if (index == state.dreamWithUser.dream.lastIndex) {
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = state.dreamWithUser.dream[0].description,
-                                            amount = state.dreamWithUser.dream[0].amount?.minus(10),
+                                            amount = state.dreamWithUser.dream[0].amount,
                                             startDate = state.dreamWithUser.dream[0].startDate,
                                             endDate = state.dreamWithUser.dream[0].endDate,
-                                            amountPlaned = state.dreamWithUser.dream[0].amountPlaned,
+                                            amountPlaned = state.dreamWithUser.dream[0].amountPlaned?.minus(10),
                                             paymentQuantity = state.dreamWithUser.dream[0].paymentQuantity,
                                             dreamType = state.dreamWithUser.dream[0].dreamType,
                                             color = state.dreamWithUser.dream[0].color
@@ -127,10 +130,10 @@ fun DreamListStep(
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = dream.description,
-                                            amount = dream.amount?.plus(10),
+                                            amount = dream.amount,
                                             startDate = dream.startDate,
                                             endDate = dream.endDate,
-                                            amountPlaned = dream.amountPlaned,
+                                            amountPlaned = dream.amountPlaned?.plus(10),
                                             paymentQuantity = dream.paymentQuantity,
                                             dreamType = dream.dreamType,
                                             color = dream.color
@@ -140,10 +143,10 @@ fun DreamListStep(
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = dream.description,
-                                            amount = dream.amount?.plus(10),
+                                            amount = dream.amount,
                                             startDate = dream.startDate,
                                             endDate = dream.endDate,
-                                            amountPlaned = dream.amountPlaned,
+                                            amountPlaned = dream.amountPlaned?.plus(10),
                                             paymentQuantity = dream.paymentQuantity,
                                             dreamType = dream.dreamType,
                                             color = dream.color
@@ -153,12 +156,12 @@ fun DreamListStep(
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = state.dreamWithUser.dream[index + 1].description,
-                                            amount = state.dreamWithUser.dream[index + 1].amount?.minus(
-                                                10
-                                            ),
+                                            amount = state.dreamWithUser.dream[index + 1].amount,
                                             startDate = state.dreamWithUser.dream[index + 1].startDate,
                                             endDate = state.dreamWithUser.dream[index + 1].endDate,
-                                            amountPlaned = state.dreamWithUser.dream[index + 1].amountPlaned,
+                                            amountPlaned = state.dreamWithUser.dream[index + 1].amountPlaned?.minus(
+                                                10
+                                            ),
                                             paymentQuantity = state.dreamWithUser.dream[index + 1].paymentQuantity,
                                             dreamType = state.dreamWithUser.dream[index + 1].dreamType,
                                             color = state.dreamWithUser.dream[index + 1].color
@@ -168,14 +171,15 @@ fun DreamListStep(
 
                             },
                             onRest = {
+                                model.setPriority("")
                                 if (index == state.dreamWithUser.dream.lastIndex) {
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = state.dreamWithUser.dream[0].description,
-                                            amount = state.dreamWithUser.dream[0].amount?.plus(10),
+                                            amount = state.dreamWithUser.dream[0].amount,
                                             startDate = state.dreamWithUser.dream[0].startDate,
                                             endDate = state.dreamWithUser.dream[0].endDate,
-                                            amountPlaned = state.dreamWithUser.dream[0].amountPlaned,
+                                            amountPlaned = state.dreamWithUser.dream[0].amountPlaned?.plus(10),
                                             paymentQuantity = state.dreamWithUser.dream[0].paymentQuantity,
                                             dreamType = state.dreamWithUser.dream[0].dreamType,
                                             color = state.dreamWithUser.dream[0].color
@@ -185,10 +189,10 @@ fun DreamListStep(
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = dream.description,
-                                            amount = dream.amount?.minus(10),
+                                            amount = dream.amount,
                                             startDate = dream.startDate,
                                             endDate = dream.endDate,
-                                            amountPlaned = dream.amountPlaned,
+                                            amountPlaned = dream.amountPlaned?.minus(10),
                                             paymentQuantity = dream.paymentQuantity,
                                             dreamType = dream.dreamType,
                                             color = dream.color
@@ -199,10 +203,10 @@ fun DreamListStep(
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = dream.description,
-                                            amount = dream.amount?.minus(10),
+                                            amount = dream.amount,
                                             startDate = dream.startDate,
                                             endDate = dream.endDate,
-                                            amountPlaned = dream.amountPlaned,
+                                            amountPlaned = dream.amountPlaned?.minus(10),
                                             paymentQuantity = dream.paymentQuantity,
                                             dreamType = dream.dreamType,
                                             color = dream.color
@@ -211,12 +215,10 @@ fun DreamListStep(
                                     model.setNewDreamListUpdate(
                                         Dream(
                                             description = state.dreamWithUser.dream[index + 1].description,
-                                            amount = state.dreamWithUser.dream[index + 1].amount?.plus(
-                                                10
-                                            ),
+                                            amount = state.dreamWithUser.dream[index + 1].amount,
                                             startDate = state.dreamWithUser.dream[index + 1].startDate,
                                             endDate = state.dreamWithUser.dream[index + 1].endDate,
-                                            amountPlaned = state.dreamWithUser.dream[index + 1].amountPlaned,
+                                            amountPlaned = state.dreamWithUser.dream[index + 1].amountPlaned?.plus(10),
                                             paymentQuantity = state.dreamWithUser.dream[index + 1].paymentQuantity,
                                             dreamType = state.dreamWithUser.dream[index + 1].dreamType,
                                             color = state.dreamWithUser.dream[index + 1].color
@@ -235,6 +237,7 @@ fun DreamListStep(
                                 position = index,
                                 lastPosition = state.dreamWithUser.dream.lastIndex,
                                 onUp = {
+                                    model.setPriority("")
                                     val aux = state.dreamWithUser.dream[index]
                                     model.setNewDreamListUpdate(
                                         state.dreamWithUser.dream[index - 1],
@@ -247,6 +250,7 @@ fun DreamListStep(
                                     )
                                 },
                                 onDown = {
+                                    model.setPriority("")
                                     val aux = state.dreamWithUser.dream[index]
                                     model.setNewDreamListUpdate(
                                         state.dreamWithUser.dream[index + 1],
@@ -347,8 +351,7 @@ fun DreamRow(
     onSum: () -> Unit,
     onRest: () -> Unit,
     onLongPress: (String) -> Unit,
-    dreamAmountNext: Float?,
-//    dreamAmountNext: Unit
+    dreamAmountNext: Float?
 ) {
     val color: Color
     val colorString = colors ?: "0x00000000"
@@ -357,8 +360,6 @@ fun DreamRow(
     } catch (e: Exception) {
         GreenBusiness
     }
-
-
 
     Row(
         modifier = Modifier
@@ -414,24 +415,30 @@ fun DreamRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Text(
-                    color = color.copy(alpha = 1f),
+
+                ResizeText(
+                    text = dreamTitle ?: "",
                     textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.caption,
-                    fontSize = 13.sp,
-                    text = dreamTitle ?: ""
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 12.dp),
+                    color =color.copy(alpha = 1f),
+                    style =  TextStyle(
+                        fontFamily = AvenirNext ,
+                        fontWeight = FontWeight.W600,
+                        fontSize = 10.sp,
+                    ),
+                    modifier = Modifier)
+
+                ResizeText(
+                    text = "\$$dreamAmount",
                     color = color.copy(alpha = 1f),
                     textAlign = TextAlign.End,
-                    style = MaterialTheme.typography.caption,
-                    fontSize = 13.sp,
-                    fontWeight = W900,
-                    text = "\$$dreamAmount"
-                )
+                    style =  TextStyle(
+                        fontFamily = AvenirNext ,
+                        fontWeight = W900,
+                        fontSize = 10.sp,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 12.dp))
             }
         }
         Card(

@@ -45,7 +45,7 @@ fun FrequencyExpensesStep(
             model.setEntertainmentExpense(mainModel.state.dreamEdit?.userFinance?.expenses?.hobby)
             model.setCreditAmount(mainModel.state.dreamEdit?.userFinance?.expenses?.loanOrCredit ?: 0f)
             model.setDreamId(mainModel.state.dreamEdit?.id ?: "")
-           model.setIncome(mainModel.state.dreamEdit?.userFinance?.income)
+            model.setIncome(mainModel.state.dreamEdit?.userFinance?.income)
             model.setEdited(true)
         }
     }

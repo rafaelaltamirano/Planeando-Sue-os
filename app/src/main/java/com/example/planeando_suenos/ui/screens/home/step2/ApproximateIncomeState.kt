@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home.step2
 
+import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 
@@ -29,5 +30,4 @@ data class ApproximateIncomeState(
     val additionalIncomes: Float? = null,
     val salaryType: String = "",
     val dreamId: String = "",
-    val dream: DreamPlan? = null,
 )

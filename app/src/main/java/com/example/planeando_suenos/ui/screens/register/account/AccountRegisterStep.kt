@@ -6,6 +6,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -18,12 +21,18 @@ import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.ValidatorMessage
 import com.example.planeando_suenos.ui.screens.register.RegisterViewModel
+import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 @Composable
 fun AccountRegisterStep(
     onNext: () -> Unit,
     model: RegisterViewModel,
 ) {
+
+    val coroutineScope = rememberCoroutineScope()
+    val state = model.state
+    val check = remember { mutableStateOf(false)}
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,6 +76,7 @@ fun AccountRegisterStep(
             value = model.state.password,
             placeholder = R.string.password,
             security = true,
+            onFocus = model::setPasswordError,
             leadingIcon = R.drawable.ic_lock,
             onValueChanged = model::setPassword,
             modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.gap4) )
@@ -88,20 +98,27 @@ fun AccountRegisterStep(
             placeholder = R.string.password,
             security = true,
             leadingIcon =R.drawable.ic_lock,
+            error =  model.state.passwordError,
+            onFocus = model::setPasswordError,
             onValueChanged = model::setRepeatPassword,
             modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.gap4) )
         )
 
         SubmitButton(
+            enabled = state.validCharacter == true && state.validCharacter == true && state.validNumber == true && state.email.isNotEmpty(),
             text = "Crear nueva cuenta".uppercase(),
             onClick = {
-               model.validateEmail(model.state.email)
-                if (model.state.emailError=="") {
-                    onNext()
-                }
+                     check.value = model.validateEmail(state.email)
+                    if (state.password == state.repeatPassword) {
+                        check.value = true
+                        model.setPasswordError("")
+                    } else {
+                        check.value = false
+                        model.setPasswordError("Las contraseñas no coinciden")
+                    }
+                     if (state.emailError== "" && state.passwordError == "" && check.value) onNext()
+
             }
         )
     }
-
-
 }

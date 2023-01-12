@@ -2,9 +2,8 @@ package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -36,6 +35,7 @@ fun EmulateDreamsScreen(
     val coroutineScope = rememberCoroutineScope()
     val topBarTitle: String
     val bigFont: Boolean
+    val prioritySelected = remember { mutableStateOf("")}
 
     LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) }}
 
@@ -76,10 +76,11 @@ fun EmulateDreamsScreen(
     BottomSheetDreamOptions(
         onNext = {
             model.setPriority(it)
+            prioritySelected.value = it
             if (state.cancelOnNext) {
                 coroutineScope.launch {
                     dreamId?.let {
-                        model.getDream(dreamId, state.prioritySelected ?: "")
+                        model.getDream(dreamId, prioritySelected.value)
                         model.setStep(EmulateDreamsStep.LIST)
                     }
                 }
@@ -96,7 +97,6 @@ fun EmulateDreamsScreen(
                     TopBarClearWithBack(title = topBarTitle,
                         bigFont = bigFont,
                         onBackPress = {
-                            model.setPriority(null)
                             model.setContentCreditSheet(false)
                             if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) {
                                 mainModel.setDreamEdit(null)
@@ -125,6 +125,7 @@ fun EmulateDreamsScreen(
                     onNext = { model.updateDreamAndGetCalendar() },
                     onSubmit = {
                         coroutineScope.launch {
+
                             model.updateDream(
                                 DreamPlan(
                                     title = state.dreamWithUser?.title,

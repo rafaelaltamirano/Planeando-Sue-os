@@ -4,10 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
-import com.example.planeando_suenos.domain.body.smartShopping.Expenses
-import com.example.planeando_suenos.domain.body.smartShopping.Income
-import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
+import com.example.planeando_suenos.domain.body.smartShopping.*
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.ApproximateIncomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -103,7 +100,24 @@ class YourExpensesIncomeViewModel @Inject constructor(
                 ),
                 income = state.income
             ),
+        )
+    }
 
+    fun getDreamObjectWithAllData(dreamList:List<Dream>?): DreamPlan {
+        return  DreamPlan(
+            id = state.dreamId,
+            userFinance = UserFinance(
+                expenses = Expenses(
+                    home = state.homeExpense,
+                    transport = state.transportExpense,
+                    education = state.educationInversion,
+                    hobby = state.entertainmentExpense,
+                    loanOrCredit = state.creditAmount,
+                    loanOrCreditPaymentDate = state.creditEndDate
+                ),
+                income = state.income
+            ),
+            dream = dreamList
         )
     }
 

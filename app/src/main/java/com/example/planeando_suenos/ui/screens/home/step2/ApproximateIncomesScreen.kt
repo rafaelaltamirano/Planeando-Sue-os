@@ -111,9 +111,10 @@ fun ApproximateIncomesScreen(
                 onSubmit = {
                     coroutineScope.launch {
                         if (mainModel.state.dreamEdit != null)
-                            model.updateDream(model.getDreamObjectWithExpenses(
+                            model.updateDream(model.getDreamObjectWithAllData(
                                 mainModel.state.dreamEdit?.userFinance?.expenses!!,
-                                mainModel.state.dreamEdit?.userFinance?.paymentCapability!!
+                                mainModel.state.dreamEdit?.userFinance?.paymentCapability!!,
+                                mainModel.state.dreamEdit?.dream
                             ))
                         else model.updateDream(model.getDreamObject())
                     }

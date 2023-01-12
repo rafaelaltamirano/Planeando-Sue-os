@@ -6,10 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
-import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
-import com.example.planeando_suenos.domain.body.smartShopping.Expenses
-import com.example.planeando_suenos.domain.body.smartShopping.Income
-import com.example.planeando_suenos.domain.body.smartShopping.UserFinance
+import com.example.planeando_suenos.domain.body.smartShopping.*
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.ApproximateIncomeUseCase
@@ -75,10 +72,6 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(dreamId = dreamId)
     }
 
-    fun setDream(dream: DreamPlan) {
-        state = state.copy(dream = dream)
-    }
-
     fun getIncomeObject(): Income {
     return Income(
         type = state.salaryType,
@@ -108,7 +101,7 @@ class ApproximateIncomesViewModel @Inject constructor(
     }
 
 
-    fun getDreamObjectWithExpenses(expenses: Expenses,paymentCapability: Float): DreamPlan {
+    fun getDreamObjectWithAllData(expenses: Expenses,paymentCapability: Float,dreamList: List<Dream>?): DreamPlan {
         return  DreamPlan(
             id = state.dreamId,
             userFinance = UserFinance(
@@ -116,6 +109,7 @@ class ApproximateIncomesViewModel @Inject constructor(
                 expenses = expenses,
                 paymentCapability = paymentCapability
             ),
+            dream = dreamList
         )
     }
 
@@ -133,5 +127,6 @@ class ApproximateIncomesViewModel @Inject constructor(
 
         }
     }
+
 
 }

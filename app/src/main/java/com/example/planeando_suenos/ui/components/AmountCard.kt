@@ -22,7 +22,7 @@ import com.example.planeando_suenos.ui.theme.*
 enum class CardType(val value: String) {
     INCOMES("Tus ingresos"),
     EXPENSES("Tus egresos y gastos"),
-    CAPACITY_DREAM("Tu capacidad disponible para cumplir sueños")
+    CAPACITY_DREAM("Tu monto disponible \npara cumplir sueños")
 }
 
 @Composable
@@ -31,7 +31,7 @@ fun AmountCard(
     amount: String? = null,
     onClick: () -> Unit,
 ) {
-    val backgroundColor = if ( type == CardType.CAPACITY_DREAM ) Accent else Color.Transparent
+    val backgroundColor = if (type == CardType.CAPACITY_DREAM) Accent else Color.Transparent
     val simbol = when (type) {
         CardType.INCOMES -> ""
         CardType.EXPENSES -> "_"
@@ -57,38 +57,48 @@ fun AmountCard(
         ) {
             Column(
                 Modifier
-                    .weight(0.8f)
+                    .weight(1f)
                     .padding(start = 14.dp, top = 14.dp, bottom = 6.dp),
                 verticalArrangement = Arrangement.Center
             ) {
-                ResizeText(
-                    text = type.value,
-                    color = if ( type == CardType.CAPACITY_DREAM ) BackgroundCard else TextColorUncheckedItemDreamGrid,
-                    style =  TextStyle(
-                        fontFamily = AvenirNext ,
-                        fontWeight = FontWeight.W400,
+                if (type == CardType.CAPACITY_DREAM) {
+                    Text(
+                        style = MaterialTheme.typography.caption,
+                        text = type.value,
                         fontSize = 12.sp,
-                    ),
-                    modifier = Modifier)
-
+                        fontWeight = FontWeight.W400,
+                        color = BackgroundCard
+                    )
+                } else {
+                    ResizeText(
+                        text = type.value,
+                        color = TextColorUncheckedItemDreamGrid,
+                        style = TextStyle(
+                            fontFamily = AvenirNext,
+                            fontWeight = FontWeight.W400,
+                            fontSize = 15.sp,
+                        ),
+                        modifier = Modifier
+                    )
+                }
                 Text(
                     modifier = Modifier.padding(top = 2.dp),
                     style = MaterialTheme.typography.caption,
-                    text = if ( type != CardType.CAPACITY_DREAM )  "Editar" else "",
+                    text = if (type != CardType.CAPACITY_DREAM) "Editar" else "",
                     color = Accent,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W700,
                 )
             }
             Row(
-                modifier = Modifier.weight(1.2f),
+                modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     modifier = Modifier
                         .padding(end = 8.dp),
-                    color = if ( type == CardType.CAPACITY_DREAM )  BackgroundCard else GreenBusiness,
+                    color = if (type == CardType.CAPACITY_DREAM) BackgroundCard else GreenBusiness,
                     style = MaterialTheme.typography.caption,
                     text = simbol,
                     fontSize = 18.sp,
@@ -100,7 +110,7 @@ fun AmountCard(
                         verticalAlignment = Alignment.Bottom
                     ) {
                         Text(
-                            color = if ( type == CardType.CAPACITY_DREAM )  BackgroundCard else GreenBusiness,
+                            color = if (type == CardType.CAPACITY_DREAM) BackgroundCard else GreenBusiness,
                             style = MaterialTheme.typography.caption,
                             text = "$",
                             fontSize = 18.sp,
@@ -112,13 +122,14 @@ fun AmountCard(
                 amount?.let {
                     ResizeText(
                         text = "$amount",
-                        color = if ( type == CardType.CAPACITY_DREAM )  BackgroundCard else GreenBusiness,
-                        style =  TextStyle(
-                            fontFamily = AvenirNext ,
+                        color = if (type == CardType.CAPACITY_DREAM) BackgroundCard else GreenBusiness,
+                        style = TextStyle(
+                            fontFamily = AvenirNext,
                             fontWeight = FontWeight.W700,
                             fontSize = 24.sp,
                         ),
-                        modifier = Modifier)
+                        modifier = Modifier
+                    )
                 }
             }
         }

@@ -117,7 +117,13 @@ fun YourExpensesScreen(
             Step3Step.CREDIT_AMOUNT -> CreditAmountStep(
                 model = model,
                 onNext = {
-                    coroutineScope.launch { model.updateDream(model.getDreamObject()) }
+
+                    coroutineScope.launch {
+                        if (mainModel.state.dreamEdit != null) {
+                            model.updateDream(model.getDreamObjectWithAllData(mainModel.state.dreamEdit?.dream))
+                        }
+                        else model.updateDream(model.getDreamObject())
+                    }
                 },
             )
         }

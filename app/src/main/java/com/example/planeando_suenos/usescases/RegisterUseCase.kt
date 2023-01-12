@@ -22,7 +22,7 @@ class RegisterUseCase @Inject constructor(
         return fieldValidator.isPasswordValidOrFailThree(text)
     }
 
-    fun isEmailValidOrFail(text: String) {
+    fun isEmailValidOrFail(text: String):Boolean {
         return fieldValidator.isEmailValidOrFail(text)
     }
 

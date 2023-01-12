@@ -164,7 +164,7 @@ class EmulateDreamsViewModel @Inject constructor(
                 id = state.dreamWithUser?.id
             )
         ).invokeOnCompletion {
-            getDream(state.dreamId, "").invokeOnCompletion {
+            getDream(state.dreamId, state.prioritySelected ?: "").invokeOnCompletion {
                 nextStep()
             }
         }

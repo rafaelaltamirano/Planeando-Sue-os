@@ -26,6 +26,8 @@ fun DataRegisterStep(
     onSubmit: () -> Unit,
     model: RegisterViewModel
 ) {
+
+    val state = model.state
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,7 +53,7 @@ fun DataRegisterStep(
             text = stringResource(R.string.name)
         )
         CustomTextField(
-            value = model.state.name,
+            value = state.name,
             placeholder = R.string.name_example,
             onValueChanged = model::setName,
             leadingIcon = null,
@@ -67,7 +69,7 @@ fun DataRegisterStep(
             text = stringResource(R.string.father_surname)
         )
         CustomTextField(
-            value = model.state.surname,
+            value = state.surname,
             placeholder = R.string.surname_example,
             leadingIcon = null,
             onValueChanged = model::setSurname,
@@ -83,7 +85,7 @@ fun DataRegisterStep(
             text = stringResource(R.string.mother_surname)
         )
         CustomTextField(
-            value = model.state.motherSurname,
+            value = state.motherSurname,
             placeholder = R.string.optional,
             onValueChanged = model::setMotherName,
             leadingIcon = null,
@@ -100,7 +102,7 @@ fun DataRegisterStep(
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextDate(onValueChanged = model::setBornDay)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Text(
             color = Color.Black,
             textAlign = TextAlign.Start,
@@ -109,7 +111,7 @@ fun DataRegisterStep(
             text = stringResource(R.string.phone)
         )
         CustomTextField(
-            value = model.state.phone,
+            value = state.phone,
             placeholder = R.string.phone_example,
             onValueChanged = model::setPhone,
             leadingIcon = null,
@@ -125,7 +127,7 @@ fun DataRegisterStep(
             text = stringResource(R.string.pc_address)
         )
         CustomTextField(
-            value = model.state.cp,
+            value = state.cp,
             placeholder = R.string.address_example,
             onValueChanged = model::setCp,
             onDone = true,
@@ -135,6 +137,7 @@ fun DataRegisterStep(
                 .padding(vertical = dimensionResource(R.dimen.gap4))
         )
         SubmitButton(
+            enabled = state.name!= "" && state.surname!= "" && state.motherSurname!= "" && state.phone!= "" && state.cp!= "" && state.bornDay != "",
             text = stringResource(R.string.continue_),
             onClick = { onSubmit() }
         )

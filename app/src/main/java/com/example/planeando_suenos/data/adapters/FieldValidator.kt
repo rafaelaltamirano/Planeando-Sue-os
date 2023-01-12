@@ -8,5 +8,5 @@ interface FieldValidator {
     fun isPasswordValidOrFailTwo(field: String):Boolean
     fun isPasswordValidOrFailThree(field: String):Boolean
     @Throws(FieldInvalidException::class)
-    fun isEmailValidOrFail(field: String)
+    fun isEmailValidOrFail(field: String): Boolean
 }
