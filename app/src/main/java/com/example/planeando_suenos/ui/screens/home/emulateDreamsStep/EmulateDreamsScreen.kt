@@ -35,9 +35,9 @@ fun EmulateDreamsScreen(
     val coroutineScope = rememberCoroutineScope()
     val topBarTitle: String
     val bigFont: Boolean
-    val prioritySelected = remember { mutableStateOf("")}
+    val prioritySelected = remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) }}
+    LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) } }
 
     BackHandler(enabled = true) {
         if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.navigate(UserRouterDir.HOME.route) {
@@ -55,7 +55,12 @@ fun EmulateDreamsScreen(
             bigFont = true
         }
         EmulateDreamsStep.LIST -> {
-            topBarTitle = "Todos tus sueños al mismo tiempo"
+            topBarTitle = when (state.prioritySelected) {
+                "biggest" -> { "Tu sueño mas grande primero" }
+                "lowest" -> { "Tu sueño mas pequeño primero" }
+                "equal" -> { "Todos tus sueños al mismo tiempo" }
+                 else -> { "Sueños ordenados a su gusto" }
+            }
             bigFont = false
         }
         EmulateDreamsStep.CALENDAR -> {
@@ -179,7 +184,7 @@ fun EmulateDreamsScreen(
                                     )
                                 )
                             }.invokeOnCompletion {
-                                if(state.sendToEmail) coroutineScope.launch { model.sendDreamPlanEmail()}
+                                if (state.sendToEmail) coroutineScope.launch { model.sendDreamPlanEmail() }
                                 model.setCategories(getCategoryList(dream = model.state.dreamWithUser?.dream))
                                 model.nextStep()
                                 model.setContentCreditSheet(true)
