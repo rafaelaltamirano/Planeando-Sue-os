@@ -23,10 +23,6 @@ class DreamsAndAspirationsViewModel @Inject constructor(
     var state by mutableStateOf(DreamsAndAspirationsState())
         private set
 
-//    init {
-//        getDreamType()
-//    }
-
     fun setStep(step: Step1Step) {
         state = state.copy(step = step)
     }

@@ -7,6 +7,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +43,9 @@ fun LoginScreen(
     model: LoginViewModel,
     navController: NavController
 ) {
+
+    val state = model.state
+    val checkEmail = remember { mutableStateOf(false) }
     val configuration = LocalConfiguration.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -91,6 +96,8 @@ fun LoginScreen(
                 placeholder = R.string.email_example,
                 leadingIcon = R.drawable.ic_arrouba,
                 onValueChanged = model::setEmail,
+                onFocus = model::setEmailError,
+                error = model.state.emailError,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.gap4))
@@ -129,7 +136,9 @@ fun LoginScreen(
                 text = stringResource(R.string.log_in),
                 enabled = model.state.password!="" && model.state.email!="",
                 loading = model.state.loading,
-                onClick = { coroutineScope.launch { model.login() } })
+                onClick = {
+                    checkEmail.value = model.validateEmail(state.email)
+                    if (checkEmail.value) coroutineScope.launch { model.login() } })
 
 
             Column(

@@ -77,6 +77,26 @@ class RegisterViewModel @Inject constructor(
         setStep(state.step.prev())
     }
 
+    private fun setLoading(loading: Boolean) {
+        state = state.copy(loading = loading)
+    }
+
+    private fun setId(id: String) {
+        state = state.copy(id = id)
+    }
+
+    private fun setLogin(login: Login) {
+        state = state.copy(login = login)
+    }
+
+    fun setEmailError(emailError: String = "") {
+        state = state.copy(emailError = emailError)
+    }
+
+    fun setPasswordError(passwordError: String = "") {
+        state = state.copy(passwordError = passwordError)
+    }
+
     fun passOne(condition: Boolean) {
         state = state.copy(validCharacter = condition)
     }
@@ -97,36 +117,11 @@ class RegisterViewModel @Inject constructor(
 
     fun validateEmail(email: String): Boolean {
         return try {
-              registerCase.isEmailValidOrFail(email)
+            registerCase.isEmailValidOrFail(email)
         } catch (e: Exception) {
             handleNetworkError(e)
             false
         }
-    }
-
-    private fun setLoading(loading: Boolean) {
-        state = state.copy(loading = loading)
-    }
-
-    private fun setId(id: String) {
-        state = state.copy(id = id)
-    }
-
-
-    private fun setToken(token: String) {
-        state = state.copy(token = token)
-    }
-
-    private fun setLogin(login: Login) {
-        state = state.copy(login = login)
-    }
-
-    fun setEmailError(emailError: String = "") {
-        state = state.copy(emailError = emailError)
-    }
-
-    fun setPasswordError(passwordError: String = "") {
-        state = state.copy(passwordError = passwordError)
     }
 
     suspend fun registerUser() = viewModelScope.launch {

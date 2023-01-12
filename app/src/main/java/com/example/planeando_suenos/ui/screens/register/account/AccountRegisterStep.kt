@@ -30,7 +30,6 @@ fun AccountRegisterStep(
     model: RegisterViewModel,
 ) {
 
-    val coroutineScope = rememberCoroutineScope()
     val state = model.state
     val check = remember { mutableStateOf(false)}
     Column(

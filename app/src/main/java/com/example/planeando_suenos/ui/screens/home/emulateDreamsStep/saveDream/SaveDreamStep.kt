@@ -80,6 +80,7 @@ fun SaveDreamStep(
         SubmitButton(
             text = "guardar",
             enabled = model.state.dreamName!= "",
+            loading = model.state.loading,
             onClick =  onNext,
             modifier = Modifier
                 .fillMaxWidth()

@@ -48,6 +48,15 @@ class LoginViewModel @Inject constructor(
         state = state.copy(login = login)
     }
 
+    fun validateEmail(email: String): Boolean {
+        return try {
+            loginUseCase.isEmailValidOrFail(email)
+        } catch (e: Exception) {
+            handleNetworkError(e)
+            false
+        }
+    }
+
     suspend fun login() = viewModelScope.launch {
         setLoading(true)
         try {

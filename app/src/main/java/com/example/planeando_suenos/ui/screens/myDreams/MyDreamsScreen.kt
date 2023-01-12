@@ -16,7 +16,7 @@ import com.example.planeando_suenos.ui.router.UserRouterDir
 
 @Composable
 fun MyDreamsScreen(mainModel: MainViewModel, navController: NavHostController) {
-    var dreamList = mainModel.state.dreamWithUser
+    val dreamList = mainModel.state.dreamWithUser
     Column {
         TopBarClearWithBack(
             title = "Mis planes guardados",
