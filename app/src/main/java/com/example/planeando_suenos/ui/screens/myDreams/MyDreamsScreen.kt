@@ -16,7 +16,7 @@ import com.example.planeando_suenos.ui.router.UserRouterDir
 
 @Composable
 fun MyDreamsScreen(mainModel: MainViewModel, navController: NavHostController) {
-    val dreamList = mainModel.state.dreamWithUser
+    var dreamList = mainModel.state.dreamWithUser
     Column {
         TopBarClearWithBack(
             title = "Mis planes guardados",
@@ -30,11 +30,13 @@ fun MyDreamsScreen(mainModel: MainViewModel, navController: NavHostController) {
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = dimensionResource(id = R.dimen.gap4))
         ) {
-            dreamList?.forEach {
-                CardTextDetail(title = it.title, onPress = {
-                    mainModel.setDreamId(it.id)
-                    navController.navigate(UserRouterDir.EMULATE_DREAM.route)
-                })
+            dreamList?.map {
+                if (!it.title.isNullOrEmpty()) {
+                    CardTextDetail(title = it.title, onPress = {
+                        mainModel.setDreamId(it.id)
+                        navController.navigate(UserRouterDir.EMULATE_DREAM.route)
+                    })
+                }
             }
         }
     }
