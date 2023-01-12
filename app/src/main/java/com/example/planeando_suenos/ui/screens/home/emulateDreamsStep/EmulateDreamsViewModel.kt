@@ -63,6 +63,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(dreamName = dreamName)
     }
 
+    fun setDreamSendToEmail(status: Boolean) {
+        state = state.copy(sendToEmail = status)
+    }
+
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {
         val list = state.dreamWithUser?.dream?.toMutableList()
         list?.set(position, newDream)
