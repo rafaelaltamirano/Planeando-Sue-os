@@ -8,9 +8,6 @@ import java.util.*
 
 fun getWeeksFromDates(startDate:String?, endDate:String?): Int {
     if(startDate==null && endDate==null )return 0
-    val dateFormatter =  SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-//    val from = dateFormatter.parse(startDate)
-//    val to = dateFormatter.parse(endDate)
     val from = startDate?.toDate()
     val to = endDate?.toDate()
     val mDifference = kotlin.math.abs((from?.time ?: 0) - (to?.time ?: 0))

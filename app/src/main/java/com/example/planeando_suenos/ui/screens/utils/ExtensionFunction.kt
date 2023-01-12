@@ -5,7 +5,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Date.convertDateToFormat(pattern:String): String {
+fun Date.convertDateToFormat(pattern: String): String {
 
     val formatter = SimpleDateFormat(pattern, Locale.getDefault())
 
@@ -28,7 +28,7 @@ fun String.toDateString(pattern: String = "dd/MM/yyyy"): String {
 }
 
 fun String.toDate(): Date? {
-    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.getDefault())
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
     return sdf.parse(this)
 
 }

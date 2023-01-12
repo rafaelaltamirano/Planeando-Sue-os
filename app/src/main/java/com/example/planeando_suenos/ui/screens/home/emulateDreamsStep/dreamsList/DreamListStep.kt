@@ -29,7 +29,6 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.ui.components.NestedMenu
 import com.example.planeando_suenos.ui.components.SubmitButton
-import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.Accent
@@ -48,14 +47,13 @@ fun DreamListStep(
     val state = model.state
 //    val dreamId = "63bc8479d97880ed1b56f034"
     //TODO: CHANGE
-    val dreamId = mainModel.state.dreamId!!
+    val dreamId = mainModel.state.dreamId
     val priority = model.state.prioritySelected
     val expandedNested = remember { mutableStateOf(false) }
     val position = remember { mutableStateOf(0) }
 
-
     LaunchedEffect(Unit) {
-        model.getDream(dreamId, priority ?: "")
+        dreamId?.let { model.getDream(dreamId, priority ?: "") }
     }
 
     Column(
@@ -239,7 +237,7 @@ fun DreamListStep(
                                 position = index,
                                 lastPosition = state.dreamWithUser.dream.lastIndex,
                                 onUp = {
-                                    val aux =   state.dreamWithUser.dream[index]
+                                    val aux = state.dreamWithUser.dream[index]
                                     model.setNewDreamListUpdate(
                                         state.dreamWithUser.dream[index - 1],
                                         index
@@ -247,13 +245,13 @@ fun DreamListStep(
 
                                     model.setNewDreamListUpdate(
                                         aux,
-                                       index - 1
+                                        index - 1
                                     )
                                 },
                                 onDown = {
-                                    val aux =   state.dreamWithUser.dream[index]
+                                    val aux = state.dreamWithUser.dream[index]
                                     model.setNewDreamListUpdate(
-                                        state.dreamWithUser.dream[index +1],
+                                        state.dreamWithUser.dream[index + 1],
                                         index
                                     )
 

@@ -44,7 +44,6 @@ fun DreamsAndAspirationsScreen(
         model.getDreamType()
     }
 
-
     model.status?.also {
         val (status, _) = it
         when (status) {
@@ -87,10 +86,7 @@ fun DreamsAndAspirationsScreen(
             ) {
                 coroutineScope.launch {
                     model.submitDream()
-
-
                 }
-
             }
         }
     }

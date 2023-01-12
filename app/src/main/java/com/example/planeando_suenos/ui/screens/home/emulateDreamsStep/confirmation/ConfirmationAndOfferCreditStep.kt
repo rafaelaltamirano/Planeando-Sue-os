@@ -21,33 +21,18 @@ import com.example.planeando_suenos.ui.components.DreamPromotionCardItem
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithCheck
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
+import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.ui.theme.*
+import java.util.*
 
-
-enum class DreamCategories(val type: String) {
-    CASH("efectivo"),
-    HOME("hogar"),
-    MOBILITY("movilidad"),
-    CONNECTIVITY("conectividad")
-}
 
 @Composable
-fun ConfirmationAndOfferCreditStep(onClick: () -> Unit, model: EmulateDreamsViewModel) {
+fun ConfirmationAndOfferCreditStep(onClick: () -> Unit,
+                                   onSubmit: () -> Unit,
+                                   model: EmulateDreamsViewModel) {
 
 
-//    val group = model.state.dreamWithUser?.dream?.groupBy { dream -> dream.dreamType?.category }
-//
-//    val categories = remember { mutableStateListOf<Categories>() }
-//
-//    group?.map { (category, dream) ->
-//        val title = category?.title
-//        val totalAmountPlaned = dream.mapNotNull { it.amountPlaned }.sum()
-//        val percentage = category?.interestRatePercentage
-//        val weeks = dream.map {getWeeksFromDates(it.startDate,it.endDate)}.maxOrNull()
-//        categories.add(Categories(title, totalAmountPlaned, weeks, percentage))
-//    }
-
-//    Log.d("TAG", categories.forEach { it.toString() }.toString())
+    val dateTimeToday = Calendar.getInstance().time.convertDateToFormat("dd MMM yyyy, hh:mm")
 
     Column(
         modifier = Modifier
@@ -73,9 +58,9 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit, model: EmulateDreamsView
                 color = Color.Black,
                 lineHeight = 33.sp
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "24 Dic 2022, 14:06",
+                text = dateTimeToday,
                 style = MaterialTheme.typography.subtitle1,
                 fontWeight = FontWeight.W400,
                 fontSize = 12.sp,
@@ -83,33 +68,14 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit, model: EmulateDreamsView
             )
             Spacer(modifier = Modifier.height(27.dp))
 
-            DreamPromotionCardItem(
-                painter = painterResource(id = R.drawable.cat_hogar),
-                topGradientColor = TopGreenGradient,
-                bottomGradientColor = BottomGreenGradient
-            )
-            Spacer(modifier = Modifier.height(13.dp))
-            DreamPromotionCardItem(
-                topGradientColor = TopPurpleGradient,
-                bottomGradientColor = BottomPurpleGradient
-            )
-            Spacer(modifier = Modifier.height(13.dp))
-            DreamPromotionCardItem(
-                painter = painterResource(id = R.drawable.cat_conectividad),
-                topGradientColor = TopPinkGradient,
-                bottomGradientColor = BottomPinkGradient
-            )
-            Spacer(modifier = Modifier.height(13.dp))
-            DreamPromotionCardItem(
-                painter = painterResource(id = R.drawable.cat_movilidad),
-                topGradientColor = TopBlueGradient,
-                bottomGradientColor = BottomBlueGradient
-            )
+            model.state.categories.forEach {
+                DreamPromotionCardItem(category = it)
+                Spacer(modifier = Modifier.height(20.dp))
+            }
 
-            Spacer(modifier = Modifier.height(20.dp))
             SubmitButton(
-                text = "PEDIR",
-                onClick = { }
+                text = "pedir",
+                onClick = onSubmit
             )
             Row(
                 Modifier

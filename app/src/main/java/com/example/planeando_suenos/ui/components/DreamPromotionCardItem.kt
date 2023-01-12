@@ -17,20 +17,55 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
-import com.example.planeando_suenos.ui.theme.BottomGreenGradient
-import com.example.planeando_suenos.ui.theme.TopGreenGradient
+import com.example.planeando_suenos.domain.entities.Categories
+import com.example.planeando_suenos.ui.theme.*
 
+enum class DreamCategories(val type: String) {
+    CASH("efectivo"),
+    HOME("hogar"),
+    MOBILITY("movilidad"),
+    CONNECTIVITY("conectividad")
+}
 
 @Composable
 fun DreamPromotionCardItem(
-    painter: Painter? = null,
-    topGradientColor : Color,
-    bottomGradientColor: Color,
-){
+    category: Categories,
+) {
+    val topGradientColor: Color
+    val bottomGradientColor: Color
+    val icon: Painter?
+    val totalAmount = category.totalAmount ?: 0f
+    val weekPeriod = category.period ?: 0
+    val interestRatePercentage = category.percentage ?: 0f
+    val amountWithInterest = (totalAmount * weekPeriod * interestRatePercentage) / 100
+    val weeklyAmount = (amountWithInterest / weekPeriod).toInt()
+
+    when (category.title) {
+        DreamCategories.HOME.type -> {
+            topGradientColor = TopGreenGradient
+            bottomGradientColor = BottomGreenGradient
+            icon = painterResource(id = R.drawable.cat_hogar)
+        }
+        DreamCategories.MOBILITY.type -> {
+            topGradientColor = TopBlueGradient
+            bottomGradientColor = BottomBlueGradient
+            icon = painterResource(id = R.drawable.cat_movilidad)
+        }
+        DreamCategories.CONNECTIVITY.type -> {
+            topGradientColor = TopPinkGradient
+            bottomGradientColor = BottomPinkGradient
+            icon = painterResource(id = R.drawable.cat_conectividad)
+        }
+        else -> {
+            topGradientColor = TopPurpleGradient
+            bottomGradientColor = BottomPurpleGradient
+            icon = null
+        }
+    }
+
     Box(
         modifier = Modifier
             .height(191.dp)
@@ -51,9 +86,9 @@ fun DreamPromotionCardItem(
                         )
                     )
                 )
-        ){
+        ) {
             Image(
-                painter = painterResource(id =R.drawable.success_card_corner_background),
+                painter = painterResource(id = R.drawable.success_card_corner_background),
                 contentDescription = "card background",
                 modifier = Modifier
                     .alpha(0.5F)
@@ -81,8 +116,8 @@ fun DreamPromotionCardItem(
                             horizontal = dimensionResource(id = R.dimen.gap5)
                         ),
                     horizontalArrangement = Arrangement.spacedBy(30.dp)
-                ){
-                    painter?.let {
+                ) {
+                    icon?.let {
                         Image(
                             painter = it,
                             contentDescription = "category",
@@ -92,10 +127,10 @@ fun DreamPromotionCardItem(
 
                         Column(
                             verticalArrangement = Arrangement.spacedBy(14.dp)
-                        ){
+                        ) {
                             Column {
                                 Text(
-                                    text = "Total a pagar  $675.33",
+                                    text = "Total a pagar  $ $amountWithInterest",
                                     style = MaterialTheme.typography.subtitle1,
                                     fontWeight = FontWeight.W700,
                                     fontSize = 12.sp,
@@ -103,7 +138,7 @@ fun DreamPromotionCardItem(
                                     color = Color.White
                                 )
                                 Text(
-                                    text = "Plazo de 20 a 23 semanas",
+                                    text = "Plazo de $weekPeriod semanas",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W500,
                                     fontSize = 11.sp,
@@ -114,7 +149,7 @@ fun DreamPromotionCardItem(
 
                             Column {
                                 Text(
-                                    text = "Semanalidades de",
+                                    text = "Semanalidades de ",
                                     style = MaterialTheme.typography.subtitle1,
                                     fontWeight = FontWeight.W700,
                                     fontSize = 12.sp,
@@ -122,7 +157,7 @@ fun DreamPromotionCardItem(
                                     color = Color.White
                                 )
                                 Text(
-                                    text = "$30.00 a $33.77",
+                                    text = "$ $weeklyAmount",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W700,
                                     fontSize = 18.sp,
@@ -133,17 +168,17 @@ fun DreamPromotionCardItem(
                         }
                     }
 
-                    if(painter == null) {
+                    if (icon == null) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(24.dp)
-                        ){
+                        ) {
                             Column(
                                 modifier = Modifier
                                     .width(98.dp),
                                 verticalArrangement = Arrangement.spacedBy(5.dp)
-                            ){
+                            ) {
                                 Text(
-                                    text = "Total a pagar $675.33",
+                                    text = "Total a pagar $ $amountWithInterest",
                                     style = MaterialTheme.typography.subtitle1,
                                     fontWeight = FontWeight.W700,
                                     fontSize = 12.sp,
@@ -151,7 +186,7 @@ fun DreamPromotionCardItem(
                                     color = Color.White
                                 )
                                 Text(
-                                    text = "Plazo de 20 a 23 semanas",
+                                    text = "Plazo de $weekPeriod semanas",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W500,
                                     fontSize = 12.sp,
@@ -170,7 +205,7 @@ fun DreamPromotionCardItem(
                                     color = Color.White
                                 )
                                 Text(
-                                    text = "$30.00 a $33.77",
+                                    text = "$ $weeklyAmount",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W700,
                                     fontSize = 18.sp,
@@ -183,27 +218,5 @@ fun DreamPromotionCardItem(
                 }
             }
         }
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewDreamPromotionCardItem() {
-    
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(dimensionResource(R.dimen.gap5))
-    ){
-        DreamPromotionCardItem(
-            topGradientColor = TopGreenGradient, 
-            bottomGradientColor = BottomGreenGradient
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        DreamPromotionCardItem(
-            painter = painterResource(id = R.drawable.cat_conectividad),
-            topGradientColor = TopGreenGradient, 
-            bottomGradientColor = BottomGreenGradient
-        )
     }
 }

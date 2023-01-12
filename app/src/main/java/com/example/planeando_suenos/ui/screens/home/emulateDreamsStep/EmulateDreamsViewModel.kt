@@ -63,6 +63,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(dreamName = dreamName)
     }
 
+    fun setContentCreditSheet(contentCreditSheet: Boolean) {
+        state = state.copy(contentCreditSheet = contentCreditSheet)
+    }
+
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {
         val list = state.dreamWithUser?.dream?.toMutableList()
         list?.set(position, newDream)
@@ -75,7 +79,6 @@ class EmulateDreamsViewModel @Inject constructor(
             userFinance = state.dreamWithUser?.userFinance,
             dream = list
         )
-
         state = state.copy(dreamWithUser = dreamWithUserUpdated)
     }
 
@@ -142,6 +145,8 @@ class EmulateDreamsViewModel @Inject constructor(
             }
         }
     }
+
+
 
 
 }
