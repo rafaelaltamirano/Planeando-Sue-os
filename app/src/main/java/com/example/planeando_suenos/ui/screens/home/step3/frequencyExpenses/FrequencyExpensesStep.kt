@@ -63,7 +63,7 @@ fun FrequencyExpensesStep(
             fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
         )
         Text(
-            text = "¿Cómo son tus egresos?",
+            text = "¿Cómo son tus gastos?",
             style = MaterialTheme.typography.h2,
         )
         Text(

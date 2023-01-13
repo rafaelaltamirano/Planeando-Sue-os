@@ -80,7 +80,7 @@ fun HomeScreen(
         ) {
             Spacer(modifier = Modifier.size(24.dp))
             Text(
-                text = "Somos los aliados de tus sueños. Para ayudarte a planfificar tu compra debemos conocer un poco mas sobre:",
+                text = "Somos los aliados de tus sueños. Para ayudarte a planificar tu compra debemos conocer un poco mas sobre:",
                 fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -131,7 +131,7 @@ fun HomeScreen(
             CardChecked(
                 checked = model.state.checkedStep3,
                 enable = model.state.checkedStep1 && model.state.checkedStep2,
-                title = "Tus egresos o gastos",
+                title = "Tus gastos",
                 subTitle = "$ 861.40 semanales",
                 onClick = {
                     if (!model.state.checkedStep3) {

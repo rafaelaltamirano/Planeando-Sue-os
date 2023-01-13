@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
 fun MainComponent(mainModel: MainViewModel = viewModel()) {
     GenericErrorDialog(
         show = mainModel.state.networkErrorStatus != null,
-        title = "Error"
+        title =  mainModel.state.networkErrorStatus?.message ?: "Error"
     )
     {
         mainModel.setNetworkErrorStatus(null)

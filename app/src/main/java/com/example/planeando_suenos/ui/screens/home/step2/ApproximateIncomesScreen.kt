@@ -121,8 +121,10 @@ fun ApproximateIncomesScreen(
                             model.updateDream(model.getDreamObjectWithAllData(
                                 mainModel.state.dreamEdit?.userFinance?.expenses!!,
                                 mainModel.state.dreamEdit?.userFinance?.paymentCapability!!,
-                                mainModel.state.dreamEdit?.dream
-                            ))
+                                mainModel.state.dreamEdit?.dream,
+                                mainModel.state.dreamEdit?.userFinance?.initialPaymentCapability!!,
+                                mainModel.state.dreamEdit?.userFinance?.percentage,
+                                ))
                         else model.updateDream(model.getDreamObject())
                     }
                 },

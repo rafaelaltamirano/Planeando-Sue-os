@@ -6,6 +6,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -24,8 +26,10 @@ fun CreditAmountStep(
     onNext: () -> Unit,
     model: YourExpensesIncomeViewModel,
 ) {
-
     val state = model.state
+    val amountCreditToShow = remember {mutableStateOf("")}
+     if(state.creditAmount == 0f) amountCreditToShow.value = "" else amountCreditToShow.value = state.creditAmount.toString()
+
     Column(
         Modifier
             .padding(horizontal = dimensionResource(R.dimen.gap4))
@@ -38,7 +42,7 @@ fun CreditAmountStep(
             fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
         )
         PersonalInfoCard(
-            "¿Cómo son tus egresos semanales?",
+            "¿Cómo son tus gastos semanales?",
             "Hogar: ",
             state.homeExpense.toString(),
             "Transporte: ",
@@ -63,7 +67,7 @@ fun CreditAmountStep(
                 text = "¿Cuánto es el valor del crédito?"
             )
             CurrencyTextField(
-                value = state.creditAmount.toString(),
+                value = amountCreditToShow.value,
                 placeholder =  R.string.enter_amount,
                 onValueChanged = {model.setCreditAmount(it.toFloat())},
                 onDone = true,
@@ -86,7 +90,7 @@ fun CreditAmountStep(
         }
         SubmitButton(
             text = stringResource(R.string.continue_),
-            enabled = !state.hasCredit || !state.creditEndDate.isNullOrBlank(),
+            enabled = !state.hasCredit || !state.creditEndDate.isNullOrBlank() && amountCreditToShow.value.isNotEmpty(),
             onClick = { onNext() }
         )
     }

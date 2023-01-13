@@ -8,11 +8,15 @@ class UserFinanceResponse(
     @SerializedName("income") val income: IncomeResponse,
     @SerializedName("expenses") val expenses: ExpensesResponse,
     @SerializedName("paymentCapability") val paymentCapability: Float,
+    @SerializedName("initialPaymentCapability") val initialPaymentCapability: Float,
+    @SerializedName("percentage") val percentage: Float,
 ) : Response<UserFinance> {
     override fun toEntity() = UserFinance(
         income = income.toEntity(),
         expenses = expenses.toEntity(),
         paymentCapability = paymentCapability,
+        initialPaymentCapability = initialPaymentCapability,
+        percentage = percentage
     )
 }
 

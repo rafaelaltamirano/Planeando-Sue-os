@@ -133,9 +133,3 @@ fun PersonalInfoCard(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun Prev() {
-    PersonalInfoCard("¿Cómo son tus ingresos?","Tengo sueldo variable de,","500")
-}

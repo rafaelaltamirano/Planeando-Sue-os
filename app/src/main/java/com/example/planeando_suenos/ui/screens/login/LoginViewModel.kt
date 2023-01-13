@@ -50,7 +50,7 @@ class LoginViewModel @Inject constructor(
 
     fun validateEmail(email: String): Boolean {
         return try {
-            loginUseCase.isEmailValidOrFail(email)
+            loginUseCase.isEmailValidOrFail(email.lowercase())
         } catch (e: Exception) {
             handleNetworkError(e)
             false

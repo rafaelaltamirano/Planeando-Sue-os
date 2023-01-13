@@ -9,7 +9,7 @@ enum class Status {
 
 data class ModelStatus(
     val status: Status,
-    val message: String? = null
+    val message: String? = "Error"
 )
 
 data class ErrorStatus(

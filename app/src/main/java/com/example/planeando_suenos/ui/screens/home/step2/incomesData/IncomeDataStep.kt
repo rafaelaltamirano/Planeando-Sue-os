@@ -78,7 +78,7 @@ fun IncomeDataStep(
         )
         Text(
             modifier = Modifier.padding(vertical = 14.dp),
-            text = "Necesitamos conocer tus ingresos para poder calcular tu capacidad de pago.",
+            text = "Conocer tus ingresos te ayudará a calcular tu capacidad disponible",
             fontSize = 15.sp,
             fontWeight = FontWeight.W400,
             lineHeight = 24.sp

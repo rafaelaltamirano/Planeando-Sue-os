@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -16,12 +17,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.entities.Categories
 import com.example.planeando_suenos.ui.theme.*
+import java.text.DecimalFormat
 
 enum class DreamCategories(val type: String) {
     CASH("efectivo"),
@@ -37,11 +40,12 @@ fun DreamPromotionCardItem(
     val topGradientColor: Color
     val bottomGradientColor: Color
     val icon: Painter?
-    val totalAmount = category.totalAmount ?: 0f
-    val weekPeriod = category.period ?: 0
-    val interestRatePercentage = category.percentage ?: 0f
-    val amountWithInterest = (totalAmount * weekPeriod * interestRatePercentage) / 100
-    val weeklyAmount = (amountWithInterest / weekPeriod).toInt()
+    val amountToPay = category.amountToPay ?: 0f
+    val weekFrom = category.weekFrom ?: 0
+    val weekTo = category.weekTo ?: 0
+    val amountWeekFrom = category.amountWeekFrom ?: 0f
+    val amountWeekTo = category.amountWeekTo ?: 0f
+
 
     when (category.title) {
         DreamCategories.HOME.type -> {
@@ -130,7 +134,7 @@ fun DreamPromotionCardItem(
                         ) {
                             Column {
                                 Text(
-                                    text = "Total a pagar  $ $amountWithInterest",
+                                    text = "Total a pagar $$amountToPay",
                                     style = MaterialTheme.typography.subtitle1,
                                     fontWeight = FontWeight.W700,
                                     fontSize = 12.sp,
@@ -138,7 +142,7 @@ fun DreamPromotionCardItem(
                                     color = Color.White
                                 )
                                 Text(
-                                    text = "Plazo de $weekPeriod semanas",
+                                    text = "Plazo de $weekFrom a $weekTo semanas",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W500,
                                     fontSize = 11.sp,
@@ -156,14 +160,23 @@ fun DreamPromotionCardItem(
                                     lineHeight = 16.sp,
                                     color = Color.White
                                 )
-                                Text(
-                                    text = "$ $weeklyAmount",
-                                    style = MaterialTheme.typography.subtitle2,
-                                    fontWeight = FontWeight.W700,
-                                    fontSize = 18.sp,
-                                    lineHeight = 20.sp,
-                                    color = Color.White
-                                )
+                                Row(
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    AmountTextView(amountWeekFrom)
+
+                                    Text(
+                                        text = " a ",
+                                        style = MaterialTheme.typography.subtitle2,
+                                        fontWeight = FontWeight.W700,
+                                        fontSize = 12.sp,
+                                        lineHeight = 20.sp,
+                                        color = Color.White
+                                    )
+
+                                    AmountTextView(amountWeekTo)
+                                }
                             }
                         }
                     }
@@ -178,7 +191,7 @@ fun DreamPromotionCardItem(
                                 verticalArrangement = Arrangement.spacedBy(5.dp)
                             ) {
                                 Text(
-                                    text = "Total a pagar $ $amountWithInterest",
+                                    text = "Total a pagar $$amountToPay",
                                     style = MaterialTheme.typography.subtitle1,
                                     fontWeight = FontWeight.W700,
                                     fontSize = 12.sp,
@@ -186,7 +199,7 @@ fun DreamPromotionCardItem(
                                     color = Color.White
                                 )
                                 Text(
-                                    text = "Plazo de $weekPeriod semanas",
+                                    text = "Plazo de $weekFrom a $weekTo semanas",
                                     style = MaterialTheme.typography.subtitle2,
                                     fontWeight = FontWeight.W500,
                                     fontSize = 12.sp,
@@ -204,14 +217,21 @@ fun DreamPromotionCardItem(
                                     lineHeight = 16.sp,
                                     color = Color.White
                                 )
-                                Text(
-                                    text = "$ $weeklyAmount",
-                                    style = MaterialTheme.typography.subtitle2,
-                                    fontWeight = FontWeight.W700,
-                                    fontSize = 18.sp,
-                                    lineHeight = 20.sp,
-                                    color = Color.White
-                                )
+                                Row(
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    AmountTextView(amountWeekFrom)
+                                    Text(
+                                        text = " a ",
+                                        style = MaterialTheme.typography.subtitle2,
+                                        fontWeight = FontWeight.W700,
+                                        fontSize = 12.sp,
+                                        lineHeight = 20.sp,
+                                        color = Color.White
+                                    )
+                                    AmountTextView(amountWeekTo)
+                                }
                             }
                         }
                     }
@@ -220,3 +240,64 @@ fun DreamPromotionCardItem(
         }
     }
 }
+
+
+@Composable
+fun AmountTextView(amount: Float) {
+    val dec = DecimalFormat("#,###.##")
+    val amountWithComa = dec.format(amount)
+    val amountBeforeDecimal = amountWithComa.toString().substringBefore(".")
+    val amountAfterDecimals =
+        amountWithComa.toString().substringAfterLast(".").take(2).replace(",", "0")
+
+    Row(
+        modifier = Modifier,
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            Row(
+                modifier = Modifier.weight(1.1f),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(
+                    color = Color.White,
+                    style = MaterialTheme.typography.caption,
+                    text = "$",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.W900,
+                )
+            }
+            Spacer(modifier = Modifier.weight(0.9f))
+        }
+        ResizeText(
+            text = amountBeforeDecimal,
+            color = Color.White,
+            style = TextStyle(
+                fontFamily = AvenirNext,
+                fontWeight = FontWeight.W700,
+                fontSize = 18.sp,
+            ),
+            modifier = Modifier
+        )
+        Column {
+            Row(
+                modifier = Modifier.weight(1.1f),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                ResizeText(
+                    text = ".$amountAfterDecimals",
+                    color = Color.White,
+                    style = TextStyle(
+                        fontFamily = AvenirNext,
+                        fontWeight = FontWeight.W700,
+                        fontSize = 15.sp,
+                    ),
+                    modifier = Modifier
+                )
+            }
+            Spacer(modifier = Modifier.weight(0.9f))
+        }
+    }
+}
+

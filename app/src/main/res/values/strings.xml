@@ -8,7 +8,6 @@
     <string name="lading_instructions">Podemos darte la solución para que cumplas con esos deseos pendientes.
     \n\n
     Es simple y rápido pero antes necesitamos conocerte mejor.
-        \n\n
     </string>
     <string name="you_are_ready">¿Estás listo?</string>
     <string name="crate_account">Crear una cuenta</string>
@@ -55,6 +54,9 @@
     <string name="variable_salary">Sueldo variable</string>
     <string name="approximately_income">Ingresa un monto aproximado</string>
     <string name="enter_description">Ingresa una descripción</string>
-    <string name="dog_terapy">ej terapias para mi perro</string>
+    <string name="pet_care">ej: Cuidado de mi mascota</string>
     <string name="my_dream_example">ej: mi sueño 2023</string>
-</resources>
+    <string name="legals">Este simulador de crédito es una herramienta que podrás utilizar con la finalidad que conozcas los esquemas de financiamiento que podrías obtener. De ningún modo podrá entenderse que los resultados del simulador son una propuesta vinculante, una oferta de crédito o bien, una asesoría financiera. La obtención de cualquier crédito esta sujeta a la aprobación del mismo y al cumplimiento de los requisitos indicados por el acreedor correspondiente.</string>
+
+
+   </resources>

@@ -135,7 +135,7 @@ fun DreamsGridStep(
             )
             CustomTextField(
                 value = otherTitle.value,
-                placeholder = R.string.dog_terapy,
+                placeholder = R.string.pet_care,
                 onDone = true,
                 onValueChanged = { otherTitle.value = it },
                 modifier = Modifier

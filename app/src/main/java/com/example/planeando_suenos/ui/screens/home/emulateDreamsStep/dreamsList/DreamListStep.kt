@@ -313,7 +313,7 @@ fun DreamListStep(
                 modifier = Modifier.padding(vertical = 10.dp),
                 style = MaterialTheme.typography.caption,
                 color = TextColorUncheckedItemDreamGrid,
-                text = "Para aumentar tu capacidad debes aumentar tus ingresos o bajar tus egresos\n",
+                text = "Para aumentar tu capacidad debes aumentar tus ingresos o bajar tus gastos\n",
                 fontSize = 14.sp,
             )
             Spacer(Modifier.height(16.dp))

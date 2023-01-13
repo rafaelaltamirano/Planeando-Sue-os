@@ -52,7 +52,6 @@ class MainViewModel @Inject constructor(
     fun setId(id: String) {
         state = state.copy(id = id)
     }
-
     fun setUser(user: User) {
         state = state.copy(user = user)
     }
