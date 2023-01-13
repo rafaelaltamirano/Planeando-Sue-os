@@ -31,8 +31,16 @@ fun YourExpensesScreen(
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(enabled = true) {
-        if (state.step == Step3Step.FREQUENCY_EXPENSES) navController.popBackStack()
-        else model.prevStep()
+        model.setEdited(false) // CLEAN EDIT OPTIONS
+        if (state.step == Step3Step.FREQUENCY_EXPENSES) {
+            model.setHomeExpense(null)
+            model.setTransportExpense(null)
+            model.setEducationInversion(null)
+            model.setEntertainmentExpense(null)
+            model.setCreditAmount(0f)
+            model.setDreamId("")
+            navController.popBackStack()
+        } else model.prevStep()
     }
 
     homeModel.state.income?.let {

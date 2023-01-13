@@ -31,8 +31,15 @@ fun ApproximateIncomesScreen(
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(enabled = true) {
-        if (state.step == Step2Step.INCOME_DATA) navController.popBackStack()
-        else model.prevStep()
+        model.setEdited(false) // CLEAN EDIT OPTIONS
+        if (state.step == Step2Step.INCOME_DATA) {
+            navController.popBackStack()
+            // CLEAN EDIT OPTIONS
+            model.setSalaryAmount(null)
+            model.setFrequency("")
+            model.setAdditionalIncomes(null)
+            model.setDreamId("")
+        } else model.prevStep()
     }
 
     model.status?.also {
