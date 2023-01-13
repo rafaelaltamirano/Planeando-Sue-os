@@ -24,6 +24,7 @@ import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
+import java.text.DecimalFormat
 
 
 @Composable
@@ -60,16 +61,17 @@ fun ReviewNumbersStep(
                     .padding(dimensionResource(R.dimen.gap4))
                     .fillMaxHeight()
             ) {
-
                 AmountCard(
-                    type = CardType.INCOMES, dream.userFinance?.income!!.totalIncome.toString(),
+                    type = CardType.INCOMES,
+                    amount = dream.userFinance?.income!!.totalIncome,
                     onClick = {
                         mainModel.setDreamEdit(dream)
                         navController.navigate(UserRouterDir.STEP_2.route)
                     })
                 Spacer(Modifier.height(12.dp))
                 AmountCard(
-                    type = CardType.EXPENSES, dream.userFinance.expenses!!.totalExpense.toString(),
+                    type = CardType.EXPENSES,
+                    amount = dream.userFinance.expenses!!.totalExpense,
                     onClick = {
                         mainModel.setDreamEdit(dream)
                         navController.navigate(UserRouterDir.STEP_3.route)
@@ -77,7 +79,7 @@ fun ReviewNumbersStep(
                 Spacer(Modifier.height(12.dp))
                 AmountCard(
                     type = CardType.CAPACITY_DREAM,
-                    amount = dream.userFinance.paymentCapability.toString(),
+                    amount = dream.userFinance.paymentCapability,
                     onClick = {})
                 Spacer(Modifier.height(12.dp))
                 Text(

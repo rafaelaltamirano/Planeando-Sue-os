@@ -10,11 +10,9 @@ import com.example.planeando_suenos.domain.entities.Categories
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.ui.ViewModelWithStatus
-import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.usescases.GetDreamByIdAndPriorityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -117,8 +115,7 @@ class EmulateDreamsViewModel @Inject constructor(
 
         }
     }
-
-    suspend fun sendDreamPlanEmail() = viewModelScope.launch {
+     suspend fun sendDreamPlanEmail() = viewModelScope.launch {
         setLoading(true)
         try {
             withContext(Dispatchers.IO) {
@@ -132,45 +129,15 @@ class EmulateDreamsViewModel @Inject constructor(
         }
     }
 
-
     fun getDream(dreamId: String, priority: String) = viewModelScope.launch {
         setLoading(true)
-        val dreamListAux = mutableListOf<Dream>()
         try {
             withContext(Dispatchers.IO) {
                 getDreamByIdAndPriorityUseCase.getDreamById(
                     dreamId,
                     priority
                 )
-            }.also { dreamWithUser ->
-
-                //SET START DATE TODAY BECAUSE IN BACKEND IT HAVE AN ERROR THAT MOVE THE MONTH DAY TO NEXT WHEN MAKE A PATCH
-                dreamWithUser.dream?.forEach { dream ->
-                    dreamListAux.add(
-                        Dream(
-                            description = dream.description,
-                            amount = dream.amount,
-                            startDate = Calendar.getInstance().time.convertDateToFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-                            endDate = dream.endDate,
-                            amountPlaned = dream.amountPlaned,
-                            paymentQuantity = dream.paymentQuantity,
-                            dreamType = dream.dreamType,
-                            color = dream.color
-                        )
-                    )
-                }
-
-                val newDreamWithUser = DreamWithUser(
-                    id = dreamWithUser.id,
-                    title = dreamWithUser.title,
-                    active = dreamWithUser.active,
-                    user = dreamWithUser.user,
-                    endDate = dreamWithUser.endDate,
-                    userFinance = dreamWithUser.userFinance,
-                    dream = dreamListAux
-                )
-                setDreamWithUser(newDreamWithUser)
-            }
+            }.also { setDreamWithUser(it) }
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {

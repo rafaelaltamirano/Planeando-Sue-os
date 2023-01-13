@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.ui.theme.*
+import java.text.DecimalFormat
 
 enum class CardType(val value: String) {
     INCOMES("Tus ingresos"),
@@ -28,7 +29,7 @@ enum class CardType(val value: String) {
 @Composable
 fun AmountCard(
     type: CardType = CardType.INCOMES,
-    amount: String? = null,
+    amount: Float? = null,
     onClick: () -> Unit,
 ) {
     val backgroundColor = if (type == CardType.CAPACITY_DREAM) Accent else Color.Transparent
@@ -37,6 +38,12 @@ fun AmountCard(
         CardType.EXPENSES -> "_"
         CardType.CAPACITY_DREAM -> "="
     }
+
+    val dec = DecimalFormat("#,###.##")
+    val amountWithComa = dec.format(amount)
+    val amountBeforeDecimal = amountWithComa.toString().substringBefore(".")
+    val amountAfterDecimals = amountWithComa.toString().substringAfterLast(".").take(2).replace(",","0")
+
 
     Card(
         shape = RoundedCornerShape(10),
@@ -119,9 +126,8 @@ fun AmountCard(
                     }
                     Spacer(modifier = Modifier.weight(0.9f))
                 }
-                amount?.let {
                     ResizeText(
-                        text = "$amount",
+                        text = amountBeforeDecimal,
                         color = if (type == CardType.CAPACITY_DREAM) BackgroundCard else GreenBusiness,
                         style = TextStyle(
                             fontFamily = AvenirNext,
@@ -130,14 +136,25 @@ fun AmountCard(
                         ),
                         modifier = Modifier
                     )
+                Column {
+                    Row(
+                        modifier = Modifier.weight(1.1f),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        ResizeText(
+                            text = ".$amountAfterDecimals",
+                            color = if (type == CardType.CAPACITY_DREAM) BackgroundCard else GreenBusiness,
+                            style = TextStyle(
+                                fontFamily = AvenirNext,
+                                fontWeight = FontWeight.W700,
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(0.9f))
                 }
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AmountCardPreview() {
-    AmountCard(CardType.INCOMES, "861.40", {})
 }
