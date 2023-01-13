@@ -6,6 +6,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -18,13 +20,13 @@ import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.restorePass.RestorePasswordViewModel
 
-
 @Composable
 fun EnterEmailStep(
     onNext: () -> Unit,
     model: RestorePasswordViewModel,
 ) {
-
+    val checkEmail = remember { mutableStateOf(false) }
+    val state = model.state
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,20 +47,25 @@ fun EnterEmailStep(
             fontSize = 17.sp,
             text = stringResource(R.string.email)
         )
-
         CustomTextField(
             value = model.state.email,
             placeholder = R.string.email_example,
             leadingIcon = R.drawable.ic_arrouba,
             onValueChanged = model::setEmail,
+            onFocus = model::setEmailError,
+            error = model.state.emailError,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
         SubmitButton(
-            stringResource(R.string.send),
-            onClick = onNext,
+            text = stringResource(R.string.send),
+            enabled = state.email.isNotEmpty(),
+            onClick = {
+                checkEmail.value = model.validateEmail(state.email)
+                if (checkEmail.value) onNext()
+            }
         )
     }
 }

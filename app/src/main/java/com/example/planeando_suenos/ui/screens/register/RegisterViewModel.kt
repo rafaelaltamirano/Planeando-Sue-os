@@ -3,10 +3,13 @@ package com.example.planeando_suenos.ui.screens.register
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.domain.entities.Login
+import com.example.planeando_suenos.domain.enums.Fields
+import com.example.planeando_suenos.domain.exceptions.FieldInvalidException
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
 import com.example.planeando_suenos.usescases.RegisterUseCase
@@ -26,7 +29,7 @@ class RegisterViewModel @Inject constructor(
         private set
 
     fun setEmail(email: String) {
-        state = state.copy(email = email)
+        state = state.copy(email = email.lowercase())
     }
 
     fun setPassword(password: String) {
@@ -74,6 +77,26 @@ class RegisterViewModel @Inject constructor(
         setStep(state.step.prev())
     }
 
+    private fun setLoading(loading: Boolean) {
+        state = state.copy(loading = loading)
+    }
+
+    private fun setId(id: String) {
+        state = state.copy(id = id)
+    }
+
+    private fun setLogin(login: Login) {
+        state = state.copy(login = login)
+    }
+
+    fun setEmailError(emailError: String = "") {
+        state = state.copy(emailError = emailError)
+    }
+
+    fun setPasswordError(passwordError: String = "") {
+        state = state.copy(passwordError = passwordError)
+    }
+
     fun passOne(condition: Boolean) {
         state = state.copy(validCharacter = condition)
     }
@@ -92,21 +115,13 @@ class RegisterViewModel @Inject constructor(
         passThree(registerCase.validatePassThree(password))
     }
 
-    private fun setLoading(loading: Boolean) {
-        state = state.copy(loading = loading)
-    }
-
-    private fun setId(id: String) {
-        state = state.copy(id = id)
-    }
-
-
-    private fun setToken(token: String) {
-        state = state.copy(token = token)
-    }
-
-    private fun setLogin(login: Login) {
-        state = state.copy(login = login)
+    fun validateEmail(email: String): Boolean {
+        return try {
+            registerCase.isEmailValidOrFail(email)
+        } catch (e: Exception) {
+            handleNetworkError(e)
+            false
+        }
     }
 
     suspend fun registerUser() = viewModelScope.launch {
@@ -147,4 +162,17 @@ class RegisterViewModel @Inject constructor(
             setLoading(false)
         }
     }
+
+    override fun onFieldInvalid(e: FieldInvalidException) {
+        when (e.field) {
+            Fields.EMAIL -> setEmailError(e.message)
+            Fields.PASSWORD -> setPasswordError(e.message)
+        }
+        when (e.fieldSecond) {
+            Fields.EMAIL -> setEmailError(e.message)
+            Fields.PASSWORD -> setPasswordError(e.message)
+            else -> {}
+        }
+    }
 }
+

@@ -76,9 +76,11 @@ fun CalendarStep(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                SubmitButton(onClick = {
-                    onSubmit()
-                }, text = "guardar plan")
+                SubmitButton(
+                    text = "guardar plan",
+                    loading = model.state.loading,
+                    onClick = onSubmit
+                   )
 
                 Spacer(modifier = Modifier.height(8.dp))
 

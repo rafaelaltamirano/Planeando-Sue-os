@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home.step2
 
+import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 
@@ -21,6 +22,7 @@ enum class Step2Step(val step: Int) {
 data class ApproximateIncomeState(
     val loading: Boolean = false,
     val step: Step2Step = Step2Step.INCOME_DATA,
+    val edited: Boolean = false,
     val frequency: String = "",
     val frequencyToShow: String = "",
     val checked: Boolean = false,
@@ -28,5 +30,4 @@ data class ApproximateIncomeState(
     val additionalIncomes: Float? = null,
     val salaryType: String = "",
     val dreamId: String = "",
-    val dream: DreamPlan? = null,
 )

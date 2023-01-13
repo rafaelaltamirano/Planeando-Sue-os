@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,11 +20,20 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.DreamPromotionCardItem
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.components.TopBarWithCheck
+import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
+import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.ui.theme.*
+import java.util.*
 
 
 @Composable
-fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
+fun ConfirmationAndOfferCreditStep(onClick: () -> Unit,
+                                   onSubmit: () -> Unit,
+                                   model: EmulateDreamsViewModel) {
+
+
+    val dateTimeToday = Calendar.getInstance().time.convertDateToFormat("dd MMM yyyy, hh:mm")
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,7 +43,12 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(R.dimen.gap5)),
+                .padding(
+                    top = 0.dp,
+                    start = dimensionResource(R.dimen.gap5),
+                    end = dimensionResource(R.dimen.gap5),
+                    bottom = dimensionResource(R.dimen.gap5)
+                ),
         ) {
             Text(
                 text = "Plan de sueños\nguardado con éxito",
@@ -43,9 +58,9 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
                 color = Color.Black,
                 lineHeight = 33.sp
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "24 Dic 2022, 14:06",
+                text = dateTimeToday,
                 style = MaterialTheme.typography.subtitle1,
                 fontWeight = FontWeight.W400,
                 fontSize = 12.sp,
@@ -53,29 +68,14 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(27.dp))
 
-            DreamPromotionCardItem(
-                topGradientColor = TopGreenGradient,
-                bottomGradientColor = BottomGreenGradient
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            DreamPromotionCardItem(
-                topGradientColor = TopPurpleGradient,
-                bottomGradientColor = BottomPurpleGradient
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            DreamPromotionCardItem(
-                topGradientColor = TopPinkGradient,
-                bottomGradientColor = BottomPinkGradient
-            )
-            DreamPromotionCardItem(
-                topGradientColor = TopBlueGradient,
-                bottomGradientColor = BottomBlueGradient
-            )
+            model.state.categories.forEach {
+                DreamPromotionCardItem(category = it)
+                Spacer(modifier = Modifier.height(20.dp))
+            }
 
-            Spacer(modifier = Modifier.height(20.dp))
             SubmitButton(
-                text = "PEDIR",
-                onClick = { }
+                text = "pedir",
+                onClick = onSubmit
             )
             Row(
                 Modifier

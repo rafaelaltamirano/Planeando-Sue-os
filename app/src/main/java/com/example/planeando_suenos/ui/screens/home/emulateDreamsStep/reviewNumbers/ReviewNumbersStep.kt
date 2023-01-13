@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,8 +20,6 @@ import androidx.navigation.NavHostController
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.AmountCard
 import com.example.planeando_suenos.ui.components.CardType
-import com.example.planeando_suenos.ui.components.TopBarClearWithBack
-import com.example.planeando_suenos.ui.components.TopBarWithText
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
@@ -34,21 +31,19 @@ fun ReviewNumbersStep(
     onNext: () -> Unit,
     model: EmulateDreamsViewModel,
     mainModel: MainViewModel,
-    onShowBottomSheet : () -> Unit,
+    onShowBottomSheet: () -> Unit,
     navController: NavHostController
 ) {
-    val name = mainModel.state.user?.firstName ?: ""
-//    val dreamId = mainModel.state.dreamId!!
-    val dreamId = "63bc8479d97880ed1b56f034"
+    val dreamId = mainModel.state.dreamId
     val priority = model.state.prioritySelected
 
     LaunchedEffect(Unit) {
-        model.getDream(dreamId, priority ?: "equal")
+        dreamId?.let {model.getDream(dreamId, priority ?: "")  }
     }
 
-    val user = model.state.dreamWithUser
+    val dream = model.state.dreamWithUser
 
-    if (user == null) {
+    if (dream == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
@@ -57,7 +52,8 @@ fun ReviewNumbersStep(
         Column(
             Modifier
                 .fillMaxHeight()
-                .verticalScroll(rememberScrollState()))
+                .verticalScroll(rememberScrollState())
+        )
         {
             Column(
                 Modifier
@@ -65,15 +61,24 @@ fun ReviewNumbersStep(
                     .fillMaxHeight()
             ) {
 
-                AmountCard(CardType.INCOMES, user.userFinance?.income!!.totalIncome.toString(),
+                AmountCard(
+                    type = CardType.INCOMES, dream.userFinance?.income!!.totalIncome.toString(),
                     onClick = {
-                        mainModel.setDreamEdit(user)
+                        mainModel.setDreamEdit(dream)
                         navController.navigate(UserRouterDir.STEP_2.route)
                     })
                 Spacer(Modifier.height(12.dp))
-                AmountCard(CardType.EXPENSES, user.userFinance.expenses!!.totalExpense.toString(), {})
+                AmountCard(
+                    type = CardType.EXPENSES, dream.userFinance.expenses!!.totalExpense.toString(),
+                    onClick = {
+                        mainModel.setDreamEdit(dream)
+                        navController.navigate(UserRouterDir.STEP_3.route)
+                    })
                 Spacer(Modifier.height(12.dp))
-                AmountCard(CardType.CAPACITY_DREAM, user.userFinance.paymentCapability.toString(), {})
+                AmountCard(
+                    type = CardType.CAPACITY_DREAM,
+                    amount = dream.userFinance.paymentCapability.toString(),
+                    onClick = {})
                 Spacer(Modifier.height(12.dp))
                 Text(
                     modifier = Modifier.padding(vertical = 14.dp),
@@ -94,7 +99,7 @@ fun ReviewNumbersStep(
                         fontWeight = FontWeight.W700,
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier
-                            .clickable(onClick = {onShowBottomSheet()}),
+                            .clickable(onClick = { onShowBottomSheet() }),
                     )
                 }
                 Spacer(Modifier.height(12.dp))

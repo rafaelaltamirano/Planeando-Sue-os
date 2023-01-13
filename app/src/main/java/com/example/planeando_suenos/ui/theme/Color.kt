@@ -26,6 +26,7 @@ val TextColorItemDream = Color(0xFF278252)
 val TextCardGreen = Color(0xFF278252)
 val TextCardBlue= Color(0xFF0071BC)
 val TextCardYellow = Color(0xFFD79C0A)
+val Danger = Color(0xFFFD6F6F)
 
 // Gradients Success Items
 var TopGreenGradient = Color(color = 0xFF7FDC73)

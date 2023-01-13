@@ -1,8 +1,11 @@
 package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
+import com.example.planeando_suenos.domain.entities.Categories
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 
@@ -25,8 +28,8 @@ enum class EmulateDreamsStep(val step: Int) {
 
 data class EmulateDreamsState(
     val loading: Boolean = false,
+    val categories:  List<Categories> = emptyList(),
     val step: EmulateDreamsStep = EmulateDreamsStep.REVIEW_NUMBERS,
-    val checked: Boolean = false,
     val dreamsCalendarItem: List<DreamCalendarItem> = emptyList(),
     val dreamWithUser: DreamWithUser? = null,
     val prioritySelected: String? = null,
@@ -35,4 +38,6 @@ data class EmulateDreamsState(
     val cancelOnNext: Boolean = false,
     val dreamId: String = "",
     val dreamName: String = "",
+    val contentCreditSheet: Boolean = false,
+    val sendToEmail: Boolean = false,
 )

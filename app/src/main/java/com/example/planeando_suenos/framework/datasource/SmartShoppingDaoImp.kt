@@ -49,5 +49,9 @@ class SmartShoppingDaoImp @Inject constructor(
         return res.body()?.data?.dreams.orEmpty()
     }
 
+    override suspend fun sendDreamPlanEmail(dreamId: String) {
+        val res = smartShoppingApi.sendDreamPlanEmail(dreamId)
+        ApiTools.validateResponseOrFail(res)
+    }
 
 }

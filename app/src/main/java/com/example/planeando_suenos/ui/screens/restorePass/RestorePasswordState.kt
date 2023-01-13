@@ -19,10 +19,14 @@ enum class RestorePasswordStep(val step: Int) {
 data class RestorePasswordState (
     val step: RestorePasswordStep = RestorePasswordStep.ENTER_EMAIL,
     val email: String = "",
-    val otpCode: String? = null,
     val newPassword: String = "",
     val repeatNewPassword: String = "",
     val loading: Boolean = false,
     val token: String? = null,
     val login: Login? = null,
+    val validCharacter: Boolean? = null,
+    val validNumber: Boolean? = null,
+    val validMayus: Boolean? = null,
+    val emailError: String = "",
+    val passwordError: String? = null,
 )

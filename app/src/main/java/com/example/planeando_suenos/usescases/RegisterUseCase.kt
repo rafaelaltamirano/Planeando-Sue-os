@@ -22,7 +22,12 @@ class RegisterUseCase @Inject constructor(
         return fieldValidator.isPasswordValidOrFailThree(text)
     }
 
+    fun isEmailValidOrFail(text: String):Boolean {
+        return fieldValidator.isEmailValidOrFail(text)
+    }
+
     suspend fun registerUser(user: User): String {
+
         return userDao.createUser(user)
     }
 }

@@ -17,8 +17,6 @@ class MainViewModel @Inject constructor(
     private val mainUseCase: MainUseCase
 ) : ViewModelWithStatus() {
 
-
-
     var state by mutableStateOf(MainState())
         private set
 

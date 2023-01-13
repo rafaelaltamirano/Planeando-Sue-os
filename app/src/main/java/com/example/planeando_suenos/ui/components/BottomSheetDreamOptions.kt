@@ -28,65 +28,111 @@ import kotlinx.coroutines.launch
 fun BottomSheetDreamOptions(
     onNext: (String) -> Unit,
     model: EmulateDreamsViewModel,
-    mainModel: MainViewModel,
+    contentCredit: Boolean = false,
     child: @Composable (() -> Unit) -> Unit,
 ) {
-    val state  =
+
+    val state =
         rememberModalBottomSheetState(ModalBottomSheetValue.Hidden,
             confirmStateChange = {
-            it != ModalBottomSheetValue.HalfExpanded
-        })
+                it != ModalBottomSheetValue.HalfExpanded
+            })
     val coroutine = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
         sheetContent = {
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp, start = 24.dp, end = 8.dp, bottom = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "¿Cómo quieres cumplir tus sueños?",
-                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                )
-                IconButton(onClick = {
-                    model.setCancelOnNext(false)
-                    coroutine.launch { state.hide() } }) {
-                    Icon(
-                        imageVector = Icons.Filled.Close,
-                        contentDescription = "Close",
-                        tint = GreenBusiness
+            if (contentCredit) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp, start = 24.dp, end = 8.dp, bottom = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Gracias por participar de esta prueba ",
+                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     )
+                    IconButton(onClick = {
+                        model.setCancelOnNext(false)
+                        coroutine.launch { state.hide() }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "Close",
+                            tint = GreenBusiness
+                        )
+                    }
                 }
-            }
-            ItemTextBottomSheetDream(
-                "Tu sueño más pequeño primero",
-                "Podrás cumplir tus sueños en orden, partiendo desde el más pequeño."
-            ) {
-                onNext(PriorityDream.LowestFirst.priority)
-                coroutine.launch { state.hide() }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            ItemTextBottomSheetDream(
-                "Todos tus sueños al mismo tiempo",
-                "Todos tus sueños al mismo tiempo. Tus cuotas siempre tendran el mismo valor."
-            ) {
-                onNext(PriorityDream.AllAtSameTime.priority)
-                coroutine.launch { state.hide() }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            ItemTextBottomSheetDream(
-                "Tu sueño más grande primero",
-                "Pagarás mas al principio pero tendrás tu mayor recompensa."
-            ) {
-                onNext(PriorityDream.BiggestFirst.priority)
-                coroutine.launch { state.hide() }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                ) {
+                    Text(
+                        text = "Al participar de esta prueba NO estas pidiendo ningún crédito.",
+                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    )
+                    Spacer(modifier = Modifier.height(26.dp))
+                    Text(
+                        text = "Si estás interesado por favor entra en contacto con el equipo de atención al cliente",
+                        style = TextStyle(
+                            color = TextColorUncheckedItemDreamGrid,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(200.dp))
+                }
+            } else {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp, start = 24.dp, end = 8.dp, bottom = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "¿Cómo quieres cumplir tus sueños?",
+                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    )
+                    IconButton(onClick = {
+                        model.setCancelOnNext(false)
+                        coroutine.launch { state.hide() }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "Close",
+                            tint = GreenBusiness
+                        )
+                    }
+                }
+                ItemTextBottomSheetDream(
+                    "Tu sueño más pequeño primero",
+                    "Podrás cumplir tus sueños en orden, partiendo desde el más pequeño."
+                ) {
+                    onNext(PriorityDream.LowestFirst.priority)
+                    coroutine.launch { state.hide() }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                ItemTextBottomSheetDream(
+                    "Todos tus sueños al mismo tiempo",
+                    "Todos tus sueños al mismo tiempo. Tus cuotas siempre tendran el mismo valor."
+                ) {
+                    onNext(PriorityDream.AllAtSameTime.priority)
+                    coroutine.launch { state.hide() }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                ItemTextBottomSheetDream(
+                    "Tu sueño más grande primero",
+                    "Pagarás mas al principio pero tendrás tu mayor recompensa."
+                ) {
+                    onNext(PriorityDream.BiggestFirst.priority)
+                    coroutine.launch { state.hide() }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
 
+            }
         },
         sheetShape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         sheetBackgroundColor = Color.White,

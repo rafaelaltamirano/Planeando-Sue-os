@@ -7,6 +7,7 @@ import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,19 +23,31 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.components.CustomTextField
 import com.example.planeando_suenos.ui.components.PersonalInfoCard
 import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.screens.home.step2.ApproximateIncomesViewModel
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
 
 
-
 @Composable
 fun FrequencyIncomesStep(
     onNext: () -> Unit,
-    model: ApproximateIncomesViewModel
+    model: ApproximateIncomesViewModel,
 ) {
     val state = model.state
-    val selectedValue = remember { mutableStateOf("") }
+    val selectedValue = remember {
+        mutableStateOf(
+            when (state.frequency) {
+                "diary" -> "Diario"
+                "weekly" -> "Semanal"
+                "biweekly" -> "Quincenal"
+                "monthly" -> "Mensual"
+                else -> {
+                    ""
+                }
+            }
+        )
+    }
     val items = listOf("Diario", "Semanal", "Quincenal", "Mensual")
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
@@ -53,7 +66,8 @@ fun FrequencyIncomesStep(
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
         PersonalInfoCard(
             "¿Cómo son tus ingresos?",
-            "Tengo sueldo variable de,",
+            if (state.salaryType == "variableSalary") "Tengo sueldo variable de,"
+            else "Tengo sueldo fijo de," ,
             state.salaryAmount.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))

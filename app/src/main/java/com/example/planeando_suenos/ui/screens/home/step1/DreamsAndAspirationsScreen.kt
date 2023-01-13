@@ -38,8 +38,13 @@ fun DreamsAndAspirationsScreen(
                 }
             }
         }
+        model.setChecked(false)
+        model.setStep(Step1Step.DREAMS_GRID)
     }
 
+    LaunchedEffect(Unit){
+        model.getDreamType()
+    }
 
     model.status?.also {
         val (status, _) = it
@@ -83,10 +88,7 @@ fun DreamsAndAspirationsScreen(
             ) {
                 coroutineScope.launch {
                     model.submitDream()
-
-
                 }
-
             }
         }
     }

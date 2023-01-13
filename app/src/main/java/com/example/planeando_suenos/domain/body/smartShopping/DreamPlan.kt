@@ -16,11 +16,11 @@ data class UserFinance(
 
 data class Income(
     val type: String? = null,
-    val amount: Double? = null,
+    val amount: Float? = null,
     val frequency: String? = null,
-    val additionalIncomeAmount: Double? = null,
-    val totalIncome: Double? = null,
-    val amountPerDay: Double? = null,
+    val additionalIncomeAmount: Float? = null,
+    val totalIncome: Float? = null,
+    val amountPerDay: Float? = null,
 
     )
 
@@ -50,4 +50,21 @@ data class DreamType(
     val id: String? = null,
     val title: String? = null,
     val iconName: String? = null,
+    val index: Int? = null,
+    val category: Category? = null,
+)
+
+data class Category(
+    val id: String? = null,
+    val title: String? = null,
+    val interestRatePercentage: Float? = null,
+)
+
+
+data class DreamTypeForGrid(
+    val id: String? = null,
+    val title: String? = null,
+    val iconName: String? = null,
+    val index: Int? = null,
+    val category: Category? = null,
 )

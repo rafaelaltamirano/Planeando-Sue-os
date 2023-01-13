@@ -3,6 +3,9 @@ package com.example.planeando_suenos.ui.components
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,8 +20,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -26,10 +31,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.planeando_suenos.ui.theme.BackgroundCard
-import com.example.planeando_suenos.ui.theme.GrayBusiness
-import com.example.planeando_suenos.ui.theme.GreenBusiness
-import com.example.planeando_suenos.ui.theme.TextBusiness
+import androidx.compose.ui.unit.sp
+import com.example.planeando_suenos.R
+import com.example.planeando_suenos.ui.theme.*
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -42,6 +46,9 @@ fun CustomTextField(
     onDone: Boolean = false,
     @StringRes placeholder: Int? = null,
     @DrawableRes leadingIcon: Int? = null,
+    error: String? = null,
+    onFocus: (() -> Unit)? = null,
+
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     val showLeadingIcon = leadingIcon != null
@@ -49,7 +56,17 @@ fun CustomTextField(
     val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
-        modifier = modifier.background(BackgroundCard, shape = RoundedCornerShape(8.dp)),
+        modifier =  modifier
+            .fillMaxWidth()
+            .background(BackgroundCard, shape = RoundedCornerShape(8.dp))
+            .onFocusChanged(
+                onFocusChanged = {
+                    when (it.isFocused) {
+                        true -> onFocus?.invoke()
+                        else -> {}
+                    }
+                }
+            ),
         leadingIcon = if (showLeadingIcon) {
             {
                 Icon(
@@ -70,6 +87,7 @@ fun CustomTextField(
                 )
             }
         },
+        isError = !error.isNullOrBlank(),
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -103,5 +121,23 @@ fun CustomTextField(
             }
         },
     )
+    InputMessageError(error)
 
+}
+
+
+@Composable
+fun InputMessageError(message: String?) {
+    if (!message.isNullOrEmpty())
+        Box(
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.gap4))
+        ) {
+            Text(
+                text = message,
+                color = Danger,
+                style = MaterialTheme.typography.caption,
+                fontSize = 11.sp
+            )
+        }
 }

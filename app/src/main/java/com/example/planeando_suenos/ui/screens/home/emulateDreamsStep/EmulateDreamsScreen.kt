@@ -2,8 +2,8 @@ package com.example.planeando_suenos.ui.screens.home.emulateDreamsStep
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -18,6 +18,7 @@ import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.confirmati
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.dreamsList.DreamListStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.reviewNumbers.ReviewNumbersStep
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.saveDream.SaveDreamStep
+import com.example.planeando_suenos.ui.screens.utils.getCategoryList
 import kotlinx.coroutines.launch
 
 
@@ -30,27 +31,36 @@ fun EmulateDreamsScreen(
 ) {
 
     val state = model.state
-//    val dreamId = mainModel.state.dreamId!!
-    val dreamId = "63bc8479d97880ed1b56f034"
+    val dreamId = mainModel.state.dreamId
     val coroutineScope = rememberCoroutineScope()
     val topBarTitle: String
     val bigFont: Boolean
+    val prioritySelected = remember { mutableStateOf("") }
 
-    dreamId.let { model.setDreamId(it) }
-    if (model.state.checked) homeModel.setCheckedEmulateDreamStep(true)
+    LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) } }
 
     BackHandler(enabled = true) {
-        if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
+        if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.navigate(UserRouterDir.HOME.route) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                inclusive = true
+            }
+        }
         else model.prevStep()
     }
 
+    //SET TOP BAR TITLE
     when (state.step) {
         EmulateDreamsStep.REVIEW_NUMBERS -> {
             topBarTitle = "${mainModel.state.user?.firstName}, repasemos \nestas cuentas"
             bigFont = true
         }
         EmulateDreamsStep.LIST -> {
-            topBarTitle = "Todos tus sueños al mismo tiempo"
+            topBarTitle = when (state.prioritySelected) {
+                "biggest" -> { "Tu sueño mas grande primero" }
+                "lowest" -> { "Tu sueño mas pequeño primero" }
+                "equal" -> { "Todos tus sueños al mismo tiempo" }
+                 else -> { "Sueños ordenados a su gusto" }
+            }
             bigFont = false
         }
         EmulateDreamsStep.CALENDAR -> {
@@ -59,7 +69,7 @@ fun EmulateDreamsScreen(
         }
 
         EmulateDreamsStep.SAVE_DREAM -> {
-            topBarTitle = "Calendario de pago"
+            topBarTitle = "Guarda tu sueño"
             bigFont = false
         }
         else -> {
@@ -71,16 +81,19 @@ fun EmulateDreamsScreen(
     BottomSheetDreamOptions(
         onNext = {
             model.setPriority(it)
+            prioritySelected.value = it
             if (state.cancelOnNext) {
                 coroutineScope.launch {
-                    model.getDream(dreamId, state.prioritySelected ?: "equal")
-                    model.setStep(EmulateDreamsStep.LIST)
+                    dreamId?.let {
+                        model.getDream(dreamId, prioritySelected.value)
+                        model.setStep(EmulateDreamsStep.LIST)
+                    }
                 }
 
             } else model.nextStep()
         },
         model = model,
-        mainModel = mainModel
+        contentCredit = state.contentCreditSheet
     ) { expandBottomSheetFunction ->
         Scaffold(
             backgroundColor = Color.White,
@@ -89,8 +102,15 @@ fun EmulateDreamsScreen(
                     TopBarClearWithBack(title = topBarTitle,
                         bigFont = bigFont,
                         onBackPress = {
-                            if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.popBackStack()
-                            else model.prevStep()
+                            model.setContentCreditSheet(false)
+                            if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) {
+                                mainModel.setDreamEdit(null)
+                                navController.navigate(UserRouterDir.HOME.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        inclusive = true
+                                    }
+                                }
+                            } else model.prevStep()
                         })
                 }
             }
@@ -110,6 +130,7 @@ fun EmulateDreamsScreen(
                     onNext = { model.updateDreamAndGetCalendar() },
                     onSubmit = {
                         coroutineScope.launch {
+
                             model.updateDream(
                                 DreamPlan(
                                     title = state.dreamWithUser?.title,
@@ -162,17 +183,34 @@ fun EmulateDreamsScreen(
                                         id = state.dreamWithUser?.id
                                     )
                                 )
-                            }.invokeOnCompletion { model.nextStep() }
+                            }.invokeOnCompletion {
+                                if (state.sendToEmail) coroutineScope.launch { model.sendDreamPlanEmail() }
+                                model.setCategories(getCategoryList(dream = model.state.dreamWithUser?.dream))
+                                model.nextStep()
+                                model.setContentCreditSheet(true)
+                            }
                         })
                 }
                 EmulateDreamsStep.CONFIRMATION -> {
-                    ConfirmationAndOfferCreditStep(onClick = {
-                        navController.navigate(UserRouterDir.HOME.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                inclusive = true
+                    ConfirmationAndOfferCreditStep(
+                        model = model,
+                        onSubmit = expandBottomSheetFunction,
+                        onClick = {
+                            model.setContentCreditSheet(false)
+                            homeModel.setCheckedStep1(false)
+                            homeModel.setCheckedStep2(false)
+                            homeModel.setCheckedStep3(false)
+                            mainModel.setDreamEdit(null)
+                            mainModel.setDreamId(null)
+                            model.setDreamWithUser(null)
+                            navController.navigate(UserRouterDir.HOME.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    inclusive = true
+                                }
                             }
-                        }
-                    })
+                            model.setStep(EmulateDreamsStep.REVIEW_NUMBERS)
+                        })
+
                 }
             }
         }

@@ -3,37 +3,43 @@ package com.example.planeando_suenos.ui.components
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+
+private const val TEXT_SCALE_REDUCTION_INTERVAL = 0.9f
 
 @Composable
 fun ResizeText(
+    modifier: Modifier = Modifier,
     text: String,
-    color: Color,
-    modifier: Modifier,
+    color: Color = Color.Black,
+    textAlign: TextAlign = TextAlign.Center,
     style: TextStyle,
-    fontWeight: FontWeight? = null,
+    targetTextSizeHeight: TextUnit = style.fontSize,
+    maxLines: Int = 1,
 ) {
-    var textStyle by remember { mutableStateOf(style) }
-    var readyToDraw by remember { mutableStateOf(false) }
+    var textSize by remember { mutableStateOf(targetTextSizeHeight) }
 
     Text(
+        modifier = modifier,
         text = text,
-        style = textStyle,
         color = color,
-        fontWeight = fontWeight,
-        overflow = TextOverflow.Clip,
-        modifier = modifier.drawWithContent {
-            if (readyToDraw) drawContent()
-        },
+        textAlign = textAlign,
+        fontSize = textSize,
+        fontFamily = style.fontFamily,
+        fontStyle = style.fontStyle,
+        fontWeight = style.fontWeight,
+        lineHeight = style.lineHeight,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
         onTextLayout = { textLayoutResult ->
-            if (textLayoutResult.didOverflowHeight) {
-                textStyle = textStyle.copy(fontSize = textStyle.fontSize * 0.9)
-            } else {
-                readyToDraw = true
+            val maxCurrentLineIndex: Int = textLayoutResult.lineCount - 1
+
+            if (textLayoutResult.isLineEllipsized(maxCurrentLineIndex)) {
+                textSize = textSize.times(TEXT_SCALE_REDUCTION_INTERVAL)
             }
         },
     )

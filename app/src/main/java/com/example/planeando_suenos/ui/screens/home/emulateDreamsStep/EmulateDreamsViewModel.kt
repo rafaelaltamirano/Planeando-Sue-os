@@ -6,18 +6,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.domain.entities.Categories
 import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.response.smartShopping.DreamCalendarItem
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.GetDreamByIdAndPriorityUseCase
-import com.example.planeando_suenos.usescases.GetDreamPlanCalendarUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
 class EmulateDreamsViewModel @Inject constructor(
-    private val getDreamPlanCalendarUseCase: GetDreamPlanCalendarUseCase,
     private val getDreamByIdAndPriorityUseCase: GetDreamByIdAndPriorityUseCase
 ) : ViewModelWithStatus() {
 
@@ -28,16 +27,16 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(step = step)
     }
 
+    fun setCategories(categories: List<Categories>) {
+        state = state.copy(categories = categories)
+    }
+
     fun nextStep() {
         setStep(state.step.next())
     }
 
     fun prevStep() {
         setStep(state.step.prev())
-    }
-
-    fun setChecked(check: Boolean) {
-        state = state.copy(checked = check)
     }
 
     private fun setLoading(loading: Boolean) {
@@ -64,6 +63,14 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(dreamName = dreamName)
     }
 
+    fun setContentCreditSheet(contentCreditSheet: Boolean) {
+        state = state.copy(contentCreditSheet = contentCreditSheet)
+    }
+
+    fun setDreamSendToEmail(status: Boolean) {
+        state = state.copy(sendToEmail = status)
+    }
+
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {
         val list = state.dreamWithUser?.dream?.toMutableList()
         list?.set(position, newDream)
@@ -76,7 +83,6 @@ class EmulateDreamsViewModel @Inject constructor(
             userFinance = state.dreamWithUser?.userFinance,
             dream = list
         )
-
         state = state.copy(dreamWithUser = dreamWithUserUpdated)
     }
 
@@ -86,7 +92,7 @@ class EmulateDreamsViewModel @Inject constructor(
             setLoading(true)
             try {
                 withContext(Dispatchers.IO) {
-                    getDreamPlanCalendarUseCase(dreamId)
+                    getDreamByIdAndPriorityUseCase.getDreamPlanCalendar(dreamId)
                 }.also { setDreamsCalendarItem(it) }
             } catch (e: Exception) {
                 handleNetworkError(e)
@@ -100,7 +106,20 @@ class EmulateDreamsViewModel @Inject constructor(
         setLoading(true)
         try {
             withContext(Dispatchers.IO) {
-                getDreamPlanCalendarUseCase.updateDream(dreamPlan)
+                getDreamByIdAndPriorityUseCase.updateDream(dreamPlan)
+            }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+
+        }
+    }
+     suspend fun sendDreamPlanEmail() = viewModelScope.launch {
+        setLoading(true)
+        try {
+            withContext(Dispatchers.IO) {
+                getDreamByIdAndPriorityUseCase.sendDreamPlanEmail(state.dreamId)
             }
         } catch (e: Exception) {
             handleNetworkError(e)
@@ -110,10 +129,17 @@ class EmulateDreamsViewModel @Inject constructor(
         }
     }
 
+
+
     fun getDream(dreamId: String, priority: String) = viewModelScope.launch {
         setLoading(true)
         try {
-            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase(dreamId, priority) }.also {
+            withContext(Dispatchers.IO) {
+                getDreamByIdAndPriorityUseCase.getDreamById(
+                    dreamId,
+                    priority
+                )
+            }.also {
                 setDreamWithUser(it)
             }
         } catch (e: Exception) {
@@ -123,7 +149,7 @@ class EmulateDreamsViewModel @Inject constructor(
         }
     }
 
-    fun setPriority(priority: String) {
+    fun setPriority(priority: String?) {
         state = state.copy(prioritySelected = priority)
     }
 
@@ -138,12 +164,10 @@ class EmulateDreamsViewModel @Inject constructor(
                 id = state.dreamWithUser?.id
             )
         ).invokeOnCompletion {
-            getDream(state.dreamId, "").invokeOnCompletion {
+            getDream(state.dreamId, state.prioritySelected ?: "").invokeOnCompletion {
                 nextStep()
             }
         }
     }
-
-
 }
 

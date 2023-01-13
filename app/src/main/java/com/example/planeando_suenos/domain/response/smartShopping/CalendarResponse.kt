@@ -1,6 +1,5 @@
 package com.example.planeando_suenos.domain.response.smartShopping
 
-import androidx.compose.ui.graphics.Color
 import com.google.gson.annotations.SerializedName
 
 data class CalendarResponse(

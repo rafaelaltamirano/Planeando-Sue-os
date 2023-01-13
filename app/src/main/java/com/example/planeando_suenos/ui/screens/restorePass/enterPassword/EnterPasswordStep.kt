@@ -6,6 +6,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -25,6 +27,8 @@ fun EnterPasswordStep(
     onNext: () -> Unit,
     model: RestorePasswordViewModel,
 ) {
+    val checkPassword = remember { mutableStateOf(false) }
+    val state = model.state
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,15 +53,16 @@ fun EnterPasswordStep(
             value = model.state.newPassword,
             placeholder = R.string.password_example,
             security = true,
+            onFocus = model::setPasswordError,
             leadingIcon = R.drawable.ic_lock,
             onValueChanged = model::setNewPassword,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
         )
-        ValidatorMessage("Mínimo 8 caracteres", null)
-        ValidatorMessage("Al menos un número (0-9) o símbolo", null)
-        ValidatorMessage("Minúscula (a-z) y mayúscula(A-Z)", null)
+        ValidatorMessage("Mínimo 8 caracteres", model.state.validCharacter)
+        ValidatorMessage("Al menos un número (0-9)", model.state.validMayus)
+        ValidatorMessage("Minúscula (a-z) y mayúscula(A-Z)", model.state.validNumber)
         Spacer(Modifier.height(10.dp))
         Text(
             color = Color.Black,
@@ -72,6 +77,8 @@ fun EnterPasswordStep(
             value = model.state.repeatNewPassword,
             placeholder = R.string.password_example,
             security = true,
+            error = model.state.passwordError,
+            onFocus = model::setPasswordError,
             leadingIcon = R.drawable.ic_lock,
             onValueChanged = model::setRepeatNewPassword,
             modifier = Modifier
@@ -81,8 +88,18 @@ fun EnterPasswordStep(
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
 
         SubmitButton(
-            stringResource(R.string.reset),
-            onClick = onNext,
+            enabled = state.newPassword != "" && state.repeatNewPassword != "",
+            text = stringResource(R.string.reset),
+            onClick = {
+                if (state.newPassword == state.repeatNewPassword) {
+                    checkPassword.value = true
+                    model.setPasswordError("")
+                } else {
+                    checkPassword.value = false
+                    model.setPasswordError("Las contraseñas no coinciden")
+                }
+                if (checkPassword.value) onNext()
+            }
         )
     }
 }

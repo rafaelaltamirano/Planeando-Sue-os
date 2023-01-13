@@ -6,10 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,13 +48,20 @@ fun IncomeDataStep(
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
     val state = model.state
-    lateinit var itemSelected:IncomeItems
 
-    //TODO: to edit
-    if(mainModel.state.dreamEdit!=null){
-        selectedValue.value =   when (mainModel.state.dreamEdit?.userFinance?.income?.type){
-            "fixedSalary" -> "Sueldo Fijo"
-            else -> "Sueldo Variable"
+    //EDIT OPTION
+    LaunchedEffect(Unit) {
+        if (mainModel.state.dreamEdit != null && !model.state.edited) {
+            val res = when (mainModel.state.dreamEdit?.userFinance?.income?.type) {
+                "fixedSalary" -> "Sueldo Fijo"
+                else -> "Sueldo Variable"
+            }
+            onChangeState(res)
+            model.setSalaryAmount(mainModel.state.dreamEdit?.userFinance?.income?.amount)
+            model.setFrequency(mainModel.state.dreamEdit?.userFinance?.income?.frequency ?: "")
+            model.setAdditionalIncomes(mainModel.state.dreamEdit?.userFinance?.income?.additionalIncomeAmount)
+            model.setDreamId(mainModel.state.dreamEdit?.id ?: "")
+            model.setEdited(true)
         }
     }
 
@@ -114,11 +118,9 @@ fun IncomeDataStep(
             val label: String
             val placeholder: Int
             if (selectedValue.value == FIXED_SALARY.value) {
-                itemSelected = FIXED_SALARY
                 label = stringResource(R.string.fixed_salary)
                 placeholder = R.string.enter_amount
             } else {
-                itemSelected = VARIABLE_SALARY
                 label = stringResource(R.string.variable_salary)
                 placeholder = R.string.approximately_income
             }
@@ -145,9 +147,9 @@ fun IncomeDataStep(
                     enabled = state.salaryAmount!=null,
                     onClick = {
                         model.setSalaryType(
-                            when(itemSelected){
-                                FIXED_SALARY -> "fixedSalary"
-                                VARIABLE_SALARY -> "variableSalary"
+                            when(selectedValue.value){
+                                FIXED_SALARY.value -> "fixedSalary"
+                                else -> "variableSalary"
                             })
                         onNext() }
                 )
