@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
+import com.example.planeando_suenos.ui.Status
 import com.example.planeando_suenos.ui.components.BottomSheetDreamOptions
 import com.example.planeando_suenos.ui.components.TopBarClearWithBack
 import com.example.planeando_suenos.ui.main.MainViewModel
@@ -36,6 +37,17 @@ fun EmulateDreamsScreen(
     val topBarTitle: String
     val bigFont: Boolean
     val prioritySelected = remember { mutableStateOf("") }
+
+    model.status?.also {
+        val (status, _) = it
+        when (status) {
+            Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
+            Status.ERROR -> mainModel.setErrorStatus(it)
+            Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
+            else -> {}
+        }
+        model.clearStatus()
+    }
 
     LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) } }
 
@@ -188,7 +200,7 @@ fun EmulateDreamsScreen(
                                 )
                             }.invokeOnCompletion {
                                 if (state.sendToEmail) coroutineScope.launch { model.sendDreamPlanEmail() }
-                                model.setCategories(getCategoryList(dream = model.state.dreamWithUser?.dream))
+                                model.setCategories(getCategoryList(dreamPlan = model.state.dreamWithUser))
                                 model.nextStep()
                                 model.setContentCreditSheet(true)
                             }

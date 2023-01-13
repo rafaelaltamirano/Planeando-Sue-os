@@ -12,6 +12,8 @@ data class UserFinance(
     val income: Income? = null,
     val expenses: Expenses? = null,
     val paymentCapability: Float? = null,
+    val initialPaymentCapability: Float? = null,
+    val percentage: Float? = 0f,
 )
 
 data class Income(
@@ -60,11 +62,3 @@ data class Category(
     val interestRatePercentage: Float? = null,
 )
 
-
-data class DreamTypeForGrid(
-    val id: String? = null,
-    val title: String? = null,
-    val iconName: String? = null,
-    val index: Int? = null,
-    val category: Category? = null,
-)

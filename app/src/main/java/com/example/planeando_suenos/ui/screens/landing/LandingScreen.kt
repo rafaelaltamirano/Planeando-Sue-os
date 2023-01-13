@@ -1,7 +1,6 @@
 package com.example.planeando_suenos.ui.screens.landing
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,10 +13,11 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -49,12 +49,10 @@ fun LandingScreen(
             modifier = Modifier
                 .padding(dimensionResource(R.dimen.gap4)),
         ) {
-
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.gap4)))
             Row(
                 Modifier.padding(
-                    start = dimensionResource(R.dimen.gap5),
-                    end = dimensionResource(R.dimen.gap5),
-                    top = dimensionResource(R.dimen.gap5)
+                    horizontal = dimensionResource(R.dimen.gap5),
                 )
             ) {
                 Text(
@@ -64,20 +62,23 @@ fun LandingScreen(
                     fontSize = 18.sp
                 )
             }
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.gap4)))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = dimensionResource(R.dimen.gap5))
             ) {
                 Text(
-                    text = stringResource(R.string.you_are_ready),
-                    style = MaterialTheme.typography.caption,
-                    fontWeight = FontWeight.Bold,
+                    text = stringResource(R.string.legals),
+                    style = TextStyle(fontStyle = FontStyle.Italic),
+                    fontWeight = FontWeight.ExtraLight,
+                    letterSpacing = 1.sp,
                     color = Black,
                     textAlign = TextAlign.Start,
-                    fontSize = 18.sp
+                    fontSize = 12.sp
                 )
             }
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.gap4)))
             SubmitButton(
                 text = stringResource(R.string.register),
                 onClick = { navController.navigate(PublicRouterDir.REGISTER.route) },

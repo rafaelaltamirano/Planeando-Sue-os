@@ -50,8 +50,8 @@ fun CreditQuestionStep(
                 model.setCreditText("Si, tengo un préstamo")
                 model.setHasCredit(false)
             } else {
-                onChangeState("No. No tengo préstamos")
-                model.setCreditText("No. No tengo préstamos")
+                onChangeState("No, No tengo préstamos")
+                model.setCreditText("No, No tengo préstamos")
                 model.setHasCredit(false)
             }
         }
@@ -69,7 +69,7 @@ fun CreditQuestionStep(
                 fontSize = 15.sp, fontWeight = FontWeight.W400, lineHeight = 24.sp
             )
             PersonalInfoCard(
-                "¿Cómo son tus egresos semanales?",
+                "¿Cómo son tus gastos semanales?",
                 "Hogar: ",
                 state.homeExpense.toString(),
                 "Transporte: ",

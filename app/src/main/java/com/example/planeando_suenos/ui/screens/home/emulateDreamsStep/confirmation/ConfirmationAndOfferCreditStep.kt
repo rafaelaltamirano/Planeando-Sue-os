@@ -12,17 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
-import com.example.planeando_suenos.ui.components.DreamPromotionCardItem
-import com.example.planeando_suenos.ui.components.SubmitButton
-import com.example.planeando_suenos.ui.components.TopBarWithCheck
+import com.example.planeando_suenos.ui.components.*
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
 import com.example.planeando_suenos.ui.theme.*
+import java.text.DecimalFormat
 import java.util.*
 
 
@@ -51,7 +51,7 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit,
                 ),
         ) {
             Text(
-                text = "Plan de sueños\nguardado con éxito",
+                text = "¡Te ayudamos a cumplir\n tus sueños hoy!",
                 style = MaterialTheme.typography.h2,
                 fontWeight = FontWeight.W700,
                 fontSize = 24.sp,
@@ -98,3 +98,4 @@ fun ConfirmationAndOfferCreditStep(onClick: () -> Unit,
         }
     }
 }
+

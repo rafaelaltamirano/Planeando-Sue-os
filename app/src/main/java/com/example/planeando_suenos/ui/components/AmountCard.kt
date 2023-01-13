@@ -38,7 +38,6 @@ fun AmountCard(
         CardType.EXPENSES -> "_"
         CardType.CAPACITY_DREAM -> "="
     }
-
     val dec = DecimalFormat("#,###.##")
     val amountWithComa = dec.format(amount)
     val amountBeforeDecimal = amountWithComa.toString().substringBefore(".")
@@ -158,3 +157,4 @@ fun AmountCard(
         }
     }
 }
+

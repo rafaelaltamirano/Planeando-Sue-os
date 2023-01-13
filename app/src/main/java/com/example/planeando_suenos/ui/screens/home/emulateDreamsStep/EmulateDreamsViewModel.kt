@@ -71,6 +71,11 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(sendToEmail = status)
     }
 
+
+    fun setPriority(priority: String?) {
+        state = state.copy(prioritySelected = priority)
+    }
+
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {
         val list = state.dreamWithUser?.dream?.toMutableList()
         list?.set(position, newDream)
@@ -145,9 +150,6 @@ class EmulateDreamsViewModel @Inject constructor(
         }
     }
 
-    fun setPriority(priority: String?) {
-        state = state.copy(prioritySelected = priority)
-    }
 
 
     fun updateDreamAndGetCalendar() = viewModelScope.launch {

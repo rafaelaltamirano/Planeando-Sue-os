@@ -95,19 +95,27 @@ class ApproximateIncomesViewModel @Inject constructor(
                    totalExpense = 0f,
                    amountPerDay = 0f
                ),
-               paymentCapability = 0f
+               percentage = 1f
            ),
        )
     }
 
 
-    fun getDreamObjectWithAllData(expenses: Expenses,paymentCapability: Float,dreamList: List<Dream>?): DreamPlan {
+    fun getDreamObjectWithAllData(
+        expenses: Expenses,
+        paymentCapability: Float,
+        dreamList: List<Dream>?,
+        initialPaymentCapability: Float,
+        percentage: Float?
+    ): DreamPlan {
         return  DreamPlan(
             id = state.dreamId,
             userFinance = UserFinance(
                 income = getIncomeObject(),
                 expenses = expenses,
-                paymentCapability = paymentCapability
+                paymentCapability = paymentCapability,
+                initialPaymentCapability = initialPaymentCapability,
+                percentage = percentage
             ),
             dream = dreamList
         )

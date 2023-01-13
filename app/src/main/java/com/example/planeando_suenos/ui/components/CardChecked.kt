@@ -54,11 +54,18 @@ fun CardChecked(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            if (checked) {
-                Icon(imageVector = Icons.Filled.Done, contentDescription = "", tint = colorChecked)
+
+            Row(modifier = Modifier.weight(0.2f)) {
+                if (checked) {
+                    Icon(
+                        imageVector = Icons.Filled.Done,
+                        contentDescription = "",
+                        tint = colorChecked
+                    )
+                }
             }
 
-            Column {
+            Column(Modifier.weight(if(checked)0.8f else 1f)) {
                 Text(
                     text = title,
                     color = if(enable) colorChecked else colorDisable,
@@ -99,7 +106,7 @@ fun PrevCardChecked() {
         Spacer(modifier = Modifier.size(16.dp))
         CardChecked(false, enable = false,title = "Tus ingresos aproximados", subTitle = "$ 1.600.00 semanales") {}
         Spacer(modifier = Modifier.size(16.dp))
-        CardChecked(false, title = "Tus egresos, gastos o créditos", subTitle =  "$ 861.40 semanales") {}
+        CardChecked(false, title = "Tus gastos o créditos", subTitle =  "$ 861.40 semanales") {}
         Spacer(modifier = Modifier.size(16.dp))
     }
 }

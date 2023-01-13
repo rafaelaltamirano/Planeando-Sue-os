@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.smartShopping.*
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.ApproximateIncomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -98,12 +99,13 @@ class YourExpensesIncomeViewModel @Inject constructor(
                     loanOrCredit = state.creditAmount,
                     loanOrCreditPaymentDate = state.creditEndDate
                 ),
-                income = state.income
+                income = state.income,
+                percentage = 1f,
             ),
         )
     }
 
-    fun getDreamObjectWithAllData(dreamList:List<Dream>?): DreamPlan {
+    fun getDreamObjectWithAllData(dreamWithUser: DreamWithUser?): DreamPlan {
         return  DreamPlan(
             id = state.dreamId,
             userFinance = UserFinance(
@@ -115,9 +117,10 @@ class YourExpensesIncomeViewModel @Inject constructor(
                     loanOrCredit = state.creditAmount,
                     loanOrCreditPaymentDate = state.creditEndDate
                 ),
-                income = state.income
+                income = state.income,
+                percentage = dreamWithUser?.userFinance?.percentage
             ),
-            dream = dreamList
+            dream = dreamWithUser?.dream
         )
     }
 

@@ -13,7 +13,6 @@ import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
-import com.example.planeando_suenos.ui.screens.home.step2.Step2Step
 import com.example.planeando_suenos.ui.screens.home.step3.creditAmount.CreditAmountStep
 import com.example.planeando_suenos.ui.screens.home.step3.creditQuestion.CreditQuestionStep
 import com.example.planeando_suenos.ui.screens.home.step3.frequencyExpenses.FrequencyExpensesStep
@@ -128,7 +127,7 @@ fun YourExpensesScreen(
 
                     coroutineScope.launch {
                         if (mainModel.state.dreamEdit != null) {
-                            model.updateDream(model.getDreamObjectWithAllData(mainModel.state.dreamEdit?.dream))
+                            model.updateDream(model.getDreamObjectWithAllData(mainModel.state.dreamEdit))
                         }
                         else model.updateDream(model.getDreamObject())
                     }
