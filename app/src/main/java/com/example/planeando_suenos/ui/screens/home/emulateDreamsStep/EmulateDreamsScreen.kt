@@ -40,12 +40,15 @@ fun EmulateDreamsScreen(
     LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) } }
 
     BackHandler(enabled = true) {
-        if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) navController.navigate(UserRouterDir.HOME.route) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                inclusive = true
+        model.setContentCreditSheet(false)
+        if (state.step == EmulateDreamsStep.REVIEW_NUMBERS) {
+            mainModel.setDreamEdit(null)
+            navController.navigate(UserRouterDir.HOME.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
             }
-        }
-        else model.prevStep()
+        } else model.prevStep()
     }
 
     //SET TOP BAR TITLE
@@ -203,6 +206,7 @@ fun EmulateDreamsScreen(
                             mainModel.setDreamEdit(null)
                             mainModel.setDreamId(null)
                             model.setDreamWithUser(null)
+                            model.setDreamName("")
                             navController.navigate(UserRouterDir.HOME.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     inclusive = true
