@@ -40,8 +40,9 @@ class AuthDaoImp @Inject constructor(
         ApiTools.validateResponseOrFail(res)
     }
 
-    override suspend fun resetPassword(resetPasswordBody: ResetPasswordBody) {
+    override suspend fun resetPassword(resetPasswordBody: ResetPasswordBody): Boolean {
         val res = authenticationApi.resetPassword(resetPasswordBody)
         ApiTools.validateResponseOrFail(res)
+        return res.body()!!.success
     }
 }

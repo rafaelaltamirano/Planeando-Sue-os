@@ -29,4 +29,5 @@ data class RestorePasswordState (
     val validMayus: Boolean? = null,
     val emailError: String = "",
     val passwordError: String? = null,
+    val resetPasswordSuccess: Boolean? = null
 )

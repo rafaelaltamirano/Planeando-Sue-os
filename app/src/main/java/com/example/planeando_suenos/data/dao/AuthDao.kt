@@ -12,6 +12,6 @@ interface AuthDao {
     suspend fun verifyEmail(token: String)
     suspend fun resendEmailVerificationToken()
     suspend fun sendOTPCodeForPasswordRecovery(email: String)
-    suspend fun resetPassword(resetPasswordBody: ResetPasswordBody)
+    suspend fun resetPassword(resetPasswordBody: ResetPasswordBody): Boolean
 
 }
