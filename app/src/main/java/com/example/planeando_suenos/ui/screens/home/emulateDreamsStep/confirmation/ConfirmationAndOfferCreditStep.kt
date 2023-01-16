@@ -11,25 +11,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
-import com.example.planeando_suenos.ui.components.*
+import com.example.planeando_suenos.ui.components.DreamPromotionCardItem
+import com.example.planeando_suenos.ui.components.SubmitButton
+import com.example.planeando_suenos.ui.components.TopBarWithCheck
 import com.example.planeando_suenos.ui.screens.home.emulateDreamsStep.EmulateDreamsViewModel
 import com.example.planeando_suenos.ui.screens.utils.convertDateToFormat
-import com.example.planeando_suenos.ui.theme.*
-import java.text.DecimalFormat
+import com.example.planeando_suenos.ui.theme.Accent
+import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 import java.util.*
 
 
 @Composable
-fun ConfirmationAndOfferCreditStep(onClick: () -> Unit,
-                                   onSubmit: () -> Unit,
-                                   model: EmulateDreamsViewModel) {
+fun ConfirmationAndOfferCreditStep(
+    onClick: () -> Unit,
+    onSubmit: () -> Unit,
+    model: EmulateDreamsViewModel
+) {
 
 
     val dateTimeToday = Calendar.getInstance().time.convertDateToFormat("dd MMM yyyy, hh:mm")

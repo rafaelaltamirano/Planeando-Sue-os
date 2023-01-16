@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.entities.Categories
 import com.example.planeando_suenos.domain.entities.DreamWithUser
+import java.text.DecimalFormat
+import kotlin.math.ceil
 import kotlin.math.pow
 
 // RETORNA LA CANTIDAD DE SEMANAS ENTRE DOS FECHAS
@@ -45,15 +47,16 @@ fun getCategoryList(dreamPlan: DreamWithUser?): List<Categories> {
     val paymentCapability = dreamPlan?.userFinance?.paymentCapability ?: 0f
 
     group?.map { (category, dreams) ->
-        val percentage = category?.interestRatePercentage ?: 0f
+        val percentage = category?.interestRatePercentage?.div(100) ?: 0f
         val totalAmountPlaned = dreams.mapNotNull { it.amountPlaned }.sum()
 
         val title = category?.title
         val maxPaymentQuantity = dreams.maxOf { it.paymentQuantity ?: 0f }// A
-        val weekFrom = dreamPlan.userFinance?.paymentCapability?.toInt()// X
-        val amountWeekTo = ((totalAmountPlaned * percentage / 52) / (1 - (1 + (percentage) / 52).pow(maxPaymentQuantity))) // Y
-        val weekTo = (amountWeekTo * maxPaymentQuantity / paymentCapability).toInt()//B
-        val amountToPay = amountWeekTo * maxPaymentQuantity
+        val weekFrom = ceil(maxPaymentQuantity.toDouble()).toInt()// X
+        val amountWeekTo = ((totalAmountPlaned * percentage / 52) / (1 - (1 + (percentage) / 52).pow(-maxPaymentQuantity))) // Y
+        val weekTo = ceil((amountWeekTo * maxPaymentQuantity / paymentCapability)).toInt()//B
+        val decimalFormat = DecimalFormat("#,###.##")
+        val amountToPay = decimalFormat.format((amountWeekTo * maxPaymentQuantity).toDouble()).toFloat()
 
         categories.add(
             Categories(

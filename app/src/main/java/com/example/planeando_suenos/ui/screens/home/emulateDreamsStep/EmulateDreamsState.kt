@@ -40,4 +40,5 @@ data class EmulateDreamsState(
     val dreamName: String = "",
     val contentCreditSheet: Boolean = false,
     val sendToEmail: Boolean = false,
+    val percentageSlider: Float = 40f
 )

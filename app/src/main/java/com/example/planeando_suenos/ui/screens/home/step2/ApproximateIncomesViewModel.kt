@@ -1,13 +1,10 @@
 package com.example.planeando_suenos.ui.screens.home.step2
 
-import android.content.pm.Capability
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.example.planeando_suenos.domain.body.authentication.LoginBody
 import com.example.planeando_suenos.domain.body.smartShopping.*
-import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.ApproximateIncomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -95,7 +92,6 @@ class ApproximateIncomesViewModel @Inject constructor(
                    totalExpense = 0f,
                    amountPerDay = 0f
                ),
-               percentage = 1f
            ),
        )
     }
