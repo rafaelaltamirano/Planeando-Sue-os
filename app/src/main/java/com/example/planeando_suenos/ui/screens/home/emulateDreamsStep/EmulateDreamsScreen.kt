@@ -96,6 +96,17 @@ fun EmulateDreamsScreen(
         onNext = {
             model.setPriority(it)
             prioritySelected.value = it
+            coroutineScope.launch {
+                model.updateDream(
+                    DreamPlan(
+                        title = state.dreamWithUser?.title,
+                        endDate = state.dreamWithUser?.endDate,
+                        userFinance = state.dreamWithUser?.userFinance,
+                        dream = state.dreamWithUser?.dream,
+                        id = state.dreamWithUser?.id
+                    )
+                )
+            }
             if (state.cancelOnNext) {
                 coroutineScope.launch {
                     dreamId?.let {

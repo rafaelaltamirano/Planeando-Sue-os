@@ -44,8 +44,9 @@ fun ReviewNumbersStep(
 
     val dream = model.state.dreamWithUser
 
-    val paymentCapabilityWithPercentage =
-        dream?.userFinance?.paymentCapability?.times(model.state.percentageSlider / 100)
+    val capabilityToConvert = dream?.userFinance?.initialPaymentCapability ?: dream?.userFinance?.paymentCapability
+
+    val paymentCapabilityWithPercentage = capabilityToConvert?.times(model.state.percentageSlider / 100)
 
     if (dream == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
