@@ -10,6 +10,7 @@ import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.domain.entities.User
 import com.example.planeando_suenos.ui.ViewModelWithStatus
+import com.example.planeando_suenos.usescases.GetDreamByIdAndPriorityUseCase
 import com.example.planeando_suenos.usescases.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeUseCase: HomeUseCase,
+    private val getDreamByIdAndPriorityUseCase: GetDreamByIdAndPriorityUseCase
 ) : ViewModelWithStatus() {
     var state by mutableStateOf(HomeState())
         private set
@@ -68,6 +70,23 @@ class HomeViewModel @Inject constructor(
         try {
             withContext(Dispatchers.IO) { homeUseCase.getAllDreams() }.also {
                 setDreamWithUserList(it)
+            }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    private fun setDreamWithUser(dreamWithUser: DreamWithUser) {
+        state = state.copy(dreamWithUser = dreamWithUser)
+    }
+
+    fun getDreamById(dreamId: String) = viewModelScope.launch {
+        setLoading(true)
+        try {
+            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase.getDreamById(dreamId, "") }.also {
+                setDreamWithUser(it)
             }
         } catch (e: Exception) {
             handleNetworkError(e)
