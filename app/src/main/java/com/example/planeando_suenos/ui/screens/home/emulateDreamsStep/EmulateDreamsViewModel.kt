@@ -76,6 +76,10 @@ class EmulateDreamsViewModel @Inject constructor(
         state = state.copy(prioritySelected = priority)
     }
 
+    fun setPercentageSlider(percentage: Float) {
+        state = state.copy(percentageSlider = percentage)
+    }
+
     fun setNewDreamListUpdate(newDream: Dream, position: Int) {
         val list = state.dreamWithUser?.dream?.toMutableList()
         list?.set(position, newDream)
@@ -111,7 +115,8 @@ class EmulateDreamsViewModel @Inject constructor(
         setLoading(true)
         try {
             withContext(Dispatchers.IO) {
-                getDreamByIdAndPriorityUseCase.updateDream(dreamPlan)
+                val newUserFinanceWithPercentage = dreamPlan.userFinance?.copy(percentage = state.percentageSlider)
+                getDreamByIdAndPriorityUseCase.updateDream(dreamPlan.copy(userFinance = newUserFinanceWithPercentage))
             }
         } catch (e: Exception) {
             handleNetworkError(e)

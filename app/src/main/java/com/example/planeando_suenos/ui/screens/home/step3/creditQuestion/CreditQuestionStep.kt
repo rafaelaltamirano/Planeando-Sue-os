@@ -38,7 +38,7 @@ fun CreditQuestionStep(
 ) {
     val selectedValue = remember { mutableStateOf("") }
     val state = model.state
-    val items = listOf("Si, tengo un préstamo", "No. No tengo préstamos")
+    val items = listOf("Si, tengo un préstamo", "No, no tengo préstamos")
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
     val onChangeState: (String) -> Unit = { selectedValue.value = it }
 

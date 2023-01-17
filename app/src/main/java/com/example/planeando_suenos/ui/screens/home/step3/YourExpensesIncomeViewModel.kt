@@ -100,7 +100,6 @@ class YourExpensesIncomeViewModel @Inject constructor(
                     loanOrCreditPaymentDate = state.creditEndDate
                 ),
                 income = state.income,
-                percentage = 1f,
             ),
         )
     }

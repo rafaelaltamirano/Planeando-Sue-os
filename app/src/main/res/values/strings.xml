@@ -51,7 +51,7 @@
     <string name="create_new_pass">Crear nueva contraseña</string>
     <string name="put_amount">Ingresa un monto</string>
     <string name="fixed_salary">Sueldo Fijo</string>
-    <string name="variable_salary">Sueldo variable</string>
+    <string name="variable_salary">Sueldo Variable</string>
     <string name="approximately_income">Ingresa un monto aproximado</string>
     <string name="enter_description">Ingresa una descripción</string>
     <string name="pet_care">ej: Cuidado de mi mascota</string>

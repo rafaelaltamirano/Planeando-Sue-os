@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,13 +26,13 @@ import com.example.planeando_suenos.R
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
-import com.example.planeando_suenos.ui.components.CardType
 import com.example.planeando_suenos.ui.components.CustomTextField
-import com.example.planeando_suenos.ui.components.ResizeText
 import com.example.planeando_suenos.ui.components.SubmitButton
 import com.example.planeando_suenos.ui.screens.home.step1.DreamsAndAspirationsViewModel
 import com.example.planeando_suenos.ui.screens.utils.ceilRound
-import com.example.planeando_suenos.ui.theme.*
+import com.example.planeando_suenos.ui.theme.Accent
+import com.example.planeando_suenos.ui.theme.BackgroundUncheckedItemDreamGrid
+import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
 
 
 @Composable

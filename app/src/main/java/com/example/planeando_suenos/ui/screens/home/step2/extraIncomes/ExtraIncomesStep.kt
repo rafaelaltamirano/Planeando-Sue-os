@@ -48,7 +48,7 @@ fun ExtraIncomesStep(
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))
         PersonalInfoCard(
             "¿Cómo son tus ingresos?",
-            "Tengo sueldo variable de,",
+            "Tengo sueldo variable de: ",
             state.salaryAmount.toString()
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.gap4)))

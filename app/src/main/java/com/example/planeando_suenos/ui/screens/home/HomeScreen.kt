@@ -39,6 +39,24 @@ fun HomeScreen(
     val mainState = mainModel.state
     val state = model.state
 
+    val dreamId = mainState.dreamId
+
+    if (!dreamId.isNullOrBlank()) {
+        LaunchedEffect(Unit) {
+            model.getDreamById(dreamId)
+        }
+    }
+
+    val dreamWithUser = state.dreamWithUser
+
+    val subtitleIncomeFrequency = when(dreamWithUser?.userFinance?.income?.frequency) {
+        "diary" -> "diarios"
+        "weekly" -> "semanales"
+        "biweekly" -> "quincenales"
+        "monthly" -> "mensuales"
+        else -> ""
+    }
+
     model.status?.also {
         val (status, _) = it
         when (status) {
@@ -113,7 +131,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep2,
                 enable = model.state.checkedStep1,
                 title = "Tus ingresos aproximados",
-                subTitle = "$ 1.600.00 semanales",
+                subTitle = "$ ${dreamWithUser?.userFinance?.income?.totalIncome} $subtitleIncomeFrequency",
                 onClick = {
                     if (!model.state.checkedStep2) {
                         navController.navigate(UserRouterDir.STEP_2.route)
@@ -132,7 +150,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep3,
                 enable = model.state.checkedStep1 && model.state.checkedStep2,
                 title = "Tus gastos",
-                subTitle = "$ 861.40 semanales",
+                subTitle = "$ ${dreamWithUser?.userFinance?.expenses?.totalExpense} semanales",
                 onClick = {
                     if (!model.state.checkedStep3) {
                         navController.navigate(UserRouterDir.STEP_3.route)
@@ -207,7 +225,7 @@ fun TopBarWithComponent(name: String, onClick: () -> Unit,
                     }
                 }
                 else {
-                    Column() {
+                    Column {
                         Text(
                             modifier = Modifier.padding(16.dp),
                             text = "¡Hola $name!",

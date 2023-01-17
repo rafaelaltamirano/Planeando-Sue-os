@@ -5,12 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.authentication.LoginBody
+import com.example.planeando_suenos.domain.body.authentication.ResetPasswordBody
 import com.example.planeando_suenos.domain.entities.Login
 import com.example.planeando_suenos.domain.enums.Fields
 import com.example.planeando_suenos.domain.exceptions.FieldInvalidException
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.LoginUseCase
 import com.example.planeando_suenos.usescases.RegisterUseCase
+import com.example.planeando_suenos.usescases.ResetPasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RestorePasswordViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val registerCase: RegisterUseCase
+    private val registerCase: RegisterUseCase,
+    private val resetPasswordUseCase: ResetPasswordUseCase
 ) : ViewModelWithStatus() {
 
     var state by mutableStateOf(RestorePasswordState())
@@ -105,6 +108,30 @@ class RestorePasswordViewModel @Inject constructor(
                 )
 
                 withContext(Dispatchers.IO) { loginUseCase.login(loginBody) }.also { setLogin(it) }
+
+            }
+        } catch (e: Exception) {
+            handleNetworkError(e)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    fun setResetPassword(success: Boolean?) {
+        state = state.copy(resetPasswordSuccess = success)
+    }
+
+    suspend fun resetPassword() {
+        if (state.loading) return
+        setLoading(true)
+        try {
+            viewModelScope.launch {
+                val resetPasswordBody = ResetPasswordBody(
+                    email = state.email,
+                    newPassword = state.newPassword
+                )
+
+                withContext(Dispatchers.IO) { resetPasswordUseCase(resetPasswordBody) }.also { setResetPassword(it) }
 
             }
         } catch (e: Exception) {

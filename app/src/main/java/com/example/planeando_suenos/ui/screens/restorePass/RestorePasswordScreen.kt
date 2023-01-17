@@ -1,10 +1,13 @@
 package com.example.planeando_suenos.ui.screens.restorePass
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.planeando_suenos.R
@@ -39,6 +42,11 @@ fun RestorePasswordScreen(
     val headerTitle = if (state.step == ENTER_EMAIL) stringResource(R.string.forgot_pass_heder)
     else stringResource(R.string.create_new_pass)
 
+    model.state.resetPasswordSuccess?.let {
+        if (it) model.nextStep()
+        model.setResetPassword(null)
+    }
+
     Scaffold(
         topBar = {
             if (state.step != FINISH) {
@@ -56,7 +64,9 @@ fun RestorePasswordScreen(
                 model = model
             )
             PUT_PASSWORD -> EnterPasswordStep(
-                onNext = model::nextStep,
+                onNext = {
+                    coroutineScope.launch { model.resetPassword() }
+                },
                 model = model
             )
 

@@ -13,7 +13,7 @@ data class UserFinance(
     val expenses: Expenses? = null,
     val paymentCapability: Float? = null,
     val initialPaymentCapability: Float? = null,
-    val percentage: Float? = 0f,
+    val percentage: Float? = 100f,
 )
 
 data class Income(
