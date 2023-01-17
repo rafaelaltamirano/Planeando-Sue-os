@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.entities.Categories
 import com.example.planeando_suenos.domain.entities.DreamWithUser
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -55,8 +57,9 @@ fun getCategoryList(dreamPlan: DreamWithUser?): List<Categories> {
         val weekFrom = ceil(maxPaymentQuantity.toDouble()).toInt()// X
         val amountWeekTo = ((totalAmountPlaned * percentage / 52) / (1 - (1 + (percentage) / 52).pow(-maxPaymentQuantity))) // Y
         val weekTo = ceil((amountWeekTo * maxPaymentQuantity / paymentCapability)).toInt()//B
-        val decimalFormat = DecimalFormat("#,###.##")
-        val amountToPay = decimalFormat.format((amountWeekTo * maxPaymentQuantity).toDouble()).toFloat()
+        val bigDecimal = BigDecimal((amountWeekTo * maxPaymentQuantity).toDouble())
+        val roundOff = bigDecimal.setScale(2, RoundingMode.CEILING)
+        val amountToPay = roundOff.toFloat()
 
         categories.add(
             Categories(

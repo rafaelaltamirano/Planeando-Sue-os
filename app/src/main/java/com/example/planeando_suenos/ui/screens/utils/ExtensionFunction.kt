@@ -32,3 +32,8 @@ fun String.toDate(): Date? {
     return sdf.parse(this)
 
 }
+
+fun Float.toAmount(): String {
+    val dec = DecimalFormat("#,###.00")
+    return dec.format(this)
+}

@@ -244,7 +244,7 @@ fun DreamPromotionCardItem(
 
 @Composable
 fun AmountTextView(amount: Float) {
-    val dec = DecimalFormat("#,###.##")
+    val dec = DecimalFormat("#,###.00")
     val amountWithComa = dec.format(amount)
     val amountBeforeDecimal = amountWithComa.toString().substringBefore(".")
     val amountAfterDecimals =

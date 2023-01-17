@@ -106,16 +106,17 @@ fun EmulateDreamsScreen(
                         id = state.dreamWithUser?.id
                     )
                 )
-            }
-            if (state.cancelOnNext) {
-                coroutineScope.launch {
-                    dreamId?.let {
-                        model.getDream(dreamId, prioritySelected.value)
-                        model.setStep(EmulateDreamsStep.LIST)
+            }.invokeOnCompletion {
+                if (state.cancelOnNext) {
+                    coroutineScope.launch {
+                        dreamId?.let {
+                            model.getDream(dreamId, prioritySelected.value)
+                            model.setStep(EmulateDreamsStep.LIST)
+                        }
                     }
-                }
 
-            } else model.nextStep()
+                } else model.nextStep()
+            }
         },
         model = model,
         contentCredit = state.contentCreditSheet
