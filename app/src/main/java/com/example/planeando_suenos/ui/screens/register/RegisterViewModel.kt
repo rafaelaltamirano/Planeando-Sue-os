@@ -93,6 +93,10 @@ class RegisterViewModel @Inject constructor(
         state = state.copy(emailError = emailError)
     }
 
+    fun setCpError(cpError: String = "") {
+        state = state.copy(cpError = cpError)
+    }
+
     fun setPasswordError(passwordError: String = "") {
         state = state.copy(passwordError = passwordError)
     }

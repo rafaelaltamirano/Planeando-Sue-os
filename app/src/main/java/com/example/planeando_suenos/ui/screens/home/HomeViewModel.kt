@@ -50,6 +50,10 @@ class HomeViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
+    private fun setEnd(end: Boolean) {
+        state = state.copy(end = end)
+    }
+
     fun setDreamWithUserList(dreamWithUserList: List<DreamWithUser>?) {
         state = state.copy(dreamWithUserList = dreamWithUserList)
     }
@@ -82,16 +86,14 @@ class HomeViewModel @Inject constructor(
         state = state.copy(dreamWithUser = dreamWithUser)
     }
 
-    fun getDreamById(dreamId: String) = viewModelScope.launch {
-        setLoading(true)
+     suspend fun getDreamById(dreamId: String) = viewModelScope.launch {
         try {
             withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase.getDreamById(dreamId, "") }.also {
                 setDreamWithUser(it)
+                setEnd(true)
             }
         } catch (e: Exception) {
             handleNetworkError(e)
-        } finally {
-            setLoading(false)
         }
     }
 

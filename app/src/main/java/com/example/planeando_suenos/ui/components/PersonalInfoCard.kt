@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
 import com.example.planeando_suenos.ui.theme.TextColorUncheckedItemDreamGrid
+import com.example.planeando_suenos.ui.theme.WhiteBusiness
+import java.text.DecimalFormat
 
 @Composable
 fun PersonalInfoCard(
@@ -31,13 +33,20 @@ fun PersonalInfoCard(
     subtitle4: String? = null,
     amount4: String? = null,
 ) {
+    val dec = DecimalFormat("#,###.00")
+    val amountFormat = amount?.let {dec.format(amount.toFloat()) }
+    val amount2Format = amount2?.let {dec.format(amount2.toFloat()) }
+    val amount3Format = amount3?.let {dec.format(amount3.toFloat()) }
+    val amount4Format = amount4?.let {dec.format(amount4.toFloat()) }
+
     Card(
         shape = RoundedCornerShape(10),
+        elevation = 0.dp,
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10)),
         border = BorderStroke(1.dp, TextColorUncheckedItemDreamGrid),
-        backgroundColor = Color.Transparent
+        backgroundColor = WhiteBusiness
     ) {
         Column() {
             Text(
@@ -56,11 +65,11 @@ fun PersonalInfoCard(
                    fontSize = 14.sp,
                    fontWeight = FontWeight.W400,
                )
-               amount?.let {
+               amountFormat?.let {
                    Text(
                        color = TextColorUncheckedItemDreamGrid,
                        style = MaterialTheme.typography.caption,
-                       text = " \$ $amount",
+                       text = " \$ $amountFormat",
                        fontSize = 14.sp,
                        fontWeight = FontWeight.W700,
                    )
@@ -76,11 +85,11 @@ fun PersonalInfoCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W400,
                     )
-                    amount2?.let {
+                    amount2Format?.let {
                         Text(
                             color = TextColorUncheckedItemDreamGrid,
                             style = MaterialTheme.typography.caption,
-                            text = "\$ $amount2",
+                            text = "\$ $amount2Format",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.W700,
                         )
@@ -97,11 +106,11 @@ fun PersonalInfoCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W400,
                     )
-                    amount3?.let {
+                    amount3Format?.let {
                         Text(
                             color = TextColorUncheckedItemDreamGrid,
                             style = MaterialTheme.typography.caption,
-                            text = "\$ $amount3",
+                            text = "\$ $amount3Format",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.W700,
                         )
@@ -118,11 +127,11 @@ fun PersonalInfoCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W400,
                     )
-                    amount4?.let {
+                    amount4Format?.let {
                         Text(
                             color = TextColorUncheckedItemDreamGrid,
                             style = MaterialTheme.typography.caption,
-                            text = "\$ $amount4",
+                            text = "\$ $amount4Format",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.W700,
                         )

@@ -28,7 +28,7 @@ fun CreditAmountStep(
 ) {
     val state = model.state
     val amountCreditToShow = remember {mutableStateOf("")}
-     if(state.creditAmount == 0f) amountCreditToShow.value = "" else amountCreditToShow.value = state.creditAmount.toString()
+     if(state.creditAmount.isNullOrBlank()) amountCreditToShow.value = "" else amountCreditToShow.value = state.creditAmount.toString()
 
     Column(
         Modifier
@@ -67,9 +67,9 @@ fun CreditAmountStep(
                 text = "¿Cuánto es el valor del crédito?"
             )
             CurrencyTextField(
-                value = amountCreditToShow.value,
+                value = amountCreditToShow.value?:"",
                 placeholder =  R.string.enter_amount,
-                onValueChanged = {model.setCreditAmount(it.toFloat())},
+                onValueChanged = {model.setCreditAmount(it)},
                 onDone = true,
                 modifier = Modifier
                     .fillMaxWidth()

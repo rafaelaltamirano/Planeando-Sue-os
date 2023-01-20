@@ -13,8 +13,8 @@ import com.example.planeando_suenos.ui.components.StepsProgressBar
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
-import com.example.planeando_suenos.ui.screens.home.step2.extraIncomes.FrequencyIncomesStep
-import com.example.planeando_suenos.ui.screens.home.step2.frecuencyIncomes.ExtraIncomesStep
+import com.example.planeando_suenos.ui.screens.home.step2.frecuencyIncomes.FrequencyIncomesStep
+import com.example.planeando_suenos.ui.screens.home.step2.extraIncomes.ExtraIncomesStep
 import com.example.planeando_suenos.ui.screens.home.step2.incomesData.IncomeDataStep
 import kotlinx.coroutines.launch
 
@@ -31,7 +31,7 @@ fun ApproximateIncomesScreen(
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(enabled = true) {
-        model.setEdited(false) // CLEAN EDIT OPTIONS
+//        model.setEdited(false) // CLEAN EDIT OPTIONS
         if (state.step == Step2Step.INCOME_DATA) {
             navController.popBackStack()
             // CLEAN EDIT OPTIONS
@@ -54,29 +54,7 @@ fun ApproximateIncomesScreen(
         }
         model.clearStatus()
     }
-
-    //SCREEN EDIT : REDIRECT TO EMULATE DREAMS, NEW DREAM : REDIRECT HOME
-    if (model.state.checked && mainModel.state.dreamEdit != null) {
-        LaunchedEffect(Unit) {
-            navController.navigate(UserRouterDir.EMULATE_DREAM.route)
-        }
-        mainModel.setDreamEdit(null)
-        model.setChecked(false)
-    } else if (model.state.checked) {
-        homeModel.setCheckedStep2(true)
-        homeModel.setIncome(model.getIncomeObject())
-        model.setStep(Step2Step.INCOME_DATA)
-        model.setChecked(false)
-        LaunchedEffect(Unit) {
-            navController.navigate(UserRouterDir.HOME.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    inclusive = true
-                }
-            }
-        }
-    }
-
-    mainModel.state.dreamId?.let {
+    if(mainModel.state.dreamId!=null) {
         LaunchedEffect(Unit) {
             model.setDreamId(mainModel.state.dreamId!!)
         }
@@ -88,7 +66,6 @@ fun ApproximateIncomesScreen(
                 numberOfSteps = Step2Step.values().size - 2,
                 currentStep = state.step.step,
                 onBackPress = {
-                    model.setEdited(false) // CLEAN EDIT OPTIONS
                     if (state.step == Step2Step.INCOME_DATA) {
                         navController.popBackStack()
 
@@ -116,16 +93,35 @@ fun ApproximateIncomesScreen(
             )
             Step2Step.EXTRA_INCOMES -> ExtraIncomesStep(
                 onSubmit = {
-                    coroutineScope.launch {
-                        if (mainModel.state.dreamEdit != null)
-                            model.updateDream(model.getDreamObjectWithAllData(
-                                mainModel.state.dreamEdit?.userFinance?.expenses!!,
-                                mainModel.state.dreamEdit?.userFinance?.paymentCapability!!,
-                                mainModel.state.dreamEdit?.dream,
-                                mainModel.state.dreamEdit?.userFinance?.initialPaymentCapability!!,
-                                mainModel.state.dreamEdit?.userFinance?.percentage,
-                                ))
-                        else model.updateDream(model.getDreamObject())
+
+                    if (mainModel.state.dreamEdit != null){
+                        coroutineScope.launch { model.updateDream(model.getDreamObjectWithAllData(
+                            mainModel.state.dreamEdit?.userFinance?.expenses!!,
+                            mainModel.state.dreamEdit?.userFinance?.paymentCapability!!,
+                            mainModel.state.dreamEdit?.dream,
+                            mainModel.state.dreamEdit?.userFinance?.initialPaymentCapability!!,
+                            mainModel.state.dreamEdit?.userFinance?.percentage,
+                        )) }.invokeOnCompletion {
+                            mainModel.setDreamEdit(null)
+                            model.setChecked(false)
+                            navController.navigate(UserRouterDir.EMULATE_DREAM.route)
+                            model.setStep(Step2Step.INCOME_DATA)
+                             }
+                    }
+                    else {
+                        coroutineScope.launch {
+                            model.updateDream(model.getDreamObject())
+                        }.invokeOnCompletion {
+                            homeModel.setCheckedStep2(true)
+                            homeModel.setIncome(model.getIncomeObject())
+                            model.setStep(Step2Step.INCOME_DATA)
+                            model.setChecked(true)
+                            navController.navigate(UserRouterDir.HOME.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    inclusive = true
+                                }
+                            }
+                        }
                     }
                 },
                 model = model

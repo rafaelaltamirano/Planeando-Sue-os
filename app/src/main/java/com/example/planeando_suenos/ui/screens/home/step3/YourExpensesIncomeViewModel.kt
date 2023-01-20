@@ -39,7 +39,7 @@ class YourExpensesIncomeViewModel @Inject constructor(
         state = state.copy(checked = checked)
     }
 
-    fun setCreditAmount(creditAmount: Float) {
+    fun setCreditAmount(creditAmount: String?) {
         state = state.copy(creditAmount = creditAmount)
     }
 
@@ -55,23 +55,19 @@ class YourExpensesIncomeViewModel @Inject constructor(
         state = state.copy(creditText = creditText)
     }
 
-    fun setHomeExpense(homeExpense: Float?) {
+    fun setHomeExpense(homeExpense: String?) {
         state = state.copy(homeExpense = homeExpense)
     }
 
-    fun setTransportExpense(transportExpense: Float?) {
+    fun setTransportExpense(transportExpense: String?) {
         state = state.copy(transportExpense = transportExpense)
     }
 
-    fun setEducationInversion(educationInversion: Float?) {
+    fun setEducationInversion(educationInversion: String?) {
         state = state.copy(educationInversion = educationInversion)
     }
 
-    fun setEdited(edited: Boolean) {
-        state = state.copy(edited = edited)
-    }
-
-    fun setEntertainmentExpense(entertainmentExpense: Float?) {
+    fun setEntertainmentExpense(entertainmentExpense: String?) {
         state = state.copy(entertainmentExpense = entertainmentExpense)
     }
 
@@ -92,11 +88,11 @@ class YourExpensesIncomeViewModel @Inject constructor(
             id = state.dreamId,
             userFinance = UserFinance(
                 expenses = Expenses(
-                    home = state.homeExpense,
-                    transport = state.transportExpense,
-                    education = state.educationInversion,
-                    hobby = state.entertainmentExpense,
-                    loanOrCredit = state.creditAmount,
+                    home = state.homeExpense?.toFloat(),
+                    transport = state.transportExpense?.toFloat(),
+                    education = state.educationInversion?.toFloat(),
+                    hobby = state.entertainmentExpense?.toFloat(),
+                    loanOrCredit = if(state.hasCredit) state.creditAmount?.toFloat() ?: 0f else 0f,
                     loanOrCreditPaymentDate = state.creditEndDate
                 ),
                 income = state.income,
@@ -109,11 +105,11 @@ class YourExpensesIncomeViewModel @Inject constructor(
             id = state.dreamId,
             userFinance = UserFinance(
                 expenses = Expenses(
-                    home = state.homeExpense,
-                    transport = state.transportExpense,
-                    education = state.educationInversion,
-                    hobby = state.entertainmentExpense,
-                    loanOrCredit = state.creditAmount,
+                    home = state.homeExpense?.toFloat(),
+                    transport = state.transportExpense?.toFloat(),
+                    education = state.educationInversion?.toFloat(),
+                    hobby = state.entertainmentExpense?.toFloat(),
+                    loanOrCredit = if(state.hasCredit) state.creditAmount?.toFloat() ?: 0f else 0f,
                     loanOrCreditPaymentDate = state.creditEndDate
                 ),
                 income = state.income,
@@ -129,7 +125,7 @@ class YourExpensesIncomeViewModel @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 approximateIncomeUseCase.updateDream(dreamPlan)
-            }.also { setChecked(true) }
+            }
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {

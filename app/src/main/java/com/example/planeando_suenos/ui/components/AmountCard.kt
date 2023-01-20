@@ -1,5 +1,7 @@
 package com.example.planeando_suenos.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +21,7 @@ import java.text.DecimalFormat
 
 enum class CardType(val value: String) {
     INCOMES("Tus ingresos"),
-    EXPENSES("Tus egresos y gastos"),
+    EXPENSES("Tus gastos"),
     CAPACITY_DREAM("Tu monto disponible \npara cumplir sueños")
 }
 
@@ -29,7 +31,7 @@ fun AmountCard(
     amount: Float? = null,
     onClick: () -> Unit,
 ) {
-    val backgroundColor = if (type == CardType.CAPACITY_DREAM) Accent else Color.Transparent
+    val backgroundColor = if (type == CardType.CAPACITY_DREAM) Accent else WhiteBusiness
     val simbol = when (type) {
         CardType.INCOMES -> ""
         CardType.EXPENSES -> "_"
@@ -40,7 +42,6 @@ fun AmountCard(
     val amountBeforeDecimal = amountWithComa.toString().substringBefore(".")
     val amountAfterDecimals = amountWithComa.toString().substringAfterLast(".").take(2).replace(",","0")
 
-
     Card(
         shape = RoundedCornerShape(10),
         modifier = Modifier
@@ -49,7 +50,7 @@ fun AmountCard(
             .clickable {
                 onClick()
             },
-        elevation = 2.dp,
+        elevation = 5.dp,
         backgroundColor = backgroundColor,
 
         ) {

@@ -30,13 +30,13 @@ fun YourExpensesScreen(
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(enabled = true) {
-        model.setEdited(false) // CLEAN EDIT OPTIONS
+//        model.setEdited(false) // CLEAN EDIT OPTIONS
         if (state.step == Step3Step.FREQUENCY_EXPENSES) {
             model.setHomeExpense(null)
             model.setTransportExpense(null)
             model.setEducationInversion(null)
             model.setEntertainmentExpense(null)
-            model.setCreditAmount(0f)
+            model.setCreditAmount(null)
             model.setDreamId("")
             navController.popBackStack()
         } else model.prevStep()
@@ -95,13 +95,13 @@ fun YourExpensesScreen(
                 numberOfSteps = Step3Step.values().size - 1,
                 currentStep = state.step.step,
                 onBackPress = {
-                    model.setEdited(false) // CLEAN EDIT OPTIONS
+//                    model.setEdited(false) // CLEAN EDIT OPTIONS
                     if (state.step == Step3Step.FREQUENCY_EXPENSES) {
                         model.setHomeExpense(null)
                         model.setTransportExpense(null)
                         model.setEducationInversion(null)
                         model.setEntertainmentExpense(null)
-                        model.setCreditAmount(0f)
+                        model.setCreditAmount(null)
                         model.setDreamId("")
                         navController.popBackStack()
                     } else model.prevStep()
@@ -124,12 +124,30 @@ fun YourExpensesScreen(
             Step3Step.CREDIT_AMOUNT -> CreditAmountStep(
                 model = model,
                 onNext = {
-
-                    coroutineScope.launch {
-                        if (mainModel.state.dreamEdit != null) {
-                            model.updateDream(model.getDreamObjectWithAllData(mainModel.state.dreamEdit))
+                    if (mainModel.state.dreamEdit != null) {
+                        coroutineScope.launch {
+                            if (mainModel.state.dreamEdit != null) {
+                                model.updateDream(model.getDreamObjectWithAllData(mainModel.state.dreamEdit))
+                            }
+                        }.invokeOnCompletion {
+                            mainModel.setDreamEdit(null)
+                            model.setChecked(false)
+                            navController.navigate(UserRouterDir.EMULATE_DREAM.route)
+                            model.setStep(Step3Step.FREQUENCY_EXPENSES)
                         }
-                        else model.updateDream(model.getDreamObject())
+                    } else {
+                        coroutineScope.launch {
+                            model.updateDream(model.getDreamObject())
+                        }.invokeOnCompletion {
+                            model.setChecked(true)
+                            homeModel.setCheckedStep3(true)
+                            model.setStep(Step3Step.FREQUENCY_EXPENSES)
+                            navController.navigate(UserRouterDir.HOME.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    inclusive = true
+                                }
+                            }
+                        }
                     }
                 },
             )

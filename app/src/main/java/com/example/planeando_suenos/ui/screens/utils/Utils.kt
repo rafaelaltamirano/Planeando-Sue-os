@@ -26,21 +26,6 @@ fun getWeeksFromDates(startDate: String?, endDate: String?): Int {
     return weeksDifference.toInt()
 }
 
-// FORMA DE OBTENER LAS SEMANALIDADES Y PLAZOS CUANDO SOLO PEDIAN UN DATO
-//fun getCategoryList(dream: List<Dream>?): List<Categories> {
-//    val group = dream?.groupBy { it.dreamType?.category }
-//    val categories = mutableStateListOf<Categories>()
-//
-//    group?.map { (category, dream) ->
-//        val title = category?.title
-//        val totalAmountPlaned = dream.mapNotNull { it.amountPlaned }.sum()
-//        val percentage = category?.interestRatePercentage
-//        val weeks = dream.map { getWeeksFromDates(it.startDate, it.endDate) }.maxOrNull()
-//        categories.add(Categories(title, totalAmountPlaned, weeks, percentage))
-//    }
-//    return categories.toList()
-//}
-
 fun getCategoryList(dreamPlan: DreamWithUser?): List<Categories> {
 
     val dream = dreamPlan?.dream

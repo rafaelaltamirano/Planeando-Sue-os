@@ -32,6 +32,7 @@ fun DreamPlanStep(
     onFinish: () -> Unit
 ) {
 
+    val state = model.state
     val itemDreams = model.state.dreamData?.dream?.mapNotNull { it.description }
     val dreamListData = model.state.dreamData?.dream?.toMutableList()
     lateinit var dreamPlan: DreamPlan
@@ -56,28 +57,17 @@ fun DreamPlanStep(
                 AmountDream(
                     dream = string,
                     onDone = true,
-                    value =
-                    if (model.state.dreamData?.dream?.get(index)?.amount != null) {
-                        model.state.dreamData?.dream?.get(index)?.amount.toString()
-                    } else "",
+                    value = state.dreamAmount[index],
                     onValueChanged = {
-                            val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
-                            dreamListData?.set(index, dreamUpdate!!)
-                            dreamPlan = DreamPlan(dream = dreamListData)
-                            model.setDreamData(dreamPlan)
+                        model.setUpdatedDreamAmount(it,index)
                     }
 
                 )
             } else AmountDream(
                 dream = string,
-                value = if (model.state.dreamData?.dream?.get(index)?.amount != null) {
-                    model.state.dreamData?.dream?.get(index)?.amount.toString()
-                } else "",
+                value = state.dreamAmount[index],
                 onValueChanged = {
-                        val dreamUpdate = dreamListData?.get(index)?.copy(amount = it.toFloat())
-                        dreamListData?.set(index, dreamUpdate!!)
-                        dreamPlan = DreamPlan(dream = dreamListData)
-                        model.setDreamData(dreamPlan)
+                    model.setUpdatedDreamAmount(it,index)
                 })
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -101,22 +91,30 @@ fun DreamPlanStep(
                 dreamPlan = DreamPlan(
                     endDate = date,
                     dream = dreamListData?.map {
-                    it.copy(
-                        startDate = Calendar.getInstance().time.convertDateToFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                    )
-                }
+                        it.copy(
+                            startDate = Calendar.getInstance().time.convertDateToFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                        )
+                    }
                 )
                 model.setDreamData(dreamPlan)
             }
         )
 
-        val amountFilled = model.state.dreamData?.dream!!.mapNotNull { it.amount }
+        val amountFilled = model.state.dreamAmount.filter { it.isNotEmpty()}
         SubmitButton(
             text = stringResource(R.string.finalize),
             loading = model.state.loading,
             enabled = model.state.dreamData?.dream!!.size == amountFilled.size
-                    && model.state.dreamData?.endDate!= null,
+                    && model.state.dreamData?.endDate != null,
             onClick = {
+
+                state.dreamAmount.forEachIndexed { index, amount ->
+                    val dreamUpdate = dreamListData?.get(index)?.copy(amount = amount.toFloat())
+                    dreamListData?.set(index, dreamUpdate!!)
+                    dreamPlan = DreamPlan(dream = dreamListData)
+                    model.setDreamData(dreamPlan)
+                }
+
                 onFinish()
 
             }
@@ -187,10 +185,15 @@ fun AmountDream(
             value = value,
             onDone = onDone,
             placeholder = R.string.enter_amount,
-            onValueChanged = onValueChanged,
+            onValueChanged = {
+                if (it == ".") {
+                    ""
+                } else onValueChanged(it)
+            },
             modifier = Modifier
                 .fillMaxWidth()
         )
     }
 }
+
 

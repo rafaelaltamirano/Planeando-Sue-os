@@ -8,8 +8,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +26,8 @@ import com.example.planeando_suenos.ui.theme.Accent
 import com.example.planeando_suenos.ui.theme.GrayBusiness
 import com.example.planeando_suenos.ui.theme.GreenBusiness
 import com.example.planeando_suenos.ui.theme.TextBusiness
+import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 
 @Composable
@@ -38,24 +39,11 @@ fun HomeScreen(
 
     val mainState = mainModel.state
     val state = model.state
-
     val dreamId = mainState.dreamId
-
-    if (!dreamId.isNullOrBlank()) {
-        LaunchedEffect(Unit) {
-            model.getDreamById(dreamId)
-        }
-    }
-
+    val dec = DecimalFormat("#,###.00")
     val dreamWithUser = state.dreamWithUser
-
-    val subtitleIncomeFrequency = when(dreamWithUser?.userFinance?.income?.frequency) {
-        "diary" -> "diarios"
-        "weekly" -> "semanales"
-        "biweekly" -> "quincenales"
-        "monthly" -> "mensuales"
-        else -> ""
-    }
+    val totalExpenseFormat = dreamWithUser?.userFinance?.expenses?.totalExpense?.let {dec.format(it) }
+    val totalIncomeFormat = dreamWithUser?.userFinance?.income?.totalIncome?.let {dec.format(it) }
 
     model.status?.also {
         val (status, _) = it
@@ -69,8 +57,8 @@ fun HomeScreen(
     }
 
     LaunchedEffect(Unit) {
-        model.getUserById(mainState.login?.id ?: "")
-            .invokeOnCompletion { mainModel.setUser(model.state.user!!) }
+        dreamId?.let { model.getDreamById(it) }
+        model.getUserById(mainState.login?.id ?: "").invokeOnCompletion { mainModel.setUser(model.state.user!!) }
         model.getDream()
     }
 
@@ -131,7 +119,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep2,
                 enable = model.state.checkedStep1,
                 title = "Tus ingresos aproximados",
-                subTitle = "$ ${dreamWithUser?.userFinance?.income?.totalIncome} $subtitleIncomeFrequency",
+                subTitle = "$ $totalIncomeFormat semanales",
                 onClick = {
                     if (!model.state.checkedStep2) {
                         navController.navigate(UserRouterDir.STEP_2.route)
@@ -150,7 +138,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep3,
                 enable = model.state.checkedStep1 && model.state.checkedStep2,
                 title = "Tus gastos",
-                subTitle = "$ ${dreamWithUser?.userFinance?.expenses?.totalExpense} semanales",
+                subTitle = "$ $totalExpenseFormat semanales",
                 onClick = {
                     if (!model.state.checkedStep3) {
                         navController.navigate(UserRouterDir.STEP_3.route)
@@ -237,7 +225,6 @@ fun TopBarWithComponent(name: String, onClick: () -> Unit,
                             OutlineCardButton(
                                 text = "Tu plan de sueños guardados",
                                 onClick = { onClick() })
-
                         }
                     }
                 }

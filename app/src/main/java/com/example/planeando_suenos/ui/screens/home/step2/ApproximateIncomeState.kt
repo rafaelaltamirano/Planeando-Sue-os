@@ -22,12 +22,11 @@ enum class Step2Step(val step: Int) {
 data class ApproximateIncomeState(
     val loading: Boolean = false,
     val step: Step2Step = Step2Step.INCOME_DATA,
-    val edited: Boolean = false,
     val frequency: String = "",
     val frequencyToShow: String = "",
     val checked: Boolean = false,
-    val salaryAmount: Float? = null,
-    val additionalIncomes: Float? = null,
+    val salaryAmount: String? = null,
+    val additionalIncomes: String? = null,
     val salaryType: String = "",
     val dreamId: String = "",
 )

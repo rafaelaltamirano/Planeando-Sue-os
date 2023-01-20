@@ -1,5 +1,6 @@
 package com.example.planeando_suenos.ui.screens.home.step1
 
+import androidx.compose.runtime.remember
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
@@ -25,7 +26,5 @@ data class DreamsAndAspirationsState(
     val dreamId: String? = null,
     val dreamData: DreamPlan? = null,
     val dreamTypes: List<DreamType> = emptyList(),
-
-
-
+    val dreamAmount: List<String> = emptyList(),
 )

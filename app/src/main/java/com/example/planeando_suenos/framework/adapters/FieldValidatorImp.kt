@@ -13,7 +13,6 @@ import kotlin.jvm.Throws
 
 class FieldValidatorImp @Inject constructor(): FieldValidator {
 
-    // TODO: Remplazar texto de passwordValidator por un recursos
 
     init {
         Validator.setMessages(MessagesEs())

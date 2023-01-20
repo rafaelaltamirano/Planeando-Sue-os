@@ -51,17 +51,16 @@ fun IncomeDataStep(
 
     //EDIT OPTION
     LaunchedEffect(Unit) {
-        if (mainModel.state.dreamEdit != null && !model.state.edited) {
+        if (mainModel.state.dreamEdit != null) {
             val res = when (mainModel.state.dreamEdit?.userFinance?.income?.type) {
                 "fixedSalary" -> "Sueldo Fijo"
                 else -> "Sueldo Variable"
             }
             onChangeState(res)
-            model.setSalaryAmount(mainModel.state.dreamEdit?.userFinance?.income?.amount)
+            model.setSalaryAmount(mainModel.state.dreamEdit?.userFinance?.income?.amount.toString())
             model.setFrequency(mainModel.state.dreamEdit?.userFinance?.income?.frequency ?: "")
-            model.setAdditionalIncomes(mainModel.state.dreamEdit?.userFinance?.income?.additionalIncomeAmount)
+            model.setAdditionalIncomes(mainModel.state.dreamEdit?.userFinance?.income?.additionalIncomeAmount.toString())
             model.setDreamId(mainModel.state.dreamEdit?.id ?: "")
-            model.setEdited(true)
         }
     }
 
@@ -132,9 +131,9 @@ fun IncomeDataStep(
                 text = label
             )
             CurrencyTextField(
-                value = state.salaryAmount.toString(),
+                value = state.salaryAmount ?: "",
                 placeholder = placeholder,
-                onValueChanged = {model.setSalaryAmount(it.toFloat())},
+                onValueChanged = {model.setSalaryAmount(it)},
                 onDone = true,
                 modifier = Modifier
                     .fillMaxWidth()

@@ -44,11 +44,11 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(checked = check)
     }
 
-    fun setSalaryAmount(salaryAmount: Float?) {
+    fun setSalaryAmount(salaryAmount: String?) {
         state = state.copy(salaryAmount = salaryAmount)
     }
 
-    fun setAdditionalIncomes(additionalIncomes: Float?) {
+    fun setAdditionalIncomes(additionalIncomes: String?) {
         state = state.copy(additionalIncomes = additionalIncomes)
     }
 
@@ -60,11 +60,6 @@ class ApproximateIncomesViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
-    fun setEdited(edited: Boolean) {
-        state = state.copy(edited = edited)
-    }
-
-
     fun setDreamId(dreamId: String) {
         state = state.copy(dreamId = dreamId)
     }
@@ -72,9 +67,9 @@ class ApproximateIncomesViewModel @Inject constructor(
     fun getIncomeObject(): Income {
     return Income(
         type = state.salaryType,
-        amount = state.salaryAmount,
+        amount = state.salaryAmount?.toFloat(),
         frequency = state.frequency,
-        additionalIncomeAmount = state.additionalIncomes
+        additionalIncomeAmount = if(state.additionalIncomes == null) 0f else state.additionalIncomes!!.toFloat()
     )
     }
 
@@ -123,7 +118,7 @@ class ApproximateIncomesViewModel @Inject constructor(
         setLoading(true)
         try {
             withContext(Dispatchers.IO) {
-                approximateIncomeUseCase.updateDream(dreamPlan) }.also { setChecked(true) }
+                approximateIncomeUseCase.updateDream(dreamPlan) }
         } catch (e: Exception) {
             handleNetworkError(e)
         } finally {

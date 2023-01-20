@@ -36,5 +36,6 @@ data class RegisterState(
     val token: String? = null,
     val login: Login? = null,
     val emailError: String = "",
+    val cpError: String = "",
     val passwordError: String? = null,
 )

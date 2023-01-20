@@ -1,7 +1,7 @@
 <resources>
 
 
-    <string name="app_name">planeando-suenos</string>
+    <string name="app_name">Planeando Sueños</string>
     <string name="password">Contraseña</string>
     <string name="repeat_pass">Repetir contraseña</string>
     <string name="help_wishes">Te ayudamos a \ncumplir tus \nsueños.</string>
@@ -19,17 +19,17 @@
     <string name="enter_approximate_amount">Ingresa un monto aproximado</string>
     <string name="continue_">continuar</string>
     <string name="finalize">finalizar</string>
-    <string name="address_example">ej: Pto. Tampico 57, Casas Alemán</string>
+    <string name="address_example">Codigo Postal</string>
     <string name="phone_example">ej: + 52 55 12345678</string>
     <string name="phone">Teléfono</string>
     <string name="date_example">DD / MM / AAAA</string>
     <string name="born_day">Fecha de nacimiento</string>
     <string name="optional">opcional</string>
-    <string name="mother_surname">Apellido materno</string>
+    <string name="mother_surname">Segundo Apellido</string>
     <string name="surname_example">ej: González</string>
-    <string name="father_surname">Apellido paterno</string>
+    <string name="father_surname">Primer Apellido</string>
     <string name="name_example">ej: Juan</string>
-    <string name="name">Name</string>
+    <string name="name">Nombre</string>
     <string name="your_data">Tus datos</string>
     <string name="pc_address">Dirección CP</string>
     <string name="email">Correo electrónico</string>
@@ -57,6 +57,5 @@
     <string name="pet_care">ej: Cuidado de mi mascota</string>
     <string name="my_dream_example">ej: mi sueño 2023</string>
     <string name="legals">Este simulador de crédito es una herramienta que podrás utilizar con la finalidad que conozcas los esquemas de financiamiento que podrías obtener. De ningún modo podrá entenderse que los resultados del simulador son una propuesta vinculante, una oferta de crédito o bien, una asesoría financiera. La obtención de cualquier crédito esta sujeta a la aprobación del mismo y al cumplimiento de los requisitos indicados por el acreedor correspondiente.</string>
-
-
+    <string name="cp_should_have">El codigo postal debe tener 5 digitos</string>
    </resources>

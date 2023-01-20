@@ -30,7 +30,6 @@ fun DreamsAndAspirationsScreen(
 
     if (model.state.checked) {
         homeModel.setCheckedStep1(true)
-        mainModel.setDreamId(model.state.dreamId!!)
         LaunchedEffect(Unit){
             navController.navigate(UserRouterDir.HOME.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
@@ -44,6 +43,11 @@ fun DreamsAndAspirationsScreen(
 
     LaunchedEffect(Unit){
         model.getDreamType()
+    }
+    model.state.dreamId?.let {
+        LaunchedEffect(Unit){
+        mainModel.setDreamId(it)
+        }
     }
 
     model.status?.also {
@@ -88,6 +92,8 @@ fun DreamsAndAspirationsScreen(
             ) {
                 coroutineScope.launch {
                     model.submitDream()
+                }.invokeOnCompletion {
+                    model.setChecked(true)
                 }
             }
         }

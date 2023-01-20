@@ -77,7 +77,7 @@ fun CalendarStep(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 SubmitButton(
-                    text = "guardar plan",
+                    text = "continuar",
                     loading = model.state.loading,
                     onClick = onSubmit
                    )
@@ -209,7 +209,13 @@ private fun PaintMonths(item: DreamItem) {
 
 @Composable
 fun RowMonthEneJunPaint(monthInit: Int, monthFinish: Int, color: Color) {
-    require(monthFinish in 1..6)
+    try{
+        require(monthFinish in 1..6)
+
+    }
+    catch (e: Exception){
+        throw e
+    }
     val rest = 6 - monthFinish
     Row(
         modifier = Modifier

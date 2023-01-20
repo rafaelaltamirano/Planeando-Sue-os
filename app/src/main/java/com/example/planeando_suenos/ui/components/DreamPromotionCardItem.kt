@@ -19,6 +19,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planeando_suenos.R
@@ -100,17 +101,16 @@ fun DreamPromotionCardItem(
             )
             Column {
                 Text(
-                    text = "Con Crédito Elektra consigue\ncumplir tu sueño en simples pasos.",
+                    text = "Con Crédito Elektra consigue cumplir tu sueño en simples pasos.",
                     style = MaterialTheme.typography.subtitle1,
                     fontWeight = FontWeight.W700,
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
                     lineHeight = 19.sp,
+                    textAlign = TextAlign.Start,
                     color = Color.White,
                     modifier = Modifier
-                        .padding(
-                            horizontal = dimensionResource(id = R.dimen.gap5),
-                            vertical = 19.dp
-                        )
+                        .fillMaxWidth()
+                        .padding(dimensionResource(id = R.dimen.gap4))
                 )
 
                 Row(
@@ -119,18 +119,19 @@ fun DreamPromotionCardItem(
                         .padding(
                             horizontal = dimensionResource(id = R.dimen.gap5)
                         ),
-                    horizontalArrangement = Arrangement.spacedBy(30.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     icon?.let {
-                        Image(
-                            painter = it,
-                            contentDescription = "category",
-                            modifier = Modifier
-                                .width(100.dp)
-                        )
+
+                            Image(
+                                painter = it,
+                                contentDescription = "category",
+                                modifier = Modifier
+                                    .width(100.dp)
+                            )
 
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(14.dp)
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Column {
                                 Text(
@@ -141,24 +142,31 @@ fun DreamPromotionCardItem(
                                     lineHeight = 16.sp,
                                     color = Color.White
                                 )
-                                Text(
+
+                                ResizeText(
                                     text = "Plazo de $weekFrom a $weekTo semanas",
-                                    style = MaterialTheme.typography.subtitle2,
-                                    fontWeight = FontWeight.W500,
-                                    fontSize = 11.sp,
-                                    lineHeight = 16.sp,
-                                    color = Color.White
+                                    color = Color.White,
+                                    style = TextStyle(
+                                        fontFamily = AvenirNext,
+                                        fontWeight = FontWeight.W500,
+                                        fontSize = 11.sp,
+                                    ),
+                                    modifier = Modifier
                                 )
+
                             }
 
                             Column {
-                                Text(
+
+                                ResizeText(
                                     text = "Semanalidades de ",
-                                    style = MaterialTheme.typography.subtitle1,
-                                    fontWeight = FontWeight.W700,
-                                    fontSize = 12.sp,
-                                    lineHeight = 16.sp,
-                                    color = Color.White
+                                    color = Color.White,
+                                    style = TextStyle(
+                                        fontFamily = AvenirNext,
+                                        fontWeight = FontWeight.W600,
+                                        fontSize = 12.sp,
+                                    ),
+                                    modifier = Modifier
                                 )
                                 Row(
                                     horizontalArrangement = Arrangement.Center,
@@ -251,7 +259,7 @@ fun AmountTextView(amount: Float) {
         amountWithComa.toString().substringAfterLast(".").take(2).replace(",", "0")
 
     Row(
-        modifier = Modifier,
+        modifier = Modifier.height(14.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -260,12 +268,15 @@ fun AmountTextView(amount: Float) {
                 modifier = Modifier.weight(1.1f),
                 verticalAlignment = Alignment.Bottom
             ) {
-                Text(
-                    color = Color.White,
-                    style = MaterialTheme.typography.caption,
+                ResizeText(
                     text = "$",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.W900,
+                    color = Color.White,
+                    style = TextStyle(
+                        fontFamily = AvenirNext,
+                        fontWeight = FontWeight.W700,
+                        fontSize = 15.sp,
+                    ),
+                    modifier = Modifier
                 )
             }
             Spacer(modifier = Modifier.weight(0.9f))
@@ -276,7 +287,7 @@ fun AmountTextView(amount: Float) {
             style = TextStyle(
                 fontFamily = AvenirNext,
                 fontWeight = FontWeight.W700,
-                fontSize = 18.sp,
+                fontSize = 15.sp,
             ),
             modifier = Modifier
         )
@@ -291,7 +302,7 @@ fun AmountTextView(amount: Float) {
                     style = TextStyle(
                         fontFamily = AvenirNext,
                         fontWeight = FontWeight.W700,
-                        fontSize = 15.sp,
+                        fontSize = 12.sp,
                     ),
                     modifier = Modifier
                 )

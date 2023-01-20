@@ -123,7 +123,7 @@ fun ReviewNumbersStep(
                     ) {
                         Text(
                             modifier = Modifier.padding(16.dp),
-                            text = "Tu capacidad de pago no puede ser negativa. Por favor edita tus ingresos o egresos.",
+                            text = "Tu capacidad de pago no puede ser negativa. Por favor edita tus ingresos o gastos.",
                             fontSize = 15.sp,
                             fontWeight = FontWeight.W400,
                             lineHeight = 24.sp,

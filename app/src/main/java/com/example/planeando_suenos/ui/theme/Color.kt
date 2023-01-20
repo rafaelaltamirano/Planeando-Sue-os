@@ -10,7 +10,7 @@ val Teal200 = Color(0xFF03DAC5)
 val LightBlue = Color(0xFF84C9F9)
 val Blue = Color(0xFF0071BC)
 
-
+val WhiteBusiness = Color(0xFFFFFFFF)
 val GrayBusiness = Color(0xFFCECFE1)
 val GreenBusiness = Color(0xFF17A54D)
 val Accent = Color(0xFF8710EC)

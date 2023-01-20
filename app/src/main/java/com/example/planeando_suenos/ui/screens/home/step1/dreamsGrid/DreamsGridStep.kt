@@ -45,6 +45,8 @@ fun DreamsGridStep(
     val otherMark = remember { mutableStateOf(false) }
     val otherTitle = remember { mutableStateOf("") }
     var idOtro: String? = null
+    val amountString = remember { mutableListOf<String>() }
+
 
     Column(
         Modifier
@@ -155,6 +157,10 @@ fun DreamsGridStep(
                 }
                 dreamPlan = DreamPlan(dream = dreamListData)
                 model.setDreamData(dreamPlan)
+                dreamListData.forEachIndexed { index, dream ->
+                    amountString.add(index,"")
+                }
+                model.setDreamAmount(amountString)
                 onNext()
             }
         )

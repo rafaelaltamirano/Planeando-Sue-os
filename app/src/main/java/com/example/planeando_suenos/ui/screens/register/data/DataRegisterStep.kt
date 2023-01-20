@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -131,15 +132,22 @@ fun DataRegisterStep(
             placeholder = R.string.address_example,
             onValueChanged = model::setCp,
             onDone = true,
+            keyboardType = KeyboardType.Number,
+            onFocus = model::setCpError,
+            error = state.cpError,
             leadingIcon = null,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.gap4))
         )
+
+        if(state.cp.length!=5 && state.cp.isNotEmpty())  model.setCpError(stringResource(R.string.cp_should_have))
+        else model.setCpError("")
+
         SubmitButton(
-            enabled = state.name!= "" && state.surname!= "" && state.motherSurname!= "" && state.phone!= "" && state.cp!= "" && state.bornDay != "",
+            enabled = state.name!= "" && state.surname!= "" && state.phone!= "" && state.cp!= "" && state.cpError =="" && state.bornDay != "",
             text = stringResource(R.string.continue_),
-            onClick = { onSubmit() }
+            onClick = onSubmit
         )
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.planeando_suenos.domain.body.smartShopping.Dream
 import com.example.planeando_suenos.domain.body.smartShopping.DreamPlan
 import com.example.planeando_suenos.domain.body.smartShopping.DreamType
+import com.example.planeando_suenos.domain.entities.DreamWithUser
 import com.example.planeando_suenos.ui.ViewModelWithStatus
 import com.example.planeando_suenos.usescases.DreamAndAspirationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,17 +52,27 @@ class DreamsAndAspirationsViewModel @Inject constructor(
         state = state.copy(dreamTypes = dreamTypes)
     }
 
-     fun setDreamId(dreamId: String?) {
+    fun setDreamAmount(dreamAmount: List<String>) {
+        state = state.copy(dreamAmount = dreamAmount)
+    }
+
+    fun setDreamId(dreamId: String?) {
         state = state.copy(dreamId = dreamId)
     }
 
-   suspend  fun submitDream() = viewModelScope.launch {
+    fun setUpdatedDreamAmount(amount: String, position: Int) {
+        val list = state.dreamAmount.toMutableList()
+        list.set(position, amount)
+
+        state = state.copy(dreamAmount = list)
+    }
+
+    suspend fun submitDream() = viewModelScope.launch {
         setLoading(true)
         try {
             withContext(Dispatchers.IO) {
-               val  res = dreamAndAspirationUseCase.createDreamPlan(state.dreamData)
+                val res = dreamAndAspirationUseCase.createDreamPlan(state.dreamData)
                 setDreamId(res)
-                setChecked(true)
             }
         } catch (e: Exception) {
             handleNetworkError(e)
