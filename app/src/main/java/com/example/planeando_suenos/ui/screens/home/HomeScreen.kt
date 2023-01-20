@@ -119,7 +119,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep2,
                 enable = model.state.checkedStep1,
                 title = "Tus ingresos aproximados",
-                subTitle = "$ $totalIncomeFormat semanales",
+                subTitle = if (totalIncomeFormat.isNullOrEmpty())"" else "$ $totalIncomeFormat semanales",
                 onClick = {
                     if (!model.state.checkedStep2) {
                         navController.navigate(UserRouterDir.STEP_2.route)
@@ -138,7 +138,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep3,
                 enable = model.state.checkedStep1 && model.state.checkedStep2,
                 title = "Tus gastos",
-                subTitle = "$ $totalExpenseFormat semanales",
+                subTitle = if (totalExpenseFormat.isNullOrEmpty())"" else "$ $totalExpenseFormat semanales" ,
                 onClick = {
                     if (!model.state.checkedStep3) {
                         navController.navigate(UserRouterDir.STEP_3.route)

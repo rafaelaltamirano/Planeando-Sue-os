@@ -140,6 +140,7 @@ fun YourExpensesScreen(
                             model.updateDream(model.getDreamObject())
                         }.invokeOnCompletion {
                             model.setChecked(true)
+                            model.resetStatus()
                             homeModel.setCheckedStep3(true)
                             model.setStep(Step3Step.FREQUENCY_EXPENSES)
                             navController.navigate(UserRouterDir.HOME.route) {

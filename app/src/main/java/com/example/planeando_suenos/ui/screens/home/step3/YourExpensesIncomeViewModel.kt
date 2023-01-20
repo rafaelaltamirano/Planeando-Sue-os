@@ -83,6 +83,15 @@ class YourExpensesIncomeViewModel @Inject constructor(
         state = state.copy(income = income)
     }
 
+    fun resetStatus() {
+        state = state.copy(transportExpense = null)
+        state = state.copy(educationInversion = null)
+        state = state.copy(entertainmentExpense = null)
+        state = state.copy(creditAmount = null)
+        state = state.copy(hasCredit = false)
+        state = state.copy(creditEndDate = null )
+    }
+
     fun getDreamObject(): DreamPlan {
         return  DreamPlan(
             id = state.dreamId,

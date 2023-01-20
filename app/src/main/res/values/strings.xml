@@ -19,7 +19,7 @@
     <string name="enter_approximate_amount">Ingresa un monto aproximado</string>
     <string name="continue_">continuar</string>
     <string name="finalize">finalizar</string>
-    <string name="address_example">Codigo Postal</string>
+    <string name="address_example">ej: 13546</string>
     <string name="phone_example">ej: + 52 55 12345678</string>
     <string name="phone">Teléfono</string>
     <string name="date_example">DD / MM / AAAA</string>

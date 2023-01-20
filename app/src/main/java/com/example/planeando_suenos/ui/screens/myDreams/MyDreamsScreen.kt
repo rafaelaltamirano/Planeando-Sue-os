@@ -13,9 +13,14 @@ import com.example.planeando_suenos.ui.components.CardTextDetail
 import com.example.planeando_suenos.ui.components.TopBarClearWithBack
 import com.example.planeando_suenos.ui.main.MainViewModel
 import com.example.planeando_suenos.ui.router.UserRouterDir
+import com.example.planeando_suenos.ui.screens.home.HomeViewModel
 
 @Composable
-fun MyDreamsScreen(mainModel: MainViewModel, navController: NavHostController) {
+fun MyDreamsScreen(
+    mainModel: MainViewModel,
+    navController: NavHostController,
+    homeViewModel: HomeViewModel
+) {
     val dreamList = mainModel.state.dreamWithUser
     Column {
         TopBarClearWithBack(
@@ -23,6 +28,13 @@ fun MyDreamsScreen(mainModel: MainViewModel, navController: NavHostController) {
             bigFont = false,
             onBackPress = {
                 navController.navigate(UserRouterDir.HOME.route)
+                mainModel.setDreamId(null)
+                mainModel.setDreamEdit(null)
+                mainModel.setDreamWithUserList(null)
+                homeViewModel.setDreamWithUserList(null)
+                homeViewModel.setCheckedStep1(false)
+                homeViewModel.setCheckedStep2(false)
+                homeViewModel.setCheckedStep3(false)
             })
 
         Column(

@@ -88,7 +88,7 @@ class HomeViewModel @Inject constructor(
 
      suspend fun getDreamById(dreamId: String) = viewModelScope.launch {
         try {
-            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase.getDreamById(dreamId, "") }.also {
+            withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase.getDreamById(dreamId, "lowest") }.also {
                 setDreamWithUser(it)
                 setEnd(true)
             }
