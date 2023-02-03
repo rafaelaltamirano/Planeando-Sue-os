@@ -36,6 +36,7 @@ fun EmulateDreamsScreen(
     val topBarTitle: String
     val bigFont: Boolean
     val prioritySelected = remember { mutableStateOf("") }
+    LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) } }
 
     model.status?.also {
         val (status, _) = it
@@ -47,8 +48,6 @@ fun EmulateDreamsScreen(
         }
         model.clearStatus()
     }
-
-    LaunchedEffect(Unit) { dreamId?.let { model.setDreamId(it) } }
 
     BackHandler(enabled = true) {
         model.setContentCreditSheet(false)

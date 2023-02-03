@@ -42,8 +42,9 @@ fun HomeScreen(
     val dreamId = mainState.dreamId
     val dec = DecimalFormat("#,###.00")
     val dreamWithUser = state.dreamWithUser
-    val totalExpenseFormat = dreamWithUser?.userFinance?.expenses?.totalExpense?.let {dec.format(it) }
-    val totalIncomeFormat = dreamWithUser?.userFinance?.income?.totalIncome?.let {dec.format(it) }
+    val totalExpenseFormat =
+        dreamWithUser?.userFinance?.expenses?.totalExpense?.let { dec.format(it) }
+    val totalIncomeFormat = dreamWithUser?.userFinance?.income?.totalIncome?.let { dec.format(it) }
 
     model.status?.also {
         val (status, _) = it
@@ -58,11 +59,9 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         dreamId?.let { model.getDreamById(it) }
-        model.getUserById(mainState.login?.id ?: "").invokeOnCompletion { mainModel.setUser(model.state.user!!) }
-        model.getDream()
+        model.getUserById(mainState.login?.id ?: "")
+            .invokeOnCompletion { mainModel.setUser(model.state.user!!) }
     }
-
-    if (state.dreamWithUserList != null) mainModel.setDreamWithUserList(state.dreamWithUserList)
 
     Column(
         modifier = Modifier
@@ -70,7 +69,7 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState()),
     ) {
         TopBarWithComponent(name = model.state.user?.firstName ?: "",
-            showButton = !state.dreamWithUserList.isNullOrEmpty(),
+            showButton = true,
             loading = state.loading,
             onClick = {
                 navController.navigate(UserRouterDir.MY_DREAMS.route)
@@ -119,7 +118,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep2,
                 enable = model.state.checkedStep1,
                 title = "Tus ingresos aproximados",
-                subTitle = if (totalIncomeFormat.isNullOrEmpty())"" else "$ $totalIncomeFormat semanales",
+                subTitle = if (totalIncomeFormat.isNullOrEmpty()) "" else "$ $totalIncomeFormat semanales",
                 onClick = {
                     if (!model.state.checkedStep2) {
                         navController.navigate(UserRouterDir.STEP_2.route)
@@ -138,7 +137,7 @@ fun HomeScreen(
                 checked = model.state.checkedStep3,
                 enable = model.state.checkedStep1 && model.state.checkedStep2,
                 title = "Tus gastos",
-                subTitle = if (totalExpenseFormat.isNullOrEmpty())"" else "$ $totalExpenseFormat semanales" ,
+                subTitle = if (totalExpenseFormat.isNullOrEmpty()) "" else "$ $totalExpenseFormat semanales",
                 onClick = {
                     if (!model.state.checkedStep3) {
                         navController.navigate(UserRouterDir.STEP_3.route)
@@ -155,8 +154,8 @@ fun HomeScreen(
         }
         Row(verticalAlignment = Alignment.Bottom) {
             SubmitButton(
-                text ="emular sueños",
-                enabled =  model.state.checkedStep1 && model.state.checkedStep2 && model.state.checkedStep3,
+                text = "emular sueños",
+                enabled = model.state.checkedStep1 && model.state.checkedStep2 && model.state.checkedStep3,
                 onClick = { navController.navigate(UserRouterDir.EMULATE_DREAM.route) }
             )
         }
@@ -167,9 +166,11 @@ fun HomeScreen(
 }
 
 @Composable
-fun TopBarWithComponent(name: String, onClick: () -> Unit,
-                        showButton: Boolean,
-                        loading: Boolean) {
+fun TopBarWithComponent(
+    name: String, onClick: () -> Unit,
+    showButton: Boolean,
+    loading: Boolean
+) {
     Box {
 
         Box(
@@ -211,8 +212,7 @@ fun TopBarWithComponent(name: String, onClick: () -> Unit,
                             color = Color.White
                         )
                     }
-                }
-                else {
+                } else {
                     Column {
                         Text(
                             modifier = Modifier.padding(16.dp),

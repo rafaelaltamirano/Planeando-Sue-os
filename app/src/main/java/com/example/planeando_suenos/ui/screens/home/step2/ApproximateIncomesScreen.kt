@@ -48,7 +48,9 @@ fun ApproximateIncomesScreen(
             Status.NETWORK_ERROR -> mainModel.setNetworkErrorStatus(it)
             Status.ERROR -> mainModel.setErrorStatus(it)
             Status.INTERNET_CONNECTION_ERROR -> mainModel.setInternetConnectionError(it)
-            else -> mainModel.setNetworkErrorStatus(it)
+            else -> {
+                mainModel.setNetworkErrorStatus(it)
+            }
         }
         model.clearStatus()
     }
@@ -101,7 +103,6 @@ fun ApproximateIncomesScreen(
                             mainModel.state.dreamEdit?.userFinance?.percentage,
                         )) }.invokeOnCompletion {
                             mainModel.setDreamEdit(null)
-                            model.setChecked(false)
                             navController.navigate(UserRouterDir.EMULATE_DREAM.route)
                             model.setStep(Step2Step.INCOME_DATA)
                              }
@@ -112,15 +113,8 @@ fun ApproximateIncomesScreen(
                         }.invokeOnCompletion {
                             homeModel.setCheckedStep2(true)
                             homeModel.setIncome(model.getIncomeObject())
-                            mainModel.setDreamId(null)
-                            mainModel.setDreamEdit(null)
-                            mainModel.setDreamWithUserList(null)
-                            model.setAdditionalIncomes(null)
-                            model.setSalaryAmount(null)
-                            model.setFrequency("")
-                            model.setFrequencyToShow("")
-                            model.setChecked(true)
                             model.setStep(Step2Step.INCOME_DATA)
+                            model.resetStatus()
                             navController.navigate(UserRouterDir.HOME.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     inclusive = true

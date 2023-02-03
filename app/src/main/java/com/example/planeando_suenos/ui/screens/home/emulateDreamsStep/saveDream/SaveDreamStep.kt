@@ -49,6 +49,7 @@ fun SaveDreamStep(
         CustomTextField(
             value = model.state.dreamName,
             placeholder = R.string.my_dream_example,
+            onDone = true,
             onValueChanged = model::setDreamName,
             modifier = Modifier
                 .fillMaxWidth()

@@ -54,22 +54,11 @@ fun YourExpensesScreen(
         }
     }
     //SCREEN EDIT : REDIRECT TO EMULATE DREAMS, NEW DREAM : REDIRECT HOME
-    if (model.state.checked && mainModel.state.dreamEdit != null) {
+    if (mainModel.state.dreamEdit != null) {
         LaunchedEffect(Unit) {
             navController.navigate(UserRouterDir.EMULATE_DREAM.route)
         }
         mainModel.setDreamEdit(null)
-        model.setChecked(false)
-    } else if (model.state.checked) {
-        homeModel.setCheckedStep3(true)
-        model.setStep(Step3Step.FREQUENCY_EXPENSES)
-        LaunchedEffect(Unit) {
-            navController.navigate(UserRouterDir.HOME.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    inclusive = true
-                }
-            }
-        }
     }
 
     model.status?.also {
@@ -83,10 +72,6 @@ fun YourExpensesScreen(
             }
         }
         model.clearStatus()
-    }
-
-    if (model.state.checked) {
-        homeModel.setCheckedStep3(true)
     }
 
     Scaffold(
@@ -131,7 +116,6 @@ fun YourExpensesScreen(
                             }
                         }.invokeOnCompletion {
                             mainModel.setDreamEdit(null)
-                            model.setChecked(false)
                             navController.navigate(UserRouterDir.EMULATE_DREAM.route)
                             model.setStep(Step3Step.FREQUENCY_EXPENSES)
                         }
@@ -139,7 +123,6 @@ fun YourExpensesScreen(
                         coroutineScope.launch {
                             model.updateDream(model.getDreamObject())
                         }.invokeOnCompletion {
-                            model.setChecked(true)
                             model.resetStatus()
                             homeModel.setCheckedStep3(true)
                             model.setStep(Step3Step.FREQUENCY_EXPENSES)

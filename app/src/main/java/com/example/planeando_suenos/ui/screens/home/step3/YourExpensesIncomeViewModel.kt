@@ -35,10 +35,6 @@ class YourExpensesIncomeViewModel @Inject constructor(
         setStep(state.step.prev())
     }
 
-    fun setChecked(checked: Boolean) {
-        state = state.copy(checked = checked)
-    }
-
     fun setCreditAmount(creditAmount: String?) {
         state = state.copy(creditAmount = creditAmount)
     }

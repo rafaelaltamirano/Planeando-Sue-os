@@ -40,9 +40,6 @@ class ApproximateIncomesViewModel @Inject constructor(
     fun setFrequencyToShow(frequencyToShow: String) {
         state = state.copy(frequencyToShow = frequencyToShow)
     }
-    fun setChecked(check: Boolean) {
-        state = state.copy(checked = check)
-    }
 
     fun setSalaryAmount(salaryAmount: String?) {
         state = state.copy(salaryAmount = salaryAmount)
@@ -62,6 +59,14 @@ class ApproximateIncomesViewModel @Inject constructor(
 
     fun setDreamId(dreamId: String) {
         state = state.copy(dreamId = dreamId)
+    }
+
+    fun resetStatus() {
+
+        setAdditionalIncomes(null)
+        setSalaryAmount(null)
+        setFrequency("")
+        setFrequencyToShow("")
     }
 
     fun getIncomeObject(): Income {

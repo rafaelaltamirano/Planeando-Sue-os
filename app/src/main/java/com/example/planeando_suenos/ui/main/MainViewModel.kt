@@ -44,7 +44,6 @@ class MainViewModel @Inject constructor(
         state = state.copy(internetConnectionError = internetConnectionError)
     }
 
-
     fun setLogin(login: Login) {
         state = state.copy(login = login)
     }

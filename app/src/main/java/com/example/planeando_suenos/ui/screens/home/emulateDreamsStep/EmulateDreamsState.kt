@@ -28,7 +28,7 @@ enum class EmulateDreamsStep(val step: Int) {
 
 data class EmulateDreamsState(
     val loading: Boolean = false,
-    val categories:  List<Categories> = emptyList(),
+    val categories: List<Categories> = emptyList(),
     val step: EmulateDreamsStep = EmulateDreamsStep.REVIEW_NUMBERS,
     val dreamsCalendarItem: List<DreamCalendarItem> = emptyList(),
     val dreamWithUser: DreamWithUser? = null,

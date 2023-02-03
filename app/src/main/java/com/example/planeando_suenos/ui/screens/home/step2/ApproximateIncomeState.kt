@@ -24,7 +24,6 @@ data class ApproximateIncomeState(
     val step: Step2Step = Step2Step.INCOME_DATA,
     val frequency: String = "",
     val frequencyToShow: String = "",
-    val checked: Boolean = false,
     val salaryAmount: String? = null,
     val additionalIncomes: String? = null,
     val salaryType: String = "",

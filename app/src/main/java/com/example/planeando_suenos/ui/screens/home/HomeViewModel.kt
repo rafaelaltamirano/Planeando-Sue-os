@@ -38,20 +38,16 @@ class HomeViewModel @Inject constructor(
         state = state.copy(checkedStep2 = check)
     }
 
-    fun setIncome(income: Income) {
-        state = state.copy(income = income)
-    }
-
     fun setCheckedStep3(check: Boolean) {
         state = state.copy(checkedStep3 = check)
     }
 
-    private fun setLoading(loading: Boolean) {
-        state = state.copy(loading = loading)
+    fun setIncome(income: Income) {
+        state = state.copy(income = income)
     }
 
-    private fun setEnd(end: Boolean) {
-        state = state.copy(end = end)
+    private fun setLoading(loading: Boolean) {
+        state = state.copy(loading = loading)
     }
 
     fun setDreamWithUserList(dreamWithUserList: List<DreamWithUser>?) {
@@ -69,7 +65,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getDream() = viewModelScope.launch {
+    suspend fun getDream() = viewModelScope.launch {
         setLoading(true)
         try {
             withContext(Dispatchers.IO) { homeUseCase.getAllDreams() }.also {
@@ -90,7 +86,6 @@ class HomeViewModel @Inject constructor(
         try {
             withContext(Dispatchers.IO) { getDreamByIdAndPriorityUseCase.getDreamById(dreamId, "lowest") }.also {
                 setDreamWithUser(it)
-                setEnd(true)
             }
         } catch (e: Exception) {
             handleNetworkError(e)

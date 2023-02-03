@@ -15,6 +15,7 @@ import com.example.planeando_suenos.ui.router.UserRouterDir
 import com.example.planeando_suenos.ui.screens.home.HomeViewModel
 import com.example.planeando_suenos.ui.screens.home.step1.dreamPlan.DreamPlanStep
 import com.example.planeando_suenos.ui.screens.home.step1.dreamsGrid.DreamsGridStep
+import com.example.planeando_suenos.ui.screens.home.step2.Step2Step
 import kotlinx.coroutines.launch
 
 @Composable
